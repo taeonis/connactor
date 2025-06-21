@@ -1,0 +1,33 @@
+.App {
+  background-color: lightblue;
+  height: 100vh;
+  width: 100vw;
+  text-align: center;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 1s ease;
+  margin-top: 20px;
+}
+
+.image,
+.middle {
+  max-width: 150px;
+  max-height: 150px;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  transition: transform 1s ease;
+  display: block;
+}
+
+.left-move {
+  transform: translateX(-200px);
+}
+
+.right-move {
+  transform: translateX(200px);
+}

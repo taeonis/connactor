@@ -1,0 +1,51 @@
+<html>
+    <head>
+        <style>
+            figure {
+                border: 1px #cccccc solid;
+                padding: 4px;
+                margin: auto;
+            }
+
+            figcaption {
+                background-color: black;
+                color: white;
+                font-style: italic;
+                padding: 2px;
+                text-align: center;
+            }
+
+            .figure-container {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 16px; 
+            }
+
+            .figure-container figure {
+                margin: 0;
+                text-align: center;
+            }
+
+            .figure-container img {
+                max-width: 100%;
+                height: auto;
+                display: block;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h1>Taeoni's experiment</h1>
+
+            <div class="figure-container">
+                {% for person in pair %}
+                    <figure>
+                        <img src="https://image.tmdb.org/t/p/w300_and_h450_bestv2{{ person['profile_path'] }}" alt="{{ person['name'] }}">
+                        <figcaption>{{ person['name'] }}</figcaption>
+                    </figure>
+                {% endfor %}
+            </div>
+            
+        </body>
+    </body>
+</html>
