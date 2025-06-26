@@ -25,7 +25,10 @@ const Node = () => {
                     <button>Add Movie</button>
                 </>
             ) : (
-                <img src={`https://media.themoviedb.org/t/p/w300_and_h450_bestv2${selectedResult.profile_path}`}></img>
+                <img 
+                    src={`https://media.themoviedb.org/t/p/w300_and_h450_bestv2${selectedResult.profile_path}`}
+                    alt={`${selectedResult.name}`}
+                />
             )}
 
             {showSearchBar && (
