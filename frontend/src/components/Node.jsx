@@ -53,8 +53,11 @@ const Node = ({type, onSelectedResult}) => {
             {showSearchBar && (
                 <div className='popup-overlay' onClick={toggleSearchBar}>
                     <div className='search-bar-container' onClick={e => e.stopPropagation()}>
-                        <SearchBar setResults={setResults} />
-                        <SearchResultsList results = {results} onResultClick={handleResultClick} />
+                        <SearchBar 
+                            setResults={setResults} 
+                            type={type}
+                        />
+                        <SearchResultsList results = {results} onResultClick={handleResultClick} type={type} />
                     </div>
                 </div>
             )}

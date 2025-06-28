@@ -13,8 +13,8 @@ headers = {
     'Authorization': TMDB_API_KEY
 }
 
-@app.route('/api/users', methods=['GET'])
-def get_users():
+@app.route('/api/actor', methods=['GET'])
+def get_actors():
     try:
         query = request.args.get('search', '').lower()
         results = []
@@ -37,7 +37,6 @@ def get_users():
                 if person.get('known_for_department') in ['Acting', 'Directing'] and
                 person.get('profile_path') is not None
             ]
-            
             results.extend(filtered)
 
         results.sort(key=lambda x: x.get('popularity', 0), reverse=True)
@@ -46,6 +45,41 @@ def get_users():
     
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+    
+@app.route('/api/movie', methods=['GET'])
+def get_movies():
+    try:
+        print('inside')
+        query = request.args.get('search', '').lower()
+        results = []
+
+        for page in range(1, 2):
+            url = 'https://api.themoviedb.org/3/search/movie'
+            params = {
+                'query': query,
+                'include-adult': 'false',
+                'language': 'en-US',
+                'page': page
+            }
+            
+            response = requests.get(url, headers=headers, params=params)
+            response.raise_for_status()
+            
+            page_results = response.json().get('results', [])
+            filtered = [
+                movie for movie in page_results if
+                movie.get('popularity', 0) > 0 and
+                movie.get('poster_path') is not None
+            ]
+            results.extend(filtered)
+
+        results.sort(key=lambda x: x.get('popularity', 0), reverse=True)
+
+        return jsonify(results)
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
     
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

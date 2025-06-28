@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import './SearchBar.css';
 
-export const SearchBar = ({ setResults }) => {
+export const SearchBar = ({ setResults, type }) => {
     const [input, setInput] = useState('');
     const [debouncedInput, setDebouncedInput] = useState(input);
 
@@ -16,7 +16,7 @@ export const SearchBar = ({ setResults }) => {
 
     useEffect(() => {
         if (debouncedInput) {
-             fetch(`http://localhost:5000/api/users?search=${debouncedInput}`)
+             fetch(`http://localhost:5000/api/${type}?search=${debouncedInput}`)
              .then((response) => response.json())
              .then((json) =>  setResults(json));
         }

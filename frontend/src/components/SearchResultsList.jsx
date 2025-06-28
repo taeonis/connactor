@@ -2,11 +2,11 @@ import React from "react";
 import "./SearchResultsList.css"
 import { SearchResult } from "./SearchResult";
 
-export const SearchResultsList = ({ results, onResultClick }) => {
+export const SearchResultsList = ({ results, onResultClick, type }) => {
     return (
         <div className="results-list">
             {results.map((result, id) => {
-                return <SearchResult result={result} key={id} onResultClick={onResultClick} />;
+                return <SearchResult result={result} key={id} onResultClick={onResultClick} type={type}/>;
             })}    
     </div>
     );
