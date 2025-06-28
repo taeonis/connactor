@@ -19,7 +19,7 @@ def get_users():
         query = request.args.get('search', '').lower()
         results = []
 
-        for page in range(1, 4):
+        for page in range(1, 3):
             url = 'https://api.themoviedb.org/3/search/person'
             params = {
                 'query': query,
