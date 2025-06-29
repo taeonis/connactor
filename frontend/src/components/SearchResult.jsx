@@ -4,7 +4,7 @@ import "./SearchResult.css"
 export const SearchResult = ({ result, onResultClick, type }) => {
 
     let renderedText = '';
-    if (type === 'actor') {
+    if (type === 'person') {
         renderedText = result.name;
     } else if (type === 'movie') {
         renderedText = `${result.title} (${result.release_date?.split('-')[0]})`;

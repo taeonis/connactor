@@ -13,8 +13,8 @@ headers = {
     'Authorization': TMDB_API_KEY
 }
 
-@app.route('/api/actor', methods=['GET'])
-def get_actors():
+@app.route('/api/person', methods=['GET'])
+def get_people():
     try:
         query = request.args.get('search', '').lower()
         results = []
@@ -49,7 +49,6 @@ def get_actors():
 @app.route('/api/movie', methods=['GET'])
 def get_movies():
     try:
-        print('inside')
         query = request.args.get('search', '').lower()
         results = []
 
@@ -80,6 +79,36 @@ def get_movies():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+@app.route('/api/connection', methods=['GET'])
+def determine_connection():
+    try:
+        person_id = request.args.get('person_id', '')
+        movie_id = request.args.get('movie_id', '')
+        url = f'https://api.themoviedb.org/3/person/{person_id}/movie_credits?language=en-US'
+        
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()
+
+        cast = response.json().get('cast', [])
+        crew = response.json().get('crew', [])
+
+        for movie in cast:
+            if movie.get('id') == int(movie_id):
+                return jsonify({'result': True})
+
+        for movie in crew:
+            if movie.get('id') == int(movie_id) and movie.get('job') == 'Director':
+                return jsonify({'result': True})
+
+        return jsonify({'result': False})
     
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+
+    return
+
+
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
