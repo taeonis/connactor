@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import requests
+from datetime import datetime
 import random
 
 app = Flask(__name__)
@@ -107,7 +108,90 @@ def determine_connection():
 
 
 
-    return
+@app.route('/api/test-pair', methods=['GET'])
+def get_daily_pair_test():
+    try:
+        url = 'https://api.themoviedb.org/3/person/popular'
+        params = {
+                'language': 'en-US',
+                'page': 1
+            }
+        
+        response = requests.get(url, headers=headers, params=params)
+        response.raise_for_status()
+
+        response_length = len(response.json().get('results', []))
+        starting_person = response.json().get('results', [])[response_length - 4]  # ana de armas
+        ending_person = response.json().get('results', [])[7]  # keanu reeves
+        
+        print(starting_person.get('name', 'Unknown'), f"(ID: {starting_person.get('id')})")
+
+        return jsonify({
+            'starting_person': starting_person,
+            'ending_person': ending_person
+        })
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/daily-pair', methods=['GET'])
+def get_daily_pair():
+    try:
+        url = 'https://api.themoviedb.org/3/person/popular'
+        params = {
+                'language': 'en-US',
+                'page': 1
+            }
+
+        starting_person = get_random_person(url, params)
+        print(f"Starting Person: {starting_person.get('name', 'Unknown')} (ID: {starting_person.get('id')})")
+
+        ending_person = starting_person
+        while (ending_person.get('id') == starting_person.get('id')):
+            ending_person = get_random_person(url, params)
+        print(f"Ending Person: {ending_person.get('name', 'Unknown')} (ID: {ending_person.get('id')})")
+            
+        return jsonify({
+            'starting_person': starting_person,
+            'ending_person': ending_person
+        })
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+def get_random_person(url, params):
+    popularity_threshold = 2.5 # Minimum popularity for a person to be considered
+
+    popularity = 0
+    known_for_movies = False
+    known_for_department = ''
+    adult_content = True
+    poster_path = ''
+    chosen_person = {}
+    while (popularity < popularity_threshold or not known_for_movies
+            or known_for_department != 'Acting' or adult_content or not poster_path):
+        params['page'] = random.randint(1, 100)
+        
+        response = requests.get(url, headers=headers, params=params)
+        response.raise_for_status()
+
+        chosen_person = random.choice(response.json().get('results', []))
+
+        popularity = chosen_person.get('popularity', 0)
+    
+        known_for_list = chosen_person.get('known_for', [])
+        popular_media = sum(
+            1 for media in known_for_list
+            if media.get('media_type') == 'movie' and media.get('popularity', 0) > popularity_threshold
+        )
+
+        known_for_movies = True if popular_media >= (len(known_for_list) // 2 + 1) else False
+        known_for_department = chosen_person.get('known_for_department', '')
+        adult_content = chosen_person.get('adult', True)
+        poster_path = chosen_person.get('profile_path', '')
+
+    return chosen_person
 
 
 if __name__ == '__main__':

@@ -3,14 +3,15 @@ import { SearchBar } from './SearchBar';
 import { SearchResultsList } from './SearchResultsList';
 import './Node.css'
 
-const Node = ({type, createNextNode, selectedResult, setSelectedResult}) => {
+const Node = ({type, createNextNode, selectedResult, setSelectedResult, gameOver, nodes}) => {
     const [showSearchBar, setShowSearchBar] = useState(false);
     const [results, setResults] = useState([]);
-    //const [selectedResult, setSelectedResult] = useState(null);
     const [firstRender, setFirstRender] = useState(true);
 
     const toggleSearchBar = () => {
-        setShowSearchBar(prev => !prev);
+        if (!gameOver) {
+            setShowSearchBar(prev => !prev);
+        }
     };
 
     const handleResultClick = (result) => {
@@ -40,13 +41,14 @@ const Node = ({type, createNextNode, selectedResult, setSelectedResult}) => {
                     <button onClick={toggleSearchBar}>{ buttonText }</button>
                 </div>
             ) : (
-                <>
+                <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                     <img 
                         src={imgURL}
                         alt={`${selectedResult.name}`}
                         onClick={toggleSearchBar}
                     />
-                </>
+                    <button>{'Remove'}</button>
+                </div>
             )}
 
             {showSearchBar && (
@@ -60,6 +62,7 @@ const Node = ({type, createNextNode, selectedResult, setSelectedResult}) => {
                             results = {results} 
                             onResultClick={handleResultClick} 
                             type={type} 
+                            nodes={nodes}
                         />
                     </div>
                 </div>
