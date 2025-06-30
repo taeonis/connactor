@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Node from "./Node";
 import './NodeConnector.css';
-import { getPairIDS, lastNodeIsEmpty, getLastNonEmptyNode } from '../utils/nodeHelpers';
+import { SearchBar } from './SearchBar';
+import { SearchResultsList } from './SearchResultsList';
+import { getPairIDS, lastNodeIsEmpty, getLastNonEmptyNode, getNodeType } from '../utils/nodeHelpers';
 
 function NodeConnector() {
     const [nodes, setNodes] = useState([ { id: 1, data: null} ]);
@@ -9,6 +11,8 @@ function NodeConnector() {
     const [endingPerson, setEndingPerson] = useState({id: 12, data: ''});
     const [connections, setConnections] = useState({});
     const [gameOver, setgameOver] = useState(false);
+    const [showSearchBarFor, setShowSearchBarFor] = useState(null);
+    const [results, setResults] = useState([]);
 
     const allConnectionsTrue = Object.values(connections).length > 0 && Object.values(connections).every(Boolean);
 
@@ -19,6 +23,14 @@ function NodeConnector() {
             )
         );
     };
+
+    const handleResultClick = (result) => {
+        //setSelectedResult(result);
+        setNodeData(showSearchBarFor, result);
+        console.log('updating node data for id:', showSearchBarFor, 'with result:', result);
+        setShowSearchBarFor(null);
+        setResults([]);
+    }
 
     const createNextNode = () => {
         if (nodes.length < 11) {
@@ -57,6 +69,7 @@ function NodeConnector() {
     useEffect(() => {
         console.log('Connections:', connections);
         console.log('Nodes: ', nodes);
+        console.log('showSearchBarFor: ', showSearchBarFor);
         if (allConnectionsTrue && !gameOver) {
             setgameOver(true);
             console.log('All connections are true!');
@@ -103,48 +116,72 @@ function NodeConnector() {
     }, [nodes.map(n => n.data?.id).join(",")]);
 
     return (
-        <div className='node-row'>
-            <img 
-                src={`https://media.themoviedb.org/t/p/w185${startingPerson.data.profile_path}`} 
-                title={startingPerson.data.name || "Loading..."}
-            />
+        <>
+            <div className='node-row'>
+                <img 
+                    src={`https://media.themoviedb.org/t/p/w185${startingPerson.data.profile_path}`} 
+                    title={startingPerson.data.name || "Loading..."}
+                />
 
-            {nodes.map((node, idx) => (
-                <React.Fragment key={node.id}>
-                    <img src = {
-                        connections[idx]
-                            ? 'https://picsum.photos/id/18/367/267'
-                            : 'https://picsum.photos/id/21/367/267'
-                    }
-                        className='chain-img'
-                        style={{ width: '50px', height: '50px' } }
-                    />
+                {nodes.map((node, idx) => (
+                    <React.Fragment key={node.id}>
+                        <img src = {
+                            connections[idx]
+                                ? 'https://picsum.photos/id/18/367/267'
+                                : 'https://picsum.photos/id/21/367/267'
+                        }
+                            className='chain-img'
+                            style={{ width: '50px', height: '50px' } }
+                        />
+                        
+                        <Node 
+                            type={node.id % 2 === 0 ? 'person' : 'movie'}
+                            selectedResult={node.data}
+                            setSelectedResult={result => setNodeData(node.id, result)}
+                            gameOver={gameOver}
+                            nodes={[startingPerson, ...nodes, endingPerson]}
+                            deleteLastNode={deleteLastNode}
+                            openSearchBar={() => {
+                                setShowSearchBarFor(node.id)}
+                            }
+                        />
+                    </React.Fragment>
+                ))}
+
+                <img src = {
+                    connections['ending']
+                        ? 'https://picsum.photos/id/18/367/267'
+                        : 'https://picsum.photos/id/21/367/267'
+                }
+                    className='chain-img'
+                    style={{ width: '50px', height: '50px' } }
+                />
+                <img 
+                    src={`https://media.themoviedb.org/t/p/w185${endingPerson.data.profile_path}`} 
+                    title={endingPerson.data.name || "Loading..."}
+                />
+            </div>
+            <div className='search-bar-wrapper'>
+                {showSearchBarFor !== null && (
                     
-                    <Node 
-                        type={node.id % 2 === 0 ? 'person' : 'movie'}
-                        selectedResult={node.data}
-                        setSelectedResult={result => setNodeData(node.id, result)}
-                        gameOver={gameOver}
-                        nodes={[startingPerson, ...nodes, endingPerson]}
-                        deleteLastNode={deleteLastNode}
-                    />
-                </React.Fragment>
-            ))}
-
-            <img src = {
-                connections['ending']
-                    ? 'https://picsum.photos/id/18/367/267'
-                    : 'https://picsum.photos/id/21/367/267'
-            }
-                className='chain-img'
-                style={{ width: '50px', height: '50px' } }
-            />
-            <img 
-                src={`https://media.themoviedb.org/t/p/w185${endingPerson.data.profile_path}`} 
-                title={endingPerson.data.name || "Loading..."}
-            />
-        </div>
-  );
+                   <div className='popup-overlay' onClick={() => setShowSearchBarFor(null)}>
+                        <div className='search-bar-container' onClick={e => e.stopPropagation()}>
+                            <SearchBar 
+                                setResults={setResults} 
+                                type={getNodeType(nodes[showSearchBarFor - 1])}
+                            />
+                            <SearchResultsList 
+                                results = {results} 
+                                onResultClick={handleResultClick} 
+                                type={getNodeType(nodes[showSearchBarFor - 1])} 
+                                nodes={nodes}
+                            />
+                        </div>
+                    </div> 
+                )}
+            </div>
+        </>
+    );
 };
 
 export default NodeConnector;
