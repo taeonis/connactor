@@ -8,16 +8,16 @@ const Node = ({type, selectedResult, setSelectedResult, gameOver, nodes, deleteL
     const [showSearchBar, setShowSearchBar] = useState(false);
     const [results, setResults] = useState([]);
 
-    const toggleSearchBar = () => {
-        if (!gameOver) {
-            setShowSearchBar(prev => !prev);
-        }
-    };
+    // const toggleSearchBar = () => {
+    //     if (!gameOver) {
+    //         setShowSearchBar(prev => !prev);
+    //     }
+    // };
 
-    const handleResultClick = (result) => {
-        setSelectedResult(result);
-        setShowSearchBar(false);
-    }
+    // const handleResultClick = (result) => {
+    //     setSelectedResult(result);
+    //     setShowSearchBar(false);
+    // }
 
     const handleDelete = () => {
         setSelectedResult(null);

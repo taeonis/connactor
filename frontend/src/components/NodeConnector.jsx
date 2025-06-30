@@ -16,6 +16,13 @@ function NodeConnector() {
 
     const allConnectionsTrue = Object.values(connections).length > 0 && Object.values(connections).every(Boolean);
 
+    const toggleSearchBar = (id) => {
+        if (!gameOver) {
+            setShowSearchBarFor(id);
+        }
+    };
+
+    
     const setNodeData = (id, result) => {
         setNodes(prev =>
             prev.map(node =>
@@ -141,9 +148,7 @@ function NodeConnector() {
                             gameOver={gameOver}
                             nodes={[startingPerson, ...nodes, endingPerson]}
                             deleteLastNode={deleteLastNode}
-                            openSearchBar={() => {
-                                setShowSearchBarFor(node.id)}
-                            }
+                            openSearchBar={() => {setShowSearchBarFor(node.id)}}
                         />
                     </React.Fragment>
                 ))}
@@ -161,9 +166,9 @@ function NodeConnector() {
                     title={endingPerson.data.name || "Loading..."}
                 />
             </div>
+
             <div className='search-bar-wrapper'>
                 {showSearchBarFor !== null && (
-                    
                    <div className='popup-overlay' onClick={() => setShowSearchBarFor(null)}>
                         <div className='search-bar-container' onClick={e => e.stopPropagation()}>
                             <SearchBar 
