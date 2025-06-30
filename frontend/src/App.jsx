@@ -13,11 +13,10 @@ function App() {
 
   return (
       <div className='App'>
+        
 
         <div> <NodeConnector /> </div>
 
-        <div class='grid-container'>
-        </div>
 
       </div>
   )

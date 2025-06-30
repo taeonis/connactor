@@ -5,13 +5,7 @@
   text-align: center;
 }
 
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: all 1s ease;
-  margin-top: 20px;
-}
+
 
 
 

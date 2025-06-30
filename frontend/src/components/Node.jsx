@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
 import { SearchBar } from './SearchBar';
 import { SearchResultsList } from './SearchResultsList';
+import { getLastNonEmptyNode, getNodeType, isLastDynamicNode } from '../utils/nodeHelpers';
 import './Node.css'
 
-const Node = ({type, createNextNode, selectedResult, setSelectedResult, gameOver, nodes}) => {
+const Node = ({type, selectedResult, setSelectedResult, gameOver, nodes, deleteLastNode}) => {
     const [showSearchBar, setShowSearchBar] = useState(false);
     const [results, setResults] = useState([]);
     const [firstRender, setFirstRender] = useState(true);
@@ -18,9 +19,23 @@ const Node = ({type, createNextNode, selectedResult, setSelectedResult, gameOver
         setSelectedResult(result);
         setShowSearchBar(false);
         if (firstRender) {
-            createNextNode();
             setFirstRender(false);
         }
+    }
+
+    const handleDelete = () => {
+        setSelectedResult(null);
+        deleteLastNode();
+    }
+
+    const nodeIsDeletable = () => {
+        let lastNode = getLastNonEmptyNode(nodes, true);
+
+        if (lastNode?.data?.id === selectedResult?.id && getNodeType(lastNode) === type) {
+            return true
+        }
+
+        return false;
     }
 
     let buttonText = '';
@@ -35,22 +50,28 @@ const Node = ({type, createNextNode, selectedResult, setSelectedResult, gameOver
     }
 
     return (
+        <>
         <div className='node-wrapper'>
             {!selectedResult ? (
-                <div >
+                <div>
                     <button onClick={toggleSearchBar}>{ buttonText }</button>
                 </div>
             ) : (
-                <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                <div >
                     <img 
                         src={imgURL}
                         alt={`${selectedResult.name}`}
                         onClick={toggleSearchBar}
                     />
-                    <button>{'Remove'}</button>
+                    { nodeIsDeletable() && !gameOver
+                        ? <button onClick={handleDelete}>{'Remove'}</button>
+                        : <></>
+                    }
                 </div>
             )}
-
+        </div>
+        
+        <div className='search-bar-wrapper'>
             {showSearchBar && (
                 <div className='popup-overlay' onClick={toggleSearchBar}>
                     <div className='search-bar-container' onClick={e => e.stopPropagation()}>
@@ -68,6 +89,7 @@ const Node = ({type, createNextNode, selectedResult, setSelectedResult, gameOver
                 </div>
             )}
         </div>
+        </>
     );
 };
 
