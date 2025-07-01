@@ -5,19 +5,7 @@ import { getLastNonEmptyNode, getNodeType, isLastDynamicNode } from '../utils/no
 import './Node.css'
 
 const Node = ({type, selectedResult, setSelectedResult, gameOver, nodes, deleteLastNode, openSearchBar}) => {
-    const [showSearchBar, setShowSearchBar] = useState(false);
-    const [results, setResults] = useState([]);
 
-    // const toggleSearchBar = () => {
-    //     if (!gameOver) {
-    //         setShowSearchBar(prev => !prev);
-    //     }
-    // };
-
-    // const handleResultClick = (result) => {
-    //     setSelectedResult(result);
-    //     setShowSearchBar(false);
-    // }
 
     const handleDelete = () => {
         setSelectedResult(null);
@@ -25,11 +13,11 @@ const Node = ({type, selectedResult, setSelectedResult, gameOver, nodes, deleteL
     }
 
     const nodeIsDeletable = () => {
-        let lastNode = getLastNonEmptyNode(nodes, true);
+        // let lastNode = getLastNonEmptyNode(nodes, true);
 
-        if (lastNode?.data?.id === selectedResult?.id && getNodeType(lastNode) === type) {
-            return true
-        }
+        // if (lastNode?.data?.id === selectedResult?.id && getNodeType(lastNode) === type) {
+        //     return true
+        // }
         return false;
     }
 

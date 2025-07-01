@@ -7,6 +7,7 @@ import { getPairIDS, lastNodeIsEmpty, getLastNonEmptyNode, getNodeType } from '.
 
 function NodeConnector() {
     const [nodes, setNodes] = useState([ { id: 1, data: null} ]);
+
     const [startingPerson, setStartingPerson] = useState({id: 0, data: ''});
     const [endingPerson, setEndingPerson] = useState({id: 12, data: ''});
     const [connections, setConnections] = useState({});
@@ -19,10 +20,12 @@ function NodeConnector() {
     const toggleSearchBar = (id) => {
         if (!gameOver) {
             setShowSearchBarFor(id);
+            if (id == null) {
+                setResults([])
+            }
         }
     };
 
-    
     const setNodeData = (id, result) => {
         setNodes(prev =>
             prev.map(node =>
@@ -32,11 +35,9 @@ function NodeConnector() {
     };
 
     const handleResultClick = (result) => {
-        //setSelectedResult(result);
         setNodeData(showSearchBarFor, result);
         console.log('updating node data for id:', showSearchBarFor, 'with result:', result);
-        setShowSearchBarFor(null);
-        setResults([]);
+        toggleSearchBar(null);
     }
 
     const createNextNode = () => {
@@ -71,7 +72,7 @@ function NodeConnector() {
             .catch(error => {
                 console.error('Error fetching pair:', error);
             });
-    }, []);
+    }, []); 
 
     useEffect(() => {
         console.log('Connections:', connections);
@@ -148,7 +149,7 @@ function NodeConnector() {
                             gameOver={gameOver}
                             nodes={[startingPerson, ...nodes, endingPerson]}
                             deleteLastNode={deleteLastNode}
-                            openSearchBar={() => {setShowSearchBarFor(node.id)}}
+                            openSearchBar={() => {toggleSearchBar(node.id)}}
                         />
                     </React.Fragment>
                 ))}
@@ -169,7 +170,7 @@ function NodeConnector() {
 
             <div className='search-bar-wrapper'>
                 {showSearchBarFor !== null && (
-                   <div className='popup-overlay' onClick={() => setShowSearchBarFor(null)}>
+                   <div className='popup-overlay' onClick={() => toggleSearchBar(null)}>
                         <div className='search-bar-container' onClick={e => e.stopPropagation()}>
                             <SearchBar 
                                 setResults={setResults} 
@@ -179,7 +180,7 @@ function NodeConnector() {
                                 results = {results} 
                                 onResultClick={handleResultClick} 
                                 type={getNodeType(nodes[showSearchBarFor - 1])} 
-                                nodes={nodes}
+                                nodes={[startingPerson, ...nodes, endingPerson]}
                             />
                         </div>
                     </div> 

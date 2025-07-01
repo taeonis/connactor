@@ -111,18 +111,16 @@ def determine_connection():
 @app.route('/api/test-pair', methods=['GET'])
 def get_daily_pair_test():
     try:
-        url = 'https://api.themoviedb.org/3/person/popular'
-        params = {
-                'language': 'en-US',
-                'page': 1
-            }
+        url1 = 'https://api.themoviedb.org/3/search/person?query=ana%20de%20armas&include_adult=false&language=en-US&page=1'
+        url2 = 'https://api.themoviedb.org/3/search/person?query=keanu%20reeves&include_adult=false&language=en-US&page=1'
         
-        response = requests.get(url, headers=headers, params=params)
-        response.raise_for_status()
+        response1 = requests.get(url1, headers=headers)
+        response1.raise_for_status()
+        response2 = requests.get(url2, headers=headers)
+        response2.raise_for_status()
 
-        response_length = len(response.json().get('results', []))
-        starting_person = response.json().get('results', [])[response_length - 4]  # ana de armas
-        ending_person = response.json().get('results', [])[7]  # keanu reeves
+        starting_person = response1.json().get('results', [])[0]# ana de armas
+        ending_person = response2.json().get('results', [])[0]  # keanu reeves
         
         print(starting_person.get('name', 'Unknown'), f"(ID: {starting_person.get('id')})")
 
