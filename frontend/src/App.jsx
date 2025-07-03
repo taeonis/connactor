@@ -1,23 +1,17 @@
 import { useState } from 'react'
 import './App.css'
-import { SearchBar } from './components/SearchBar'
-import { SearchResultsList } from './components/SearchResultsList';
-import Node from './components/Node';
-import NodeConnector from './components/NodeConnector';
+import NodeManager from './components/NodeManager';
 
 function App() {
 
-  const moveImages = () => {
-    setMoved(true);
-  };
-
   return (
       <div className='App'>
-        
-
-        <div> <NodeConnector /> </div>
-
-
+        <big>
+          MY GAME<br />
+          how to play?
+        </big>
+        <br /><br /><br />
+        <NodeManager />
       </div>
   )
 }

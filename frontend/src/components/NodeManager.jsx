@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Node from "./Node";
-import './NodeConnector.css';
+import './NodeManager.css';
+import ConnectionLink from './ConnectionLink'
 import { SearchBar } from './SearchBar';
 import { SearchResultsList } from './SearchResultsList';
 import { getPairIDS, lastNodeIsEmpty, getLastNonEmptyNode, getNodeType } from '../utils/nodeHelpers';
 
-function NodeConnector() {
+function NodeManager() {
     const [nodes, setNodes] = useState([ { id: 1, data: null} ]);
-
     const [startingPerson, setStartingPerson] = useState({id: 0, data: ''});
     const [endingPerson, setEndingPerson] = useState({id: 12, data: ''});
     const [connections, setConnections] = useState({});
@@ -16,6 +16,8 @@ function NodeConnector() {
     const [results, setResults] = useState([]);
 
     const allConnectionsTrue = Object.values(connections).length > 0 && Object.values(connections).every(Boolean);
+
+    
 
     const toggleSearchBar = (id) => {
         if (!gameOver) {
@@ -109,9 +111,7 @@ function NodeConnector() {
             const lastNode = getLastNonEmptyNode(nodes);
             if (lastNode?.data?.id && endingPerson.data.id) {
                 try {
-                    const response = await fetch(
-                        `http://localhost:5000/api/connection?person_id=${endingPerson.data.id}&movie_id=${lastNode.data.id}`
-                    );
+                    const response = await fetch(`http://localhost:5000/api/connection?person_id=${endingPerson.data.id}&movie_id=${lastNode.data.id}`);
                     const json = await response.json();
                     newConnections['ending'] = json.result;
                 } catch (e) {
@@ -124,25 +124,20 @@ function NodeConnector() {
     }, [nodes.map(n => n.data?.id).join(",")]);
 
     return (
-        <>
-            <div className='node-row'>
-                <img 
-                    src={`https://media.themoviedb.org/t/p/w185${startingPerson.data.profile_path}`} 
-                    title={startingPerson.data.name || "Loading..."}
-                />
+        <div class='NodeManager'>
+            <div className='node-rows-wrapper'>
+                <div class='item node person true'>
+                    <img 
+                        src={`https://media.themoviedb.org/t/p/w185${startingPerson.data.profile_path}`} 
+                        title={startingPerson.data.name || "Loading..."}
+                    />
+                </div>
 
                 {nodes.map((node, idx) => (
                     <React.Fragment key={node.id}>
-                        <img src = {
-                            connections[idx]
-                                ? 'https://picsum.photos/id/18/367/267'
-                                : 'https://picsum.photos/id/21/367/267'
-                        }
-                            className='chain-img'
-                            style={{ width: '50px', height: '50px' } }
-                        />
+                        <ConnectionLink position={idx} connectionVal={connections[idx]} />
                         
-                        <Node 
+                        <Node
                             type={node.id % 2 === 0 ? 'person' : 'movie'}
                             selectedResult={node.data}
                             setSelectedResult={result => setNodeData(node.id, result)}
@@ -150,22 +145,18 @@ function NodeConnector() {
                             nodes={[startingPerson, ...nodes, endingPerson]}
                             deleteLastNode={deleteLastNode}
                             openSearchBar={() => {toggleSearchBar(node.id)}}
+                            connectionVal={connections[idx] || connections[idx + 1]}
                         />
                     </React.Fragment>
                 ))}
 
-                <img src = {
-                    connections['ending']
-                        ? 'https://picsum.photos/id/18/367/267'
-                        : 'https://picsum.photos/id/21/367/267'
-                }
-                    className='chain-img'
-                    style={{ width: '50px', height: '50px' } }
-                />
-                <img 
-                    src={`https://media.themoviedb.org/t/p/w185${endingPerson.data.profile_path}`} 
-                    title={endingPerson.data.name || "Loading..."}
-                />
+                <ConnectionLink position={nodes.length} connectionVal={connections['ending']} />
+                <div class={`item node person ${connections['ending']}`}>
+                    <img
+                        src={`https://media.themoviedb.org/t/p/w185${endingPerson.data.profile_path}`} 
+                        title={endingPerson.data.name || "Loading..."}
+                    />
+                </div>
             </div>
 
             <div className='search-bar-wrapper'>
@@ -186,8 +177,8 @@ function NodeConnector() {
                     </div> 
                 )}
             </div>
-        </>
+        </div>
     );
 };
 
-export default NodeConnector;
+export default NodeManager;

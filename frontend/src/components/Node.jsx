@@ -1,11 +1,8 @@
 import React, {useState} from 'react';
-import { SearchBar } from './SearchBar';
-import { SearchResultsList } from './SearchResultsList';
-import { getLastNonEmptyNode, getNodeType, isLastDynamicNode } from '../utils/nodeHelpers';
+import { getLastNonEmptyNode, getNodeType } from '../utils/nodeHelpers';
 import './Node.css'
 
-const Node = ({type, selectedResult, setSelectedResult, gameOver, nodes, deleteLastNode, openSearchBar}) => {
-
+const Node = ({type, selectedResult, setSelectedResult, gameOver, nodes, deleteLastNode, openSearchBar, connectionVal}) => {
 
     const handleDelete = () => {
         setSelectedResult(null);
@@ -13,11 +10,11 @@ const Node = ({type, selectedResult, setSelectedResult, gameOver, nodes, deleteL
     }
 
     const nodeIsDeletable = () => {
-        // let lastNode = getLastNonEmptyNode(nodes, true);
+        let lastNode = getLastNonEmptyNode(nodes, true);
 
-        // if (lastNode?.data?.id === selectedResult?.id && getNodeType(lastNode) === type) {
-        //     return true
-        // }
+        if (lastNode?.data?.id === selectedResult?.id && getNodeType(lastNode) === type) {
+            return true
+        }
         return false;
     }
 
@@ -34,13 +31,13 @@ const Node = ({type, selectedResult, setSelectedResult, gameOver, nodes, deleteL
 
     return (
         <>
-        <div className='node-wrapper'>
+        <div class={`item node ${type} ${connectionVal}`}>
             {!selectedResult ? (
-                <div>
+                <>
                     <button onClick={openSearchBar}>{ buttonText }</button>
-                </div>
+                </>
             ) : (
-                <div >
+                <>
                     <img 
                         src={imgURL}
                         alt={`${selectedResult.name}`}
@@ -50,7 +47,7 @@ const Node = ({type, selectedResult, setSelectedResult, gameOver, nodes, deleteL
                         ? <button onClick={handleDelete}>{'Remove'}</button>
                         : <></>
                     }
-                </div>
+                </>
             )}
         </div>
         </>

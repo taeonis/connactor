@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, url_for
 from flask_cors import CORS
 import requests
 from datetime import datetime
@@ -13,6 +13,19 @@ headers = {
     'accept': 'application/json',
     'Authorization': TMDB_API_KEY
 }
+
+# @app.route('/link-image', methods=['GET'])
+# def get_link_image():
+#     connection = requests.args.get('type', '').lower()
+#     base_url = request.host_url.rstrip('/')
+
+#     link_image = ''
+#     if (type )
+#     horizontal_link = base_url + url_for('static', filename='horizontal_link.png')
+#     horizontal_broken = url_for('static', filename='horizontal_broken.png')
+#     down_link = url_for('static', filename='down_link.png')
+#     down_broken = url_for('static', filename='down_broken.png')
+#     return jsonify({'link': horizontal_link})
 
 @app.route('/api/person', methods=['GET'])
 def get_people():
