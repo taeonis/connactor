@@ -6,12 +6,14 @@ function App() {
 
   return (
       <div className='App'>
-        <big>
+        {/* <big>
           MY GAME<br />
           how to play?
         </big>
-        <br /><br /><br />
-        <NodeManager />
+        <br /><br /><br /> */}
+        <div className='game-container'>
+          <NodeManager />
+        </div>
       </div>
   )
 }

@@ -126,7 +126,7 @@ function NodeManager() {
     return (
         <div class='NodeManager'>
             <div className='node-rows-wrapper'>
-                <div class='item node person true'>
+                <div class={`item node person ${connections[0]}`}>
                     <img 
                         src={`https://media.themoviedb.org/t/p/w185${startingPerson.data.profile_path}`} 
                         title={startingPerson.data.name || "Loading..."}

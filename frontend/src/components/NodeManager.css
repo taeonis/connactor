@@ -15,13 +15,16 @@
 .item {
   background: transparent;
   width: 100%;
-  height: 100%; 
+  /* height: 100%;  */
   display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  border-radius: 8px;
+  /* align-items: center;
+  justify-content: center; */
+  /* overflow: hidden; */
   flex-direction: column;
+}
+
+.item img {
+  border-radius: 8px;
 }
 
 .item.node img {
@@ -31,19 +34,23 @@
 }
 
 
-.item.node.true {
-  box-shadow: 0 0 6px 1px #00ffff, 0 0 3px 1px #00ffff inset;
+.item.node.true img {
+  box-shadow: 0 0 8px 1px #21e7acff, 0 0 3px 1px #21e7acff inset;
 }
 
-.item.node.false{
+/* .item.node.false{
   box-shadow: 0 0 6px 1px #ff0000, 0 0 3px 1px #ff0000 inset;
-}
+} */
 
+.item.connector {
+  overflow: visible;
+}
 
 .item.connector img {
   width: 50px;
   height: 50px;
   opacity: 0.75;
+  align-items: center;
 }
 
 /* .item.connector.rotate {
@@ -58,6 +65,11 @@
   height: 100%;
 }
 
+/* .item.connector.align-bottom img {
+  margin-bottom: -15px;
+  z-index: 2;
+} */
+
 .item.connector.align-top {
   display: flex;
   flex-direction: column;
@@ -66,9 +78,33 @@
   height: 100%;
 }
 
-.item:nth-child(10n + 6)  {grid-column:5}
-.item:nth-child(10n + 7)  {grid-column:4}
-.item:nth-child(10n + 8)  {grid-column:3}
-.item:nth-child(10n + 9)  {grid-column:2}
+/* .item.connector.align-top img {
+  margin-top: -15px;
+  z-index: 2;
+} */
+
+
+.item:nth-child(10n + 2) img {margin-left: 3px; margin-top: 15px;}
+
+.item:nth-child(10n + 3) img {margin-top: 10px;}
+
+.item:nth-child(10n + 4) img {margin-left: 3px; margin-top: 30px;}
+
+.item:nth-child(10n + 5) img {margin-top: 20px;}
+
+.item:nth-child(10n + 6) {grid-column: 5;}
+.item:nth-child(10n + 6) img {margin-top: -7px;}
+
+.item:nth-child(10n + 7) {grid-column: 4;}
+.item:nth-child(10n + 7) img {margin-top: 10px;}
+
+.item:nth-child(10n + 8) {grid-column: 3;}
+.item:nth-child(10n + 8) img {margin-top: 25px; margin-left: 4px}
+
+
+.item:nth-child(10n + 9) {grid-column: 2;}
+.item:nth-child(10n + 9) img {margin-top: 20px;}
+
+.item:nth-child(10n + 10) img {margin-bottom: -7px;}
 
 

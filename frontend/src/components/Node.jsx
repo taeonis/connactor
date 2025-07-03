@@ -34,7 +34,8 @@ const Node = ({type, selectedResult, setSelectedResult, gameOver, nodes, deleteL
         <div class={`item node ${type} ${connectionVal}`}>
             {!selectedResult ? (
                 <>
-                    <button onClick={openSearchBar}>{ buttonText }</button>
+                    {/* <button onClick={openSearchBar}>{ buttonText }</button> */}
+                    <img src={`/add_${type}.png`} onClick={openSearchBar}/>
                 </>
             ) : (
                 <>
@@ -43,10 +44,10 @@ const Node = ({type, selectedResult, setSelectedResult, gameOver, nodes, deleteL
                         alt={`${selectedResult.name}`}
                         onClick={openSearchBar}
                     />
-                    { nodeIsDeletable() && !gameOver
+                    {/* { nodeIsDeletable() && !gameOver
                         ? <button onClick={handleDelete}>{'Remove'}</button>
                         : <></>
-                    }
+                    } */}
                 </>
             )}
         </div>
