@@ -41,13 +41,13 @@ const Node = ({type, selectedResult, setSelectedResult, gameOver, nodes, deleteL
                 <>
                     <img 
                         src={imgURL}
-                        alt={`${selectedResult.name}`}
+                        // alt={`${selectedResult.name}`}
                         onClick={openSearchBar}
+                        title={selectedResult.id}
                     />
-                    {/* { nodeIsDeletable() && !gameOver
-                        ? <button onClick={handleDelete}>{'Remove'}</button>
-                        : <></>
-                    } */}
+                    {/* { nodeIsDeletable() && !gameOver && (
+                        <img class='delete-button' src='/delete.png' onClick={handleDelete} />
+                    )} */}
                 </>
             )}
         </div>

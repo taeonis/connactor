@@ -5,7 +5,14 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite + React</title>
+
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script>
+      window.anims = {};
+      window.anims.fade_in = function(element) {
+        gsap.to(element, { opacity: 1, duration: 2 });
+      };
+    </script>
   </head>
   <body>
     <div id="root"></div>

@@ -118,7 +118,26 @@ def determine_connection():
     
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+    
+@app.route('/api/filmography', methods=['GET'])
+def get_filmography():
+    try:
+        person_id = request.args.get('person_id', '')
+        url = f'https://api.themoviedb.org/3/person/{person_id}/movie_credits?language=en-US'
+        
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()
 
+        cast_in = response.json().get('cast', [])
+        crew_for = response.json().get('crew', [])
+
+        filmography = [movie.get('id') for movie in cast_in]
+        filmography.extend([movie.get('id') for movie in crew_for if movie.get('job') == 'Director'])
+
+        return jsonify({'result': filmography})
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 
 @app.route('/api/test-pair', methods=['GET'])

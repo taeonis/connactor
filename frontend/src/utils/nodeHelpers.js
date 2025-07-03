@@ -1,3 +1,27 @@
+export function determineConnection(type, personID, movieID) {
+    if (type === 'person') {
+
+    }
+}
+
+export async function checkPersonInMovie(cached, personID, movieID) {
+    console.log(`checking personID: ${personID} and movieID ${movieID}`);
+    if (!(personID in cached)) {
+        try {
+            const response = await fetch(`http://localhost:5000/api/filmography?person_id=${personID}`);
+            const json = await response.json();
+            let filmography = new Set(json.result);
+            cached[personID] = filmography;
+        } catch (e) {
+            console.log(`Error failed connection check: ${e}`);
+            return false;
+        }
+    }
+    let filmography = cached[personID];
+    console.log(`result: ${filmography.has(movieID)}`);
+    return filmography.has(movieID);
+}
+
 export function getPairIDS(nodes, idx, startingPerson) {
     let personID = '';
     let movieID = '';
@@ -11,8 +35,8 @@ export function getPairIDS(nodes, idx, startingPerson) {
         personID = idx === 0 ? startingPerson.data.id : nodes[idx - 1].data?.id;
         movieID = nodes[idx].data?.id;
     }
-    console.log(`IDX: ${idx}`);
-    console.log(`Person ID: ${personID}, Movie ID: ${movieID}`);
+    // console.log(`IDX: ${idx}`);
+    // console.log(`Person ID: ${personID}, Movie ID: ${movieID}`);
 
     return { personID, movieID };
 }

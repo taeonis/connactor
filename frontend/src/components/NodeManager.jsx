@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Node from "./Node";
 import './NodeManager.css';
 import ConnectionLink from './ConnectionLink'
 import { SearchBar } from './SearchBar';
 import { SearchResultsList } from './SearchResultsList';
-import { getPairIDS, lastNodeIsEmpty, getLastNonEmptyNode, getNodeType } from '../utils/nodeHelpers';
+import { getPairIDS, lastNodeIsEmpty, getLastNonEmptyNode, getNodeType, checkPersonInMovie } from '../utils/nodeHelpers';
 
 function NodeManager() {
     const [nodes, setNodes] = useState([ { id: 1, data: null} ]);
@@ -14,11 +14,16 @@ function NodeManager() {
     const [gameOver, setgameOver] = useState(false);
     const [showSearchBarFor, setShowSearchBarFor] = useState(null);
     const [results, setResults] = useState([]);
+    const startingImgRef = useRef(null);
 
-    const allConnectionsTrue = Object.values(connections).length > 0 && Object.values(connections).every(Boolean);
+    const cached_filmography = useRef({});
+
+    const validChain = Object.values(connections).length > 0 && Object.entries(connections)
+        .filter(([key]) => key !== 'ending')
+        .every(([, value]) => Boolean(value));
+    const allConnectionsTrue = validChain && connections['ending'];
 
     
-
     const toggleSearchBar = (id) => {
         if (!gameOver) {
             setShowSearchBarFor(id);
@@ -38,17 +43,15 @@ function NodeManager() {
 
     const handleResultClick = (result) => {
         setNodeData(showSearchBarFor, result);
-        console.log('updating node data for id:', showSearchBarFor, 'with result:', result);
+        //('updating node data for id:', showSearchBarFor, 'with result:', result);
         toggleSearchBar(null);
     }
 
     const createNextNode = () => {
-        if (nodes.length < 11) {
-            setNodes(prevNodes => [
-                ...prevNodes,
-                { id: prevNodes.length + 1, data: null }
-            ]);
-        }
+        setNodes(prevNodes => [
+            ...prevNodes,
+            { id: prevNodes.length + 1, data: null }
+        ]);
     };
     
     const deleteLastNode = () => {
@@ -74,12 +77,14 @@ function NodeManager() {
             .catch(error => {
                 console.error('Error fetching pair:', error);
             });
+
+        window.anims.fade_in(startingImgRef.current);
     }, []); 
 
     useEffect(() => {
         console.log('Connections:', connections);
-        console.log('Nodes: ', nodes);
-        console.log('showSearchBarFor: ', showSearchBarFor);
+        // console.log('Nodes: ', nodes);
+        // console.log('showSearchBarFor: ', showSearchBarFor);
         if (allConnectionsTrue && !gameOver) {
             setgameOver(true);
             console.log('All connections are true!');
@@ -87,7 +92,7 @@ function NodeManager() {
                 deleteLastNode();
             }
         }
-        else if (!lastNodeIsEmpty(nodes) && !gameOver) {
+        else if (validChain && !lastNodeIsEmpty(nodes) && !gameOver && nodes.length < 11) {
             createNextNode();
         }
     }, [connections, allConnectionsTrue]);
@@ -98,26 +103,15 @@ function NodeManager() {
             for (let idx = 0; idx < nodes.length; idx++) {
                 const { personID, movieID } = getPairIDS(nodes, idx, startingPerson);
                 if (personID && movieID) {
-                    try {
-                        const response = await fetch(`http://localhost:5000/api/connection?person_id=${personID}&movie_id=${movieID}`);
-                        const json = await response.json();
-                        newConnections[idx] = json.result;
-                    } catch (e) {
-                        newConnections[idx] = false; 
-                    }
+                    const connection = await checkPersonInMovie(cached_filmography, personID, movieID);
+                    newConnections[idx] = connection;
                 }
             }
-
             const lastNode = getLastNonEmptyNode(nodes);
             if (lastNode?.data?.id && endingPerson.data.id) {
-                try {
-                    const response = await fetch(`http://localhost:5000/api/connection?person_id=${endingPerson.data.id}&movie_id=${lastNode.data.id}`);
-                    const json = await response.json();
-                    newConnections['ending'] = json.result;
-                } catch (e) {
-                    newConnections['ending'] = false;
-                }
-        }
+                const connection = await checkPersonInMovie(cached_filmography, endingPerson.data.id, lastNode.data.id);
+                newConnections['ending'] = connection;
+            }
             setConnections(newConnections);
         };
         fetchConnections();
@@ -126,10 +120,11 @@ function NodeManager() {
     return (
         <div class='NodeManager'>
             <div className='node-rows-wrapper'>
-                <div class={`item node person ${connections[0]}`}>
+                <div id='starting' class={`item node person ${connections[0]}`}>
                     <img 
+                        ref={startingImgRef}
                         src={`https://media.themoviedb.org/t/p/w185${startingPerson.data.profile_path}`} 
-                        title={startingPerson.data.name || "Loading..."}
+                        title={startingPerson.data.id || "Loading..."}
                     />
                 </div>
 
@@ -154,7 +149,7 @@ function NodeManager() {
                 <div class={`item node person ${connections['ending']}`}>
                     <img
                         src={`https://media.themoviedb.org/t/p/w185${endingPerson.data.profile_path}`} 
-                        title={endingPerson.data.name || "Loading..."}
+                        title={endingPerson.data.id || "Loading..."}
                     />
                 </div>
             </div>
