@@ -1,9 +1,8 @@
-import React, {useState} from 'react';
+import React, {useState, forwardRef} from 'react';
 import { getLastNonEmptyNode, getNodeType } from '../utils/nodeHelpers';
 import './Node.css'
 
-const Node = ({type, selectedResult, setSelectedResult, gameOver, nodes, deleteLastNode, openSearchBar, connectionVal}) => {
-
+const Node = forwardRef(({type, selectedResult, setSelectedResult, gameOver, nodes, deleteLastNode, openSearchBar, connectionVal}, ref) => {
     const handleDelete = () => {
         setSelectedResult(null);
         deleteLastNode();
@@ -34,12 +33,13 @@ const Node = ({type, selectedResult, setSelectedResult, gameOver, nodes, deleteL
         <div class={`item node ${type} ${connectionVal}`}>
             {!selectedResult ? (
                 <>
-                    {/* <button onClick={openSearchBar}>{ buttonText }</button> */}
                     <img src={`/add_${type}.png`} onClick={openSearchBar}/>
                 </>
             ) : (
                 <>
                     <img 
+                        ref={ref}
+                        // key={selectedResult.id}
                         src={imgURL}
                         // alt={`${selectedResult.name}`}
                         onClick={openSearchBar}
@@ -53,6 +53,6 @@ const Node = ({type, selectedResult, setSelectedResult, gameOver, nodes, deleteL
         </div>
         </>
     );
-};
+});
 
 export default Node;

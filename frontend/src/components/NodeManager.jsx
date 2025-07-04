@@ -5,18 +5,25 @@ import ConnectionLink from './ConnectionLink'
 import { SearchBar } from './SearchBar';
 import { SearchResultsList } from './SearchResultsList';
 import { getPairIDS, lastNodeIsEmpty, getLastNonEmptyNode, getNodeType, checkPersonInMovie } from '../utils/nodeHelpers';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
+import * as animations from "../utils/animations";
 
-function NodeManager() {
-    const [nodes, setNodes] = useState([ { id: 1, data: null} ]);
+gsap.registerPlugin(useGSAP);
+
+const NodeManager = ({ nodes, setNodes, gameOver, setGameOver }) => {
+    //const [nodes, setNodes] = useState([ { id: 1, data: null} ]);
+    const nodeRefs = useRef([]);
     const [startingPerson, setStartingPerson] = useState({id: 0, data: ''});
+    const startingImgRef = useRef(null);
     const [endingPerson, setEndingPerson] = useState({id: 12, data: ''});
+    const endingImgRef = useRef(null);
+    const allNodeRefs = [startingImgRef.current, ...nodeRefs.current, endingImgRef.current];
     const [connections, setConnections] = useState({});
-    const [gameOver, setgameOver] = useState(false);
     const [showSearchBarFor, setShowSearchBarFor] = useState(null);
     const [results, setResults] = useState([]);
-    const startingImgRef = useRef(null);
 
-    const cached_filmography = useRef({});
+    const cached_filmographies = useRef({});
 
     const validChain = Object.values(connections).length > 0 && Object.entries(connections)
         .filter(([key]) => key !== 'ending')
@@ -39,6 +46,9 @@ function NodeManager() {
                 node.id === id ? { ...node, data: result } : node
             )
         );
+        if (connections[id - 1]) {
+            animations.correctJump(nodeRefs.current[nodes.length - 1]);
+        }
     };
 
     const handleResultClick = (result) => {
@@ -48,6 +58,9 @@ function NodeManager() {
     }
 
     const createNextNode = () => {
+        let new_nodes = document.getElementsByClassName('new');
+
+        console.log(new_nodes);
         setNodes(prevNodes => [
             ...prevNodes,
             { id: prevNodes.length + 1, data: null }
@@ -59,6 +72,15 @@ function NodeManager() {
             delete connections[nodes.length - 1];
             setNodes(prevNodes => prevNodes.slice(0, -1));
         }
+    }
+
+    const gameOverRoutine = async () => {
+        console.log('All connections are true!');
+        if (lastNodeIsEmpty(nodes)) {
+            deleteLastNode();
+        }
+        await animations.winWave(allNodeRefs);
+        setGameOver(true);
     }
 
     useEffect(() => {
@@ -78,22 +100,23 @@ function NodeManager() {
                 console.error('Error fetching pair:', error);
             });
 
-        window.anims.fade_in(startingImgRef.current);
     }, []); 
 
     useEffect(() => {
         console.log('Connections:', connections);
-        // console.log('Nodes: ', nodes);
+        console.log('Nodes: ', nodes);
+        console.log('NodeRefs: ', nodeRefs);
         // console.log('showSearchBarFor: ', showSearchBarFor);
+
+        const lastNode = nodes[nodes.length - 1];
         if (allConnectionsTrue && !gameOver) {
-            setgameOver(true);
-            console.log('All connections are true!');
-            if (lastNodeIsEmpty(nodes)) {
-                deleteLastNode();
-            }
+            gameOverRoutine();
         }
-        else if (validChain && !lastNodeIsEmpty(nodes) && !gameOver && nodes.length < 11) {
+        else if (validChain && lastNode.data !== null && !gameOver && nodes.length < 11) {
             createNextNode();
+        }
+        else {
+            animations.incorrectShake(nodeRefs.current, connections);
         }
     }, [connections, allConnectionsTrue]);
 
@@ -103,13 +126,13 @@ function NodeManager() {
             for (let idx = 0; idx < nodes.length; idx++) {
                 const { personID, movieID } = getPairIDS(nodes, idx, startingPerson);
                 if (personID && movieID) {
-                    const connection = await checkPersonInMovie(cached_filmography, personID, movieID);
+                    const connection = await checkPersonInMovie(cached_filmographies, personID, movieID);
                     newConnections[idx] = connection;
                 }
             }
             const lastNode = getLastNonEmptyNode(nodes);
             if (lastNode?.data?.id && endingPerson.data.id) {
-                const connection = await checkPersonInMovie(cached_filmography, endingPerson.data.id, lastNode.data.id);
+                const connection = await checkPersonInMovie(cached_filmographies, endingPerson.data.id, lastNode.data.id);
                 newConnections['ending'] = connection;
             }
             setConnections(newConnections);
@@ -130,9 +153,12 @@ function NodeManager() {
 
                 {nodes.map((node, idx) => (
                     <React.Fragment key={node.id}>
-                        <ConnectionLink position={idx} connectionVal={connections[idx]} />
-                        
+                        <ConnectionLink 
+                            position={idx} 
+                            connectionVal={connections[idx]} 
+                        />
                         <Node
+                            ref={el => nodeRefs.current[idx] = el}
                             type={node.id % 2 === 0 ? 'person' : 'movie'}
                             selectedResult={node.data}
                             setSelectedResult={result => setNodeData(node.id, result)}
@@ -140,7 +166,7 @@ function NodeManager() {
                             nodes={[startingPerson, ...nodes, endingPerson]}
                             deleteLastNode={deleteLastNode}
                             openSearchBar={() => {toggleSearchBar(node.id)}}
-                            connectionVal={connections[idx] || connections[idx + 1]}
+                            connectionVal={connections[idx] || connections[idx + 1] || false}
                         />
                     </React.Fragment>
                 ))}
@@ -148,6 +174,7 @@ function NodeManager() {
                 <ConnectionLink position={nodes.length} connectionVal={connections['ending']} />
                 <div class={`item node person ${connections['ending']}`}>
                     <img
+                        ref={endingImgRef}
                         src={`https://media.themoviedb.org/t/p/w185${endingPerson.data.profile_path}`} 
                         title={endingPerson.data.id || "Loading..."}
                     />

@@ -36,17 +36,28 @@
 
 .item img {
   border-radius: 8px;
+  animation: fade-in 2s forwards;
+  opacity: 0;
 }
 
 .item.node {
   position: relative;
   display: inline-block;
 }
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 .item.node img {
   max-width: 100%;
   object-fit: contain;
   display: block;
-  opacity: 0;
+
 }
 
 .item.node.true img {
@@ -71,30 +82,27 @@
 .item:nth-child(10n + 2) img {
   margin-left: 3px; 
   margin-top: 15px;
-  animation-delay: 0.08s;
 }
 
 .item:nth-child(10n + 3) img {
   margin-top: 10px;
-  animation-delay: 0.16s;
 }
 
 .item:nth-child(10n + 4) img {
   margin-left: 3px; 
   margin-top: 30px;
-  animation-delay: 0.24s;
 }
 
 .item:nth-child(10n + 5) img {
   margin-top: 20px;
-  animation-delay: 0.32s;
 }
 
 .item:nth-child(10n + 6) {
   grid-column: 5;
 }
 .item:nth-child(10n + 6) img {
-  margin-top: -7px;
+  margin-top: -5px;
+  margin-left: 5px;
 }
 
 .item:nth-child(10n + 7) {

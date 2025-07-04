@@ -11,6 +11,51 @@
   margin: 0 auto;
 }
 
+hr.rounded {
+  border-top: 5px solid #bbb;
+  border-radius: 2px;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex; /* hidden by default */
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.gameOverPopup {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+}
+
+.gameOverPopup h2 {
+  margin-top: 0;
+}
+
+.gameOverPopup button {
+  margin-top: 15px;
+  padding: 8px 16px;
+  border: none;
+  background: #333;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.gameOverPopup button:hover {
+  background: #555;
+}
+
+
 
 
 

@@ -131,10 +131,13 @@ def get_filmography():
         cast_in = response.json().get('cast', [])
         crew_for = response.json().get('crew', [])
 
-        filmography = [movie.get('id') for movie in cast_in]
-        filmography.extend([movie.get('id') for movie in crew_for if movie.get('job') == 'Director'])
+        IDs = [movie.get('id') for movie in cast_in]
+        IDs.extend([movie.get('id') for movie in crew_for if movie.get('job') == 'Director'])
 
-        return jsonify({'result': filmography})
+        titles = [movie.get('title') for movie in cast_in]
+        titles.extend(movie.get('title') for movie in crew_for if movie.get('job') == 'Director')
+
+        return jsonify({'IDs': IDs, 'titles': titles})
     
     except Exception as e:
         return jsonify({'error': str(e)}), 500

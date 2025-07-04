@@ -1,0 +1,7 @@
+const HintManager = (filmographyNames) => {
+    
+    return (
+        <></>
+    )
+}
+export default HintManager;
