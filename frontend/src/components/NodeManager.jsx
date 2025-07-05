@@ -84,7 +84,7 @@ const NodeManager = ({ nodes, setNodes, gameOver, setGameOver }) => {
     }
 
     useEffect(() => {
-        fetch('http://localhost:5000/api/test-pair')
+        fetch('/api/test-pair')
             .then(res => res.json())
             .then(returnedPair => {
                 setStartingPerson(prev => ({

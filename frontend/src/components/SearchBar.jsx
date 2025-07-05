@@ -16,7 +16,7 @@ export const SearchBar = ({ setResults, type }) => {
 
     useEffect(() => {
         if (debouncedInput) {
-             fetch(`http://localhost:5000/api/${type}?search=${debouncedInput}`)
+             fetch(`/api/${type}?search=${debouncedInput}`)
              .then((response) => response.json())
              .then((json) =>  setResults(json));
         }

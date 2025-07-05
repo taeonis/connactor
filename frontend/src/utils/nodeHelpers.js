@@ -8,7 +8,7 @@ export async function checkPersonInMovie(cached, personID, movieID) {
     console.log(`checking personID: ${personID} and movieID ${movieID}`);
     if (!(personID in cached)) {
         try {
-            const response = await fetch(`http://localhost:5000/api/filmography?person_id=${personID}`);
+            const response = await fetch(`/api/filmography?person_id=${personID}`);
             const json = await response.json();
             let IDs = new Set(json.IDs);
             let titles = new Set(json.titles);
