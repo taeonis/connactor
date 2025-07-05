@@ -18,6 +18,10 @@ headers = {
 def home():
     return send_from_directory(app.static_folder, 'index.html')
 
+@app.route('/api/health')
+def health():
+    return 'ok', 200
+
 @app.route('/api/person', methods=['GET'])
 def get_people():
     try:
