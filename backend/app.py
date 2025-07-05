@@ -7,7 +7,7 @@ import os
 
 
 
-app = Flask(__name__, static_folder='./frontend/dist', static_url_path='/')
+app = Flask(__name__, static_folder='../frontend/dist', static_url_path='/')
 CORS(app)
 
 static_folder_path = os.path.abspath(app.static_folder)
