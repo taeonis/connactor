@@ -3,9 +3,19 @@ from flask_cors import CORS
 import requests
 from datetime import datetime
 import random
+import os
+
+
 
 app = Flask(__name__, static_folder='./frontend/dist', static_url_path='/')
 CORS(app)
+
+static_folder_path = os.path.abspath(app.static_folder)
+print(f"Static folder absolute path: {static_folder_path}")
+if os.path.exists(static_folder_path):
+    print("Contents of static folder:")
+    for item in os.listdir(static_folder_path):
+        print(item)
 
 TMDB_API_KEY = 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1YTc0ZjUwMDJmOGQzNjRmMDIwN2ZiNzY4NWU0YjJiYiIsIm5iZiI6MTcxMzkxNTYxNS41Nzc5OTk4LCJzdWIiOiI2NjI4NDZkZjE3NmE5NDAxN2Y4MjQwN2MiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.jaZnUlZDZ-ymiHDFIBbgVJg4plv027Q1084Ut0XKkno'
 
