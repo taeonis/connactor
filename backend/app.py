@@ -17,6 +17,13 @@ if os.path.exists(static_folder_path):
     for item in os.listdir(static_folder_path):
         print(item)
 
+all_files = []
+for root, _, files in os.walk('.'):
+    for file in files:
+        full_path = os.path.join(root, file)
+        all_files.append(full_path)
+print('all_files: ', all_files)
+
 TMDB_API_KEY = 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1YTc0ZjUwMDJmOGQzNjRmMDIwN2ZiNzY4NWU0YjJiYiIsIm5iZiI6MTcxMzkxNTYxNS41Nzc5OTk4LCJzdWIiOiI2NjI4NDZkZjE3NmE5NDAxN2Y4MjQwN2MiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.jaZnUlZDZ-ymiHDFIBbgVJg4plv027Q1084Ut0XKkno'
 
 headers = {
