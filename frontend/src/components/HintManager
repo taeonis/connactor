@@ -1,7 +1,9 @@
-const HintManager = (filmographyNames) => {
-    
+const HintManager = (node) => {
+
     return (
-        <></>
+        <p style={{color: 'white'}}>
+
+        </p>
     )
 }
 export default HintManager;

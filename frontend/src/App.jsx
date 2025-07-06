@@ -14,11 +14,7 @@ function App() {
 
     return (
         <div className='App'>
-                {/* <big>
-            MY GAME<br />
-            how to play?
-            </big>
-            <br /><br /><br /> */}
+            <img src='/connactor_logo.png' />
             <div className='game-container'>
             <NodeManager 
                 nodes={nodes}

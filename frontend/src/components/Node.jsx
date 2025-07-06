@@ -45,9 +45,10 @@ const Node = forwardRef(({type, selectedResult, setSelectedResult, gameOver, nod
                         onClick={openSearchBar}
                         title={selectedResult.id}
                     />
-                    {/* { nodeIsDeletable() && !gameOver && (
+                    <img class='hint-button' src='/hint_icon.png' />
+                    { nodeIsDeletable() && !gameOver && (
                         <img class='delete-button' src='/delete.png' onClick={handleDelete} />
-                    )} */}
+                    )}
                 </>
             )}
         </div>
