@@ -20,38 +20,8 @@
   opacity: 70%;
 }
 
-.popup-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  backdrop-filter: blur(8px); /* Blur the background */
-  background-color: rgba(0, 0, 0, 0.3); /* Transparent dark overlay */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-
-.search-bar-container {
-  position: fixed;
-  top: 20%;
-  left: 40%;
-  transform: translateX(-50%);
-  width: 50vw;
-  z-index: 10;
-  /* display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center; */
-}
-
-
-/* Optional: Prevent body from scrolling when popup is open */
-body.popup-open {
-  overflow: hidden;
+.node-image.true {
+  box-shadow: 0 0 8px 1px #21e7acff, 0 0 3px 1px #21e7acff inset;
 }
 
 .node-wrapper {

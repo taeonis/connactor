@@ -1,25 +1,25 @@
-export function determineConnection(type, personID, movieID) {
-    if (type === 'person') {
 
+export async function updateCache(cache, type, ID) {
+    const apiURL = type === 'people' ? `/api/person-credits?person_id=${ID}` : `/api/movie-credits?movie_id=${ID}`;
+    if (!(ID in cache[type])) {
+        try {
+            const response = await fetch(apiURL);
+            const json = await response.json();
+            const IDs = new Set(json.IDs);
+            const imagePaths = new Set(json.images);
+            cache[type][ID] = {'IDs': IDs, 'images': imagePaths};
+            console.log('updated cache');
+        } catch (e) {
+            console.log(`Error failed connection check: ${e}`);
+        }
     }
 }
 
 export async function checkPersonInMovie(cached, personID, movieID) {
-    console.log(`checking personID: ${personID} and movieID ${movieID}`);
-    if (!(personID in cached)) {
-        try {
-            const response = await fetch(`/api/filmography?person_id=${personID}`);
-            const json = await response.json();
-            let IDs = new Set(json.IDs);
-            let titles = new Set(json.titles);
-            cached[personID] = {'movieIDs': IDs, 'titles': titles};
-        } catch (e) {
-            console.log(`Error failed connection check: ${e}`);
-            return false;
-        }
-    }
-    let filmographyIDs = cached[personID]['movieIDs'];
-    console.log(`result: ${filmographyIDs.has(movieID)}`);
+    await updateCache(cached, 'people', personID);
+    await updateCache(cached, 'movies', movieID);
+
+    const filmographyIDs = cached['people'][personID]['IDs'];
     return filmographyIDs.has(movieID);
 }
 

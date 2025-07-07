@@ -1,18 +1,18 @@
 import React, { useEffect, useState, useRef } from "react";
 import Node from "./Node";
+import StaticNode from './StaticNode';
 import './NodeManager.css';
 import ConnectionLink from './ConnectionLink'
 import { SearchBar } from './SearchBar';
 import { SearchResultsList } from './SearchResultsList';
-import { getPairIDS, lastNodeIsEmpty, getLastNonEmptyNode, getNodeType, checkPersonInMovie } from '../utils/nodeHelpers';
+import { getPairIDS, lastNodeIsEmpty, getLastNonEmptyNode, getNodeType, checkPersonInMovie, updateCache } from '../utils/nodeHelpers';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import * as animations from "../utils/animations";
 
 gsap.registerPlugin(useGSAP);
 
-const NodeManager = ({ nodes, setNodes, gameOver, setGameOver }) => {
-    //const [nodes, setNodes] = useState([ { id: 1, data: null} ]);
+const NodeManager = ({ nodes, setNodes, gameOver, setGameOver, cache, toggleHint }) => {
     const nodeRefs = useRef([]);
     const [startingPerson, setStartingPerson] = useState({id: 0, data: ''});
     const startingImgRef = useRef(null);
@@ -22,8 +22,6 @@ const NodeManager = ({ nodes, setNodes, gameOver, setGameOver }) => {
     const [connections, setConnections] = useState({});
     const [showSearchBarFor, setShowSearchBarFor] = useState(null);
     const [results, setResults] = useState([]);
-
-    const cached_filmographies = useRef({});
 
     const validChain = Object.values(connections).length > 0 && Object.entries(connections)
         .filter(([key]) => key !== 'ending')
@@ -40,20 +38,21 @@ const NodeManager = ({ nodes, setNodes, gameOver, setGameOver }) => {
         }
     };
 
-    const setNodeData = (id, result) => {
+    const setNodeData = async (id, result) => {
         setNodes(prev =>
             prev.map(node =>
                 node.id === id ? { ...node, data: result } : node
             )
         );
-        if (connections[id - 1]) {
-            animations.correctJump(nodeRefs.current[nodes.length - 1]);
+
+        if (result !== null) {
+            const type = id % 2 === 0 ? 'people' : 'movies';
+            await updateCache(cache, type, result.id);
         }
     };
 
     const handleResultClick = (result) => {
         setNodeData(showSearchBarFor, result);
-        //('updating node data for id:', showSearchBarFor, 'with result:', result);
         toggleSearchBar(null);
     }
 
@@ -76,7 +75,7 @@ const NodeManager = ({ nodes, setNodes, gameOver, setGameOver }) => {
 
     const gameOverRoutine = async () => {
         console.log('All connections are true!');
-        if (lastNodeIsEmpty(nodes)) {
+        if (nodes[nodes.length - 1].data === null) {
             deleteLastNode();
         }
         await animations.winWave(allNodeRefs);
@@ -126,13 +125,13 @@ const NodeManager = ({ nodes, setNodes, gameOver, setGameOver }) => {
             for (let idx = 0; idx < nodes.length; idx++) {
                 const { personID, movieID } = getPairIDS(nodes, idx, startingPerson);
                 if (personID && movieID) {
-                    const connection = await checkPersonInMovie(cached_filmographies, personID, movieID);
+                    const connection = await checkPersonInMovie(cache, personID, movieID);
                     newConnections[idx] = connection;
                 }
             }
             const lastNode = getLastNonEmptyNode(nodes);
             if (lastNode?.data?.id && endingPerson.data.id) {
-                const connection = await checkPersonInMovie(cached_filmographies, endingPerson.data.id, lastNode.data.id);
+                const connection = await checkPersonInMovie(cache, endingPerson.data.id, lastNode.data.id);
                 newConnections['ending'] = connection;
             }
             setConnections(newConnections);
@@ -143,13 +142,12 @@ const NodeManager = ({ nodes, setNodes, gameOver, setGameOver }) => {
     return (
         <div class='NodeManager'>
             <div className='node-rows-wrapper'>
-                <div id='starting' class={`item node person ${connections[0]}`}>
-                    <img 
-                        ref={startingImgRef}
-                        src={`https://media.themoviedb.org/t/p/w185${startingPerson.data.profile_path}`} 
-                        title={startingPerson.data.id || "Loading..."}
-                    />
-                </div>
+                <StaticNode 
+                    ref={startingImgRef}
+                    person={startingPerson}
+                    connectionVal={connections[0]}
+                    toggleHint={() => toggleHint(startingPerson)}
+                />
 
                 {nodes.map((node, idx) => (
                     <React.Fragment key={node.id}>
@@ -165,20 +163,20 @@ const NodeManager = ({ nodes, setNodes, gameOver, setGameOver }) => {
                             gameOver={gameOver}
                             nodes={[startingPerson, ...nodes, endingPerson]}
                             deleteLastNode={deleteLastNode}
-                            openSearchBar={() => {toggleSearchBar(node.id)}}
+                            toggleSearchBar={() => {toggleSearchBar(node.id)}}
                             connectionVal={connections[idx] || connections[idx + 1] || false}
+                            toggleHint={() => toggleHint(node)}
                         />
                     </React.Fragment>
                 ))}
 
-                <ConnectionLink position={nodes.length} connectionVal={connections['ending']} />
-                <div class={`item node person ${connections['ending']}`}>
-                    <img
-                        ref={endingImgRef}
-                        src={`https://media.themoviedb.org/t/p/w185${endingPerson.data.profile_path}`} 
-                        title={endingPerson.data.id || "Loading..."}
-                    />
-                </div>
+                <ConnectionLink position={nodes.length} connectionVal={connections['ending']} />    
+                <StaticNode 
+                    ref={endingImgRef}
+                    person={endingPerson}
+                    connectionVal={connections['ending']}
+                    toggleHint={() => toggleHint(endingPerson)}
+                />
             </div>
 
             <div className='search-bar-wrapper'>

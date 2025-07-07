@@ -91,34 +91,9 @@ def get_movies():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-@app.route('/api/connection', methods=['GET'])
-def determine_connection():
-    try:
-        person_id = request.args.get('person_id', '')
-        movie_id = request.args.get('movie_id', '')
-        url = f'https://api.themoviedb.org/3/person/{person_id}/movie_credits?language=en-US'
-        
-        response = requests.get(url, headers=headers)
-        response.raise_for_status()
-
-        cast = response.json().get('cast', [])
-        crew = response.json().get('crew', [])
-
-        for movie in cast:
-            if movie.get('id') == int(movie_id):
-                return jsonify({'result': True})
-
-        for movie in crew:
-            if movie.get('id') == int(movie_id) and movie.get('job') == 'Director':
-                return jsonify({'result': True})
-
-        return jsonify({'result': False})
     
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
-    
-@app.route('/api/filmography', methods=['GET'])
-def get_filmography():
+@app.route('/api/person-credits', methods=['GET'])
+def get_person_credits():
     try:
         person_id = request.args.get('person_id', '')
         url = f'https://api.themoviedb.org/3/person/{person_id}/movie_credits?language=en-US'
@@ -127,15 +102,41 @@ def get_filmography():
         response.raise_for_status()
 
         cast_in = response.json().get('cast', [])
+        cast_in_sorted = sorted(cast_in, key=lambda movie: movie.get('popularity', 0), reverse=True)
         crew_for = response.json().get('crew', [])
 
-        IDs = [movie.get('id') for movie in cast_in]
-        IDs.extend([movie.get('id') for movie in crew_for if movie.get('job') == 'Director'])
+        movieIDs = [movie.get('id') for movie in cast_in_sorted]
+        movieIDs.extend([movie.get('id') for movie in crew_for if movie.get('job') == 'Director'])
 
-        titles = [movie.get('title') for movie in cast_in]
-        titles.extend(movie.get('title') for movie in crew_for if movie.get('job') == 'Director')
+        poster_paths = [movie.get('poster_path') for movie in crew_for if movie.get('job') == 'Director']
+        poster_paths.extend([movie.get('poster_path') for movie in cast_in_sorted if movie.get('popularity', 0) > 2])
+        
+        return jsonify({'IDs': movieIDs, 'images': poster_paths})
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    
 
-        return jsonify({'IDs': IDs, 'titles': titles})
+@app.route('/api/movie-credits', methods=['GET'])
+def get_movie_credits():
+    try:
+        movie_id = request.args.get('movie_id', '')
+        url = f'https://api.themoviedb.org/3/movie/{movie_id}/credits?language=en-US'
+        
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()
+
+        cast = response.json().get('cast', [])
+        cast_sorted = sorted(cast, key=lambda movie: movie.get('popularity', 0), reverse=True)
+        crew = response.json().get('crew', [])
+
+        personIDs = [person.get('id') for person in cast_sorted]
+        personIDs.extend([person.get('id') for person in crew if person.get('job') == 'Director'])
+
+        profile_paths = [person.get('profile_path') for person in crew if person.get('job') == 'Director'] # get the director
+        profile_paths.extend([person.get('profile_path') for person in cast_sorted if person.get('popularity', 0) > 2]) # get everyone else
+
+        return jsonify({'IDs': personIDs, 'images': profile_paths})
     
     except Exception as e:
         return jsonify({'error': str(e)}), 500
