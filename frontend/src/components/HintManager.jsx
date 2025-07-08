@@ -15,21 +15,26 @@ const HintManager = ({ node, cache, toggleHint }) => {
 
     return (
         <div className="hint-manager">
-            <big className='name-title'>{name_or_title}</big>
-            <button onClick={() => toggleHint(null)}>Close</button>
-            <br />
+            <div className='title-bar'>
+                <big className='name-title'>{name_or_title}</big>
 
-            <div style={{color: 'white'}}>Show hints?</div>
+                <label className='switch'>
+                    <input 
+                        type='checkbox' 
+                        checked={showHints}
+                        onChange={() => setShowHints(prev => !prev)}
+                    />
+                    <span className='slider round'></span>
+                </label>
 
-            <label class='switch'>
-                <input 
-                    type='checkbox' 
-                    checked={showHints}
-                    onChange={() => setShowHints(prev => !prev)}
+
+                <img 
+                    className='close-button'
+                    src='/delete.png'
+                    onClick={() => toggleHint(null)}
                 />
-                <span class='slider round'></span>
-            </label>
 
+            </div>
             
             {showHints && (
                 <div className='hint-box'>

@@ -32,27 +32,30 @@ const Node = forwardRef(({type, selectedResult, setSelectedResult, gameOver, nod
 
     return (
         <>
-        <div class={`item node ${type} `} ref={ref}>
+        <div className={`item node ${type} `} ref={ref}>
             {!selectedResult ? (
                 <>
-                    <img src={`/add_${type}.png`} onClick={toggleSearchBar}/>
+                <img 
+                    className='node-image clickable'
+                    src={`/add_${type}.png`} 
+                    onClick={toggleSearchBar}/>
                 </>
             ) : (
                 <>
-                    <img 
-                        className={`node-image ${connectionVal}`}
-                        src={imgURL}
-                        onClick={toggleSearchBar}
-                        alt={selectedResult.name || selectedResult.title}
-                    />
-                    {!gameOver && (
-                        <>
-                        <img class='hint-button' src='/hint_icon.png' onClick={toggleHint} />
-                        {nodeIsDeletable() && (
-                            <img class='delete-button' src='/delete.png' onClick={handleDelete} />
-                        )} 
-                        </>
+                <img 
+                    className={`node-image clickable ${connectionVal}`}
+                    src={imgURL}
+                    onClick={toggleSearchBar}
+                    alt={selectedResult.name || selectedResult.title}
+                />
+                {!gameOver && (
+                    <>
+                    <img className='hint-button' src='/hint_icon.png' onClick={toggleHint} />
+                    {nodeIsDeletable() && (
+                        <img className='delete-button' src='/delete.png' onClick={handleDelete} />
                     )} 
+                    </>
+                )} 
                 </>
             )}
         </div>

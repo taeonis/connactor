@@ -7,6 +7,15 @@
   cursor: pointer;
   z-index: 2;
   opacity: 70%;
+  transition: transform 0.3 ease;
+  display: inline-block;
+}
+.delete-button:hover {
+  transform: rotate(10deg);
+}
+.delete-button:active {
+    transform: scale(0.95);
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
 }
 
 .hint-button {
@@ -18,10 +27,32 @@
   cursor: pointer;
   z-index: 2;
   opacity: 70%;
+  transition: transform 0.3 ease;
+  display: inline-block;
+}
+.hint-button:hover {
+  transform: rotate(10deg);
+}
+.hint-button:active {
+    transform: scale(0.95);
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
 }
 
 .node-image.true {
   box-shadow: 0 0 8px 1px #21e7acff, 0 0 3px 1px #21e7acff inset;
+}
+
+.node-image {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.node-image.clickable {
+  transition: transform 0.1s ease, box-shadow 0.1 ease;
+  cursor: pointer;
+}
+.node-image.clickable:active {
+    transform: scale(0.95);
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
 }
 
 .node-wrapper {

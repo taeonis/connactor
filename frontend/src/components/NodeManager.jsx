@@ -12,16 +12,21 @@ import * as animations from "../utils/animations";
 
 gsap.registerPlugin(useGSAP);
 
-const NodeManager = ({ nodes, setNodes, gameOver, setGameOver, cache, toggleHint }) => {
-    const nodeRefs = useRef([]);
-    const [startingPerson, setStartingPerson] = useState({id: 0, data: ''});
+const NodeManager = ({ nodeProps, gameOverProps, startingProps, endingProps, cache, toggleHint }) => {
+    const { nodes, setNodes } = nodeProps;
+    const { gameOver, setGameOver } = gameOverProps;
+    const { startingPerson, setStartingPerson } = startingProps;
+    const { endingPerson, setEndingPerson } = endingProps;
+
     const startingImgRef = useRef(null);
-    const [endingPerson, setEndingPerson] = useState({id: 12, data: ''});
     const endingImgRef = useRef(null);
-    const allNodeRefs = [startingImgRef.current, ...nodeRefs.current, endingImgRef.current];
+
     const [connections, setConnections] = useState({});
     const [showSearchBarFor, setShowSearchBarFor] = useState(null);
     const [results, setResults] = useState([]);
+
+    const nodeRefs = useRef([]);
+    const allNodeRefs = [startingImgRef.current, ...nodeRefs.current, endingImgRef.current]
 
     const validChain = Object.values(connections).length > 0 && Object.entries(connections)
         .filter(([key]) => key !== 'ending')
@@ -90,21 +95,23 @@ const NodeManager = ({ nodes, setNodes, gameOver, setGameOver, cache, toggleHint
                     ...prev,
                     data: returnedPair.starting_person
                 }));
+                updateCache(cache, 'people', returnedPair.starting_person.id);
+
                 setEndingPerson(prev => ({
                     ...prev,
                     data: returnedPair.ending_person
                 }));
+                updateCache(cache, 'people', returnedPair.ending_person.id);
             })
             .catch(error => {
                 console.error('Error fetching pair:', error);
             });
-
     }, []); 
 
     useEffect(() => {
-        console.log('Connections:', connections);
-        console.log('Nodes: ', nodes);
-        console.log('NodeRefs: ', nodeRefs);
+        // console.log('Connections:', connections);
+        // console.log('Nodes: ', nodes);
+        // console.log('NodeRefs: ', nodeRefs);
         // console.log('showSearchBarFor: ', showSearchBarFor);
 
         const lastNode = nodes[nodes.length - 1];
@@ -137,10 +144,10 @@ const NodeManager = ({ nodes, setNodes, gameOver, setGameOver, cache, toggleHint
             setConnections(newConnections);
         };
         fetchConnections();
-    }, [nodes.map(n => n.data?.id).join(",")]);
+    }, [[startingPerson, ...nodes, endingPerson].map(n => n.data?.id).join(",")]);
 
     return (
-        <div class='NodeManager'>
+        <div className='NodeManager'>
             <div className='node-rows-wrapper'>
                 <StaticNode 
                     ref={startingImgRef}

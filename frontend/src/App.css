@@ -1,6 +1,6 @@
+
 .App {
-  /* background-color: black; */
-  background-image: linear-gradient(#14181c, black);
+  background-color: #14181c;
   width: 100vw;
   min-height: 100vh;
   text-align: center;
@@ -12,13 +12,12 @@
 }
 
 .game-container {
+  background-image: linear-gradient(#14181c, rgb(13, 13, 17));
+  min-height: 100vh;
   width: 375px;
   margin: 0 auto;
-}
-
-hr.rounded {
-  border-top: 5px solid #bbb;
-  border-radius: 2px;
+  border: 5px solid #445566;
+  border-radius: 5px;
 }
 
 .overlay {
@@ -35,7 +34,7 @@ hr.rounded {
 }
 
 .gameOverPopup {
-  background: white;
+  background: #445566;
   padding: 30px;
   border-radius: 12px;
   text-align: center;

@@ -8,7 +8,6 @@ export async function updateCache(cache, type, ID) {
             const IDs = new Set(json.IDs);
             const imagePaths = new Set(json.images);
             cache[type][ID] = {'IDs': IDs, 'images': imagePaths};
-            console.log('updated cache');
         } catch (e) {
             console.log(`Error failed connection check: ${e}`);
         }

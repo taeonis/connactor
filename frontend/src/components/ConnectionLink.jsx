@@ -15,7 +15,7 @@ const ConnectionLink = ( { position, connectionVal }) => {
     
 
     return (
-        <div class={`item connector${alignment}`}>
+        <div className={`item connector${alignment}`}>
             <img src = {imgSrc}
                 title={`${position}, ${connectionVal}`}
             />

@@ -1,0 +1,36 @@
+
+.InstructionsPopup {
+  background: #445566;
+  padding: 30px;
+  border-radius: 12px;
+  text-align: left;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+  max-height: 70vh;
+  max-width: 90vw;
+}
+
+.InstructionsPopup h2 {
+  margin-top: 0;
+}
+
+.InstructionsPopup button {
+  margin-top: 15px;
+  padding: 8px 16px;
+  border: none;
+  background: #333;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.InstructionsPopup button:hover {
+  background: #555;
+}
+
+.long-chain {
+    height: 300px;
+}
+
+.short-chain {
+    width: 183px;
+}

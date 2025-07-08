@@ -1,9 +1,39 @@
+.hint-manager {
+  max-width: 350px;
+  margin: 0 auto;
+}
 
+.close-button {
+  width: 50px;
+  transition: transform 0.5 ease;
+  cursor: pointer;
+  display: inline-block;
+}
+.close-button:hover {
+  transform: rotate(10deg);
+}
+.close-button:active {
+    transform: scale(0.95);
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
+}
 
 .name-title {
-  font-size: 2;      /* adjust size as needed */
+  font-size: 2;     
   color: white;
+  flex: 1;
+  text-align: left;
+  padding-left: 10px;
 }
+
+.title-bar {
+  background-color: #445566;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
+  border-radius: 5px;
+}
+
 
 .hint-box {
     max-width: 300px;
@@ -15,29 +45,29 @@
 }
 
 .hint-picture {
-  width: 100%;              /* fill grid cell */
-  height: auto;             /* maintain aspect ratio */
-  object-fit: cover;        /* clean image crop */
-  border-radius: 8px;       /* rounded corners */
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4); /* optional depth */
+  width: 100%;              
+  height: auto;             
+  object-fit: cover;        
+  border-radius: 8px;       
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4); 
 }
-
 
 .switch {
   position: relative;
   display: inline-block;
   width: 60px;
   height: 34px;
+  margin-left: auto;
+  margin-right: 10px;
 }
 
-/* Hide default HTML checkbox */
+
 .switch input {
   opacity: 0;
   width: 0;
   height: 0;
 }
 
-/* The slider */
 .slider {
   position: absolute;
   cursor: pointer;
@@ -45,7 +75,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #ccc;
+  background-color: #ff0000;
   -webkit-transition: .4s;
   transition: .4s;
 }
@@ -63,11 +93,11 @@
 }
 
 input:checked + .slider {
-  background-color: #2196F3;
+  background-color: #2af5b9;
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
+  box-shadow: 0 0 1px #2af5b9;
 }
 
 input:checked + .slider:before {
@@ -76,7 +106,6 @@ input:checked + .slider:before {
   transform: translateX(26px);
 }
 
-/* Rounded sliders */
 .slider.round {
   border-radius: 34px;
 }
