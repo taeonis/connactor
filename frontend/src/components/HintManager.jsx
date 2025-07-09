@@ -1,18 +1,21 @@
 import './HintManager.css';
-import React, { useEffect, useState, useRef } from "react";
+import { useGame } from '../context/GameContext';
+import { getNodeType } from '../utils/nodeHelpers';
 
-const HintManager = ({ node, toggleHint, setHintsEnabledFor, hintsEnabledFor }) => {
-    const nodeType = node.id % 2 === 0 ? 'person' : 'movie';
-    const hintIcon = hintsEnabledFor[node.data.id] === nodeType 
+const HintManager = ({ setHintCache, hintCache}) => {
+    const {showHintsFor, toggleHint} = useGame();
+
+    const nodeType = getNodeType(showHintsFor);
+    const hintIcon = hintCache[showHintsFor.data.id] === nodeType 
         ? 'https://cdn-icons-png.flaticon.com/128/427/427735.png' 
         : 'https://cdn-icons-png.flaticon.com/128/2961/2961545.png';
 
     return (
         <div className="hint-manager">
             <div className='title-bar'>
-                <big className='name-title'>{node.data.name || node.data.title}</big>
+                <big className='name-title'>{showHintsFor.data.name || showHintsFor.data.title}</big>
                 <img src={hintIcon}
-                    onClick={() => setHintsEnabledFor(prev => ({ ...prev, [node.data.id]: nodeType }))}
+                    onClick={() => setHintCache(prev => ({ ...prev, [showHintsFor.data.id]: nodeType }))}
                 />
                 <img 
                     className='close-button'
@@ -22,9 +25,9 @@ const HintManager = ({ node, toggleHint, setHintsEnabledFor, hintsEnabledFor }) 
 
             </div>
             
-            { hintsEnabledFor[node.data.id] === nodeType && (
+            { hintCache[showHintsFor.data.id] === nodeType && (
                 <div className='hint-box'>
-                    {node.credits.images.map((image_path, idx) => (
+                    {showHintsFor.credits.images.map((image_path, idx) => (
                         <img
                             key={idx}
                             className='hint-picture'

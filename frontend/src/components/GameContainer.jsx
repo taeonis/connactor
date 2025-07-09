@@ -1,22 +1,17 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useGame } from '../context/GameContext';
 import NodeManager from './NodeManager';
 import HintManager from './HintManager';
 import Instructions from './Instructions';
 
 function GameContainer() {
-    const { gameOver, setGameOver, nodes, setNodes, startingPerson, setStartingPerson, endingPerson, setEndingPerson, } = useGame();
+    const { gameOver, nodes, startingPerson, setStartingPerson, endingPerson, setEndingPerson, showHintsFor} = useGame();
     const [showGameOverPopup, setShowGameOverPopup] = useState(false);
     const [showInstructions, setShowInstructions] = useState(false);
-    const [hintsEnabledFor, setHintsEnabledFor] = useState({});
-    const [showHintsFor, setShowHintsFor] = useState(null);
+    const [hintCache, setHintCache] = useState({}); // format: { ID: type }
 
     function toggleGameOverPopup() {
         setShowGameOverPopup(prev => !prev);
-    }
-
-    function toggleHint(node) {
-        setShowHintsFor(prev => (prev === node ? null : node));
     }
 
     function toggleInstructions() {
@@ -52,18 +47,15 @@ function GameContainer() {
                 <button onClick={swapStartAndEnd} >Swap Start and End</button>
             )}
             
-            <p>Hints used: {Object.keys(hintsEnabledFor).length}</p>
+            <p>Hints used: {Object.keys(hintCache).length}</p>
         
             <NodeManager 
-                toggleHint={toggleHint}
                 setShowGameOverPopup={setShowGameOverPopup}
             />
             {showHintsFor !== null && (
                 <HintManager
-                    node={showHintsFor}
-                    toggleHint={toggleHint}
-                    setHintsEnabledFor={setHintsEnabledFor}
-                    hintsEnabledFor={hintsEnabledFor}
+                    setHintCache={setHintCache}
+                    hintCache={hintCache}
                 />
             )}
         </div>
@@ -72,14 +64,12 @@ function GameContainer() {
             <div id="gameOverOverlay" className="overlay" onClick={toggleGameOverPopup}>
                 <div className="gameOverPopup">
                     <h2>Congrats!</h2>
-                    <p>You solved today's Connactor in {Math.ceil(nodes.length / 2)} 🎥 {Math.floor(nodes.length / 2)} 🫂 {Object.keys(hintsEnabledFor).length} 💡</p>
+                    <p>You solved today's Connactor in {Math.ceil(nodes.length / 2)} 🎥 {Math.floor(nodes.length / 2)} 🫂 {Object.keys(hintCache).length} 💡</p>
                     <p>The shortest possible connection was: PLACEHOLDER</p>
-                    <p>You used {Object.keys(hintsEnabledFor).length} hints!</p>
                     <button onClick={() => toggleGameOverPopup()}>Close</button>
                 </div>
             </div>
-        )}
-        </>
+        )}</>
     )
 }
 

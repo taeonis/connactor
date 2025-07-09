@@ -1,8 +1,8 @@
 import { forwardRef, useContext } from "react";
 import { useGame } from '../context/GameContext';
 
-const StaticNode = forwardRef(({ person, connectionVal, toggleHint }, ref) => {
-    const { nodes, startingPerson, endingPerson, gameOver } = useGame();
+const StaticNode = forwardRef(({ person, connectionVal }, ref) => {
+    const {  gameOver, toggleHint } = useGame();
 
     return (
         <div ref={ref} className={`item node person`}>
@@ -12,7 +12,7 @@ const StaticNode = forwardRef(({ person, connectionVal, toggleHint }, ref) => {
                 className={`node-image ${connectionVal}`}
             />
             {!gameOver && (
-                <img className='hint-button' src='/hint_icon.png' onClick={toggleHint} />
+                <img className='hint-button' src='/hint_icon.png' onClick={() => toggleHint(person)} />
             )}
         </div>
     )

@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useRef, useContext } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Node from "./Node";
 import StaticNode from './StaticNode';
 import './NodeManager.css';
 import ConnectionLink from './ConnectionLink'
-import { SearchBar } from './SearchBar';
-import { SearchResultsList } from './SearchResultsList';
+import { SearchBar } from './SearchBarComponents/SearchBar';
+import { SearchResultsList } from './SearchBarComponents/SearchResultsList';
 import { getLastNonEmptyNode, getNodeType, fetchCredits } from '../utils/nodeHelpers';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
@@ -13,13 +13,16 @@ import { useGame } from '../context/GameContext';
 
 gsap.registerPlugin(useGSAP);
 
-const NodeManager = ({ toggleHint, setShowGameOverPopup }) => {
-    const { gameOver, setGameOver, nodes, setNodes, startingPerson, setStartingPerson, endingPerson, setEndingPerson, } = useGame();
+const NodeManager = ({ setShowGameOverPopup }) => {
+    const { gameOver, setGameOver, nodes, setNodes, startingPerson, setStartingPerson, endingPerson, setEndingPerson } = useGame();
 
     const startingImgRef = useRef(null);
     const endingImgRef = useRef(null);
 
     const [connections, setConnections] = useState({});
+
+    const connectionsTest = useRef([]);
+
     const [showSearchBarFor, setShowSearchBarFor] = useState(null);
     const [results, setResults] = useState([]);
 
@@ -80,6 +83,21 @@ const NodeManager = ({ toggleHint, setShowGameOverPopup }) => {
         setGameOver(true);
         await animations.winWave(allNodeRefs);
         setShowGameOverPopup(true);
+    }
+
+    const checkConnection = (idx, direction) => {
+        const thisNode = nodes[idx];
+        let neighborNode;
+        if (idx == 0 && direction == 'prev') {
+            neighborNode = startingPerson;
+        }
+        else {
+            neighborNode = nodes[idx - 1];
+        }
+
+        const connectionVal = thisNode.credits.IDs.has(neighborNode.data.id);
+        connectionsTest.current.push(connectionVal)
+        return connectionVal;
     }
 
     useEffect(() => {
@@ -147,7 +165,6 @@ const NodeManager = ({ toggleHint, setShowGameOverPopup }) => {
                     ref={startingImgRef}
                     person={startingPerson}
                     connectionVal={connections[0]}
-                    toggleHint={() => toggleHint(startingPerson)}
                 />
 
                 {nodes.map((node, idx) => (
@@ -158,13 +175,11 @@ const NodeManager = ({ toggleHint, setShowGameOverPopup }) => {
                         />
                         <Node
                             ref={el => nodeRefs.current[idx] = el}
-                            type={node.id % 2 === 0 ? 'person' : 'movie'}
-                            selectedResult={node.data}
-                            setSelectedResult={result => setNodeData(node.id, result)}
+                            self={node}
+                            setNodeData={setNodeData}
                             deleteLastNode={deleteLastNode}
                             toggleSearchBar={() => {toggleSearchBar(node.id)}}
                             connectionVal={connections[idx] || connections[idx + 1] || false}
-                            toggleHint={() => toggleHint(node)}
                         />
                     </React.Fragment>
                 ))}
@@ -174,7 +189,6 @@ const NodeManager = ({ toggleHint, setShowGameOverPopup }) => {
                     ref={endingImgRef}
                     person={endingPerson}
                     connectionVal={connections['ending']}
-                    toggleHint={() => toggleHint(endingPerson)}
                 />
             </div>
 
@@ -190,7 +204,6 @@ const NodeManager = ({ toggleHint, setShowGameOverPopup }) => {
                                 results = {results} 
                                 onResultClick={handleResultClick} 
                                 type={getNodeType(nodes[showSearchBarFor - 1])} 
-                                nodes={[startingPerson, ...nodes, endingPerson]}
                             />
                         </div>
                     </div> 

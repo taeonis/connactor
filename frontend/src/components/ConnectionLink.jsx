@@ -13,7 +13,6 @@ const ConnectionLink = ( { position, connectionVal }) => {
         alignment = ' align-bottom';
     }
     
-
     return (
         <div className={`item connector${alignment}`}>
             <img src = {imgSrc}
