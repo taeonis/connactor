@@ -1,18 +1,18 @@
-import React, {useState, forwardRef} from 'react';
-import { getLastNonEmptyNode, getNodeType } from '../utils/nodeHelpers';
+import {forwardRef} from 'react';
+import { getLastNonEmptyNode } from '../utils/nodeHelpers';
+import { useGame } from '../context/GameContext';
 import './Node.css'
 
-const Node = forwardRef(({type, selectedResult, setSelectedResult, gameOver, nodes, deleteLastNode, toggleSearchBar, connectionVal, toggleHint}, ref) => {
-
+const Node = forwardRef(({type, selectedResult, setSelectedResult, deleteLastNode, toggleSearchBar, connectionVal, toggleHint}, ref) => {
+    const { gameOver, setGameOver, nodes, setNodes, startingPerson, setStartingPerson, endingPerson, setEndingPerson, } = useGame();
     const handleDelete = () => {
         setSelectedResult(null);
         deleteLastNode();
     }
 
     const nodeIsDeletable = () => {
-        let lastNode = getLastNonEmptyNode(nodes, true);
-
-        if (lastNode?.data?.id === selectedResult?.id && getNodeType(lastNode) === type) {
+        let lastNode = getLastNonEmptyNode(nodes);
+        if (lastNode?.data === selectedResult) {
             return true
         }
         return false;

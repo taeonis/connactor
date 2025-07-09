@@ -1,33 +1,19 @@
 import './HintManager.css';
 import React, { useEffect, useState, useRef } from "react";
 
-const HintManager = ({ node, cache, toggleHint }) => {
-    const [showHints, setShowHints] = useState(false);
-
-    console.log(cache);
-
-    let image_paths_list = node.id % 2 === 0 ? [...cache['people'][node.data.id]['images']] : [...cache['movies'][node.data.id]['images']];
-    let name_or_title = node.id % 2 === 0 ? node.data.name : node.data.title;
-
-    useEffect(() =>{
-        setShowHints(false);
-    }, [node])
+const HintManager = ({ node, toggleHint, setHintsEnabledFor, hintsEnabledFor }) => {
+    const nodeType = node.id % 2 === 0 ? 'person' : 'movie';
+    const hintIcon = hintsEnabledFor[node.data.id] === nodeType 
+        ? 'https://cdn-icons-png.flaticon.com/128/427/427735.png' 
+        : 'https://cdn-icons-png.flaticon.com/128/2961/2961545.png';
 
     return (
         <div className="hint-manager">
             <div className='title-bar'>
-                <big className='name-title'>{name_or_title}</big>
-
-                <label className='switch'>
-                    <input 
-                        type='checkbox' 
-                        checked={showHints}
-                        onChange={() => setShowHints(prev => !prev)}
-                    />
-                    <span className='slider round'></span>
-                </label>
-
-
+                <big className='name-title'>{node.data.name || node.data.title}</big>
+                <img src={hintIcon}
+                    onClick={() => setHintsEnabledFor(prev => ({ ...prev, [node.data.id]: nodeType }))}
+                />
                 <img 
                     className='close-button'
                     src='/delete.png'
@@ -36,9 +22,9 @@ const HintManager = ({ node, cache, toggleHint }) => {
 
             </div>
             
-            {showHints && (
+            { hintsEnabledFor[node.data.id] === nodeType && (
                 <div className='hint-box'>
-                    {image_paths_list.map((image_path, idx) => (
+                    {node.credits.images.map((image_path, idx) => (
                         <img
                             key={idx}
                             className='hint-picture'

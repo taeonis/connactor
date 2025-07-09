@@ -11,6 +11,9 @@ const Instructions = ({ toggleInstructions }) => {
                 <img className='long-chain' src='/long_chain.png'/>
                 <p>...but this is better!</p>
                 <img className='short-chain' src='/short_chain.png'/>
+                <p>Click on </p>
+                <img src='/hint_icon.png'/>
+                <p>to view the name of the person/title of the movie. Click on the lightbulb and use a hint to view that person's movie credits or that movie's cast</p>
             </div>
         </div>
     )

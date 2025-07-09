@@ -1,22 +1,20 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import Node from "./Node";
 import StaticNode from './StaticNode';
 import './NodeManager.css';
 import ConnectionLink from './ConnectionLink'
 import { SearchBar } from './SearchBar';
 import { SearchResultsList } from './SearchResultsList';
-import { getPairIDS, lastNodeIsEmpty, getLastNonEmptyNode, getNodeType, checkPersonInMovie, updateCache } from '../utils/nodeHelpers';
+import { getLastNonEmptyNode, getNodeType, fetchCredits } from '../utils/nodeHelpers';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import * as animations from "../utils/animations";
+import { useGame } from '../context/GameContext';
 
 gsap.registerPlugin(useGSAP);
 
-const NodeManager = ({ nodeProps, gameOverProps, startingProps, endingProps, cache, toggleHint }) => {
-    const { nodes, setNodes } = nodeProps;
-    const { gameOver, setGameOver } = gameOverProps;
-    const { startingPerson, setStartingPerson } = startingProps;
-    const { endingPerson, setEndingPerson } = endingProps;
+const NodeManager = ({ toggleHint, setShowGameOverPopup }) => {
+    const { gameOver, setGameOver, nodes, setNodes, startingPerson, setStartingPerson, endingPerson, setEndingPerson, } = useGame();
 
     const startingImgRef = useRef(null);
     const endingImgRef = useRef(null);
@@ -44,16 +42,15 @@ const NodeManager = ({ nodeProps, gameOverProps, startingProps, endingProps, cac
     };
 
     const setNodeData = async (id, result) => {
+        const updatedNode = {id: id, data: result, credits: {}};
+        if (result != null) {
+            await fetchCredits(updatedNode);
+        }
         setNodes(prev =>
             prev.map(node =>
-                node.id === id ? { ...node, data: result } : node
+                node.id === id ? updatedNode : node
             )
         );
-
-        if (result !== null) {
-            const type = id % 2 === 0 ? 'people' : 'movies';
-            await updateCache(cache, type, result.id);
-        }
     };
 
     const handleResultClick = (result) => {
@@ -62,12 +59,9 @@ const NodeManager = ({ nodeProps, gameOverProps, startingProps, endingProps, cac
     }
 
     const createNextNode = () => {
-        let new_nodes = document.getElementsByClassName('new');
-
-        console.log(new_nodes);
         setNodes(prevNodes => [
             ...prevNodes,
-            { id: prevNodes.length + 1, data: null }
+            { id: prevNodes.length + 1, data: null, credits: {} }
         ]);
     };
     
@@ -83,29 +77,30 @@ const NodeManager = ({ nodeProps, gameOverProps, startingProps, endingProps, cac
         if (nodes[nodes.length - 1].data === null) {
             deleteLastNode();
         }
-        await animations.winWave(allNodeRefs);
         setGameOver(true);
+        await animations.winWave(allNodeRefs);
+        setShowGameOverPopup(true);
     }
 
     useEffect(() => {
-        fetch('/api/test-pair')
-            .then(res => res.json())
-            .then(returnedPair => {
-                setStartingPerson(prev => ({
-                    ...prev,
-                    data: returnedPair.starting_person
-                }));
-                updateCache(cache, 'people', returnedPair.starting_person.id);
+        async function fetchData() {
+            try {
+                const res = await fetch('/api/test-pair');
+                const returnedPair = await res.json();
 
-                setEndingPerson(prev => ({
-                    ...prev,
-                    data: returnedPair.ending_person
-                }));
-                updateCache(cache, 'people', returnedPair.ending_person.id);
-            })
-            .catch(error => {
+                const newStartingPerson = {id: 0, data: returnedPair.starting_person, credits: {}};
+                await fetchCredits(newStartingPerson);
+                setStartingPerson(newStartingPerson);
+
+                const newEndingPerson = {id: 12, data: returnedPair.ending_person, credits: {}};
+                await fetchCredits(newEndingPerson);
+                setEndingPerson(newEndingPerson);
+
+            } catch (error) {
                 console.error('Error fetching pair:', error);
-            });
+            }
+        }
+        fetchData();
     }, []); 
 
     useEffect(() => {
@@ -127,23 +122,22 @@ const NodeManager = ({ nodeProps, gameOverProps, startingProps, endingProps, cac
     }, [connections, allConnectionsTrue]);
 
     useEffect(() => {
-        const fetchConnections = async () => {
-            const newConnections = {};
-            for (let idx = 0; idx < nodes.length; idx++) {
-                const { personID, movieID } = getPairIDS(nodes, idx, startingPerson);
-                if (personID && movieID) {
-                    const connection = await checkPersonInMovie(cache, personID, movieID);
-                    newConnections[idx] = connection;
-                }
+        const newConnections = {};
+        for (let idx = 0; idx < nodes.length; idx++) {
+            const thisNode = nodes[idx];
+            const prevNode = idx === 0 ? startingPerson : nodes[idx - 1];
+            if (thisNode.data != null && prevNode.data != null) {
+                const connection = thisNode.credits.IDs.has(prevNode.data.id);
+                newConnections[idx] = connection;
             }
-            const lastNode = getLastNonEmptyNode(nodes);
-            if (lastNode?.data?.id && endingPerson.data.id) {
-                const connection = await checkPersonInMovie(cache, endingPerson.data.id, lastNode.data.id);
-                newConnections['ending'] = connection;
-            }
-            setConnections(newConnections);
-        };
-        fetchConnections();
+        }
+        const lastNode = getLastNonEmptyNode(nodes);
+        if (lastNode?.data?.id && endingPerson.data.id) {
+            const connection = endingPerson.credits.IDs.has(lastNode.data.id);
+            newConnections['ending'] = connection;
+        }
+        setConnections(newConnections);
+
     }, [[startingPerson, ...nodes, endingPerson].map(n => n.data?.id).join(",")]);
 
     return (
@@ -167,8 +161,6 @@ const NodeManager = ({ nodeProps, gameOverProps, startingProps, endingProps, cac
                             type={node.id % 2 === 0 ? 'person' : 'movie'}
                             selectedResult={node.data}
                             setSelectedResult={result => setNodeData(node.id, result)}
-                            gameOver={gameOver}
-                            nodes={[startingPerson, ...nodes, endingPerson]}
                             deleteLastNode={deleteLastNode}
                             toggleSearchBar={() => {toggleSearchBar(node.id)}}
                             connectionVal={connections[idx] || connections[idx + 1] || false}

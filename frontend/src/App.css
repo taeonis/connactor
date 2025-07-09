@@ -13,7 +13,8 @@
 
 .game-container {
   background-image: linear-gradient(#14181c, rgb(13, 13, 17));
-  min-height: 100vh;
+  height: 812px;
+  /* min-height: 100vh; */
   width: 375px;
   margin: 0 auto;
   border: 5px solid #445566;
