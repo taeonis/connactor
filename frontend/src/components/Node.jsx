@@ -8,6 +8,7 @@ const Node = forwardRef(({self, setNodeData, deleteLastNode, toggleSearchBar, co
     const nodeType = getNodeType(self);
     const isLastNode = getLastNonEmptyNode(nodes)?.data == self.data;
     const imgSrc = nodeType == 'person' ? `https://media.themoviedb.org/t/p/w185${self.data?.profile_path}` : `https://media.themoviedb.org/t/p/w154${self.data?.poster_path}`;
+    const clickable = !gameOver ? ' clickable' : '';
 
     const handleDelete = () => {
         setNodeData(self.id, null);
@@ -18,13 +19,13 @@ const Node = forwardRef(({self, setNodeData, deleteLastNode, toggleSearchBar, co
         <div className={`item node ${nodeType} `} ref={ref}>
             {!self.data ? (
                 <img 
-                    className='node-image clickable'
+                    className={`node-image${clickable}`}
                     src={`/add_${nodeType}.png`} 
                     onClick={toggleSearchBar}
                 />
             ) : (
                 <><img 
-                    className={`node-image clickable ${connectionVal}`}
+                    className={`node-image ${connectionVal}${clickable}`}
                     src={imgSrc}
                     onClick={toggleSearchBar}
                     alt={self.data.name || self.data.title}

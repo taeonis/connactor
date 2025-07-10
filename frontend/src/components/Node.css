@@ -7,7 +7,7 @@
   cursor: pointer;
   z-index: 2;
   opacity: 70%;
-  transition: transform 0.3 ease;
+  transition: transform 0.2s ease;
   display: inline-block;
 }
 .delete-button:hover {
@@ -27,7 +27,7 @@
   cursor: pointer;
   z-index: 2;
   opacity: 70%;
-  transition: transform 0.3 ease;
+  transition: transform 0.2s ease;
   display: inline-block;
 }
 .hint-button:hover {

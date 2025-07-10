@@ -3,19 +3,17 @@ from flask_cors import CORS
 import requests
 from datetime import datetime
 import random
-import os
-
 
 
 app = Flask(__name__, static_folder='../frontend/dist', static_url_path='/')
 CORS(app)
 
 TMDB_API_KEY = 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1YTc0ZjUwMDJmOGQzNjRmMDIwN2ZiNzY4NWU0YjJiYiIsIm5iZiI6MTcxMzkxNTYxNS41Nzc5OTk4LCJzdWIiOiI2NjI4NDZkZjE3NmE5NDAxN2Y4MjQwN2MiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.jaZnUlZDZ-ymiHDFIBbgVJg4plv027Q1084Ut0XKkno'
-
 headers = {
     'accept': 'application/json',
     'Authorization': TMDB_API_KEY
 }
+
 
 @app.route('/')
 def home():
@@ -47,6 +45,7 @@ def get_people():
             filtered = [
                 person for person in page_results
                 if person.get('known_for_department') in ['Acting', 'Directing'] and
+                person.get('popularity', 0) > 0 and
                 person.get('profile_path') is not None
             ]
             results.extend(filtered)
@@ -80,7 +79,9 @@ def get_movies():
             filtered = [
                 movie for movie in page_results if
                 movie.get('popularity', 0) > 0 and
-                movie.get('poster_path') is not None
+                movie.get('poster_path') is not None and
+                movie.get('release_date') != '' and 
+                movie.get('release_date') < datetime.today().strftime('%Y-%m-%d')
             ]
             results.extend(filtered)
 
@@ -109,7 +110,7 @@ def get_person_credits():
         movieIDs.extend([movie.get('id') for movie in crew_for if movie.get('job') == 'Director'])
 
         poster_paths = [movie.get('poster_path') for movie in crew_for if movie.get('job') == 'Director']
-        poster_paths.extend([movie.get('poster_path') for movie in cast_in_sorted if movie.get('popularity', 0) > 2])
+        poster_paths.extend([movie.get('poster_path') for movie in cast_in_sorted if movie.get('poster_path') is not None and movie.get('popularity', 0) > 0])
         
         return jsonify({'IDs': movieIDs, 'images': poster_paths})
     
@@ -127,14 +128,13 @@ def get_movie_credits():
         response.raise_for_status()
 
         cast = response.json().get('cast', [])
-        cast_sorted = sorted(cast, key=lambda movie: movie.get('popularity', 0), reverse=True)
         crew = response.json().get('crew', [])
 
-        personIDs = [person.get('id') for person in cast_sorted]
+        personIDs = [person.get('id') for person in cast]
         personIDs.extend([person.get('id') for person in crew if person.get('job') == 'Director'])
 
         profile_paths = [person.get('profile_path') for person in crew if person.get('job') == 'Director'] # get the director
-        profile_paths.extend([person.get('profile_path') for person in cast_sorted if person.get('popularity', 0) > 2]) # get everyone else
+        profile_paths.extend([person.get('profile_path') for person in cast if person.get('profile_path') is not None]) # get everyone else
 
         return jsonify({'IDs': personIDs, 'images': profile_paths})
     
@@ -177,12 +177,10 @@ def get_daily_pair():
             }
 
         starting_person = get_random_person(url, params)
-        print(f"Starting Person: {starting_person.get('name', 'Unknown')} (ID: {starting_person.get('id')})")
-
-        ending_person = starting_person
+        ending_person = get_random_person(url, params)
         while (ending_person.get('id') == starting_person.get('id')):
             ending_person = get_random_person(url, params)
-        print(f"Ending Person: {ending_person.get('name', 'Unknown')} (ID: {ending_person.get('id')})")
+
             
         return jsonify({
             'starting_person': starting_person,
@@ -224,6 +222,9 @@ def get_random_person(url, params):
         poster_path = chosen_person.get('profile_path', '')
 
     return chosen_person
+
+def calculate_min_path():
+    return
 
 
 if __name__ == '__main__':

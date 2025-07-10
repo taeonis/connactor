@@ -1,3 +1,12 @@
+.NodeManager {
+  border: 2px solid #445566;
+  border-radius: 5px;
+  width: 375px;
+  max-width: 100vw;
+  margin: 0 auto;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4); 
+}
+
 .search-bar-container {
   width: 70vw;
   margin: 0 auto;

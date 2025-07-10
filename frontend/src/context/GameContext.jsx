@@ -10,11 +10,10 @@ export function GameProvider({ children }) {
     const [endingPerson, setEndingPerson] = useState( {id: 12, data: '', credits: {}} );
     const [showHintsFor, setShowHintsFor] = useState(null);
 
-    function toggleHint(node) {
-        setShowHintsFor(prev => (prev === node ? null : node));
-    }
+    const toggleHint = (node) => setShowHintsFor(prev => (prev === node ? null : node));
 
     useEffect(() => {
+        // if node is not currently visible (i.e. not in nodes), don't show hints for it
         if (!nodes.includes(showHintsFor)) {
             toggleHint(null);
         }

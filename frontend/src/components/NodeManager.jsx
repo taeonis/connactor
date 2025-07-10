@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import Node from "./Node";
 import StaticNode from './StaticNode';
-import './NodeManager.css';
 import ConnectionLink from './ConnectionLink'
+import './NodeManager.css';
 import { SearchBar } from './SearchBarComponents/SearchBar';
 import { SearchResultsList } from './SearchBarComponents/SearchResultsList';
 import { getLastNonEmptyNode, getNodeType, fetchCredits } from '../utils/nodeHelpers';
@@ -101,7 +101,7 @@ const NodeManager = ({ setShowGameOverPopup }) => {
     }
 
     useEffect(() => {
-        async function fetchData() {
+        const fetchData = async () => {
             try {
                 const res = await fetch('/api/test-pair');
                 const returnedPair = await res.json();

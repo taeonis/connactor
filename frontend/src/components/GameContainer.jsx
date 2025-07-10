@@ -3,22 +3,19 @@ import { useGame } from '../context/GameContext';
 import NodeManager from './NodeManager';
 import HintManager from './HintManager';
 import Instructions from './Instructions';
+import './GameContainer.css';
+import { FaExchangeAlt } from 'react-icons/fa';
 
-function GameContainer() {
+const GameContainer = () => {
     const { gameOver, nodes, startingPerson, setStartingPerson, endingPerson, setEndingPerson, showHintsFor} = useGame();
     const [showGameOverPopup, setShowGameOverPopup] = useState(false);
     const [showInstructions, setShowInstructions] = useState(false);
     const [hintCache, setHintCache] = useState({}); // format: { ID: type }
 
-    function toggleGameOverPopup() {
-        setShowGameOverPopup(prev => !prev);
-    }
-
-    function toggleInstructions() {
-        setShowInstructions(prev => !prev);
-    }
-
-    function swapStartAndEnd() {
+    const toggleGameOverPopup = () => setShowGameOverPopup(prev => !prev);
+    const toggleInstructions = () => setShowInstructions(prev => !prev);
+    
+    const swapStartAndEnd = () => {
         const tempData = startingPerson.data;
         const tempCredits = startingPerson.credits;
         setStartingPerson(prev => ({
@@ -37,17 +34,23 @@ function GameContainer() {
         <><div className='game-container'>
             <img src='/connactor_logo.png' className='logo-img'/>
 
-            <br/><button onClick={toggleInstructions}>How to play?</button>
+            <div className='game-info-bar'>
+                
+                <img className='instructions-button' src='https://cdn-icons-png.flaticon.com/128/471/471664.png' onClick={toggleInstructions}/>
+                <div className='game-info right'>
+                    {!gameOver && (
+                        <img className='swap-icon' src='https://cdn-icons-png.flaticon.com/128/3031/3031715.png' onClick={swapStartAndEnd}/>
+                        // <b className='swap-button'onClick={swapStartAndEnd}>🔄</b>
+                        // <FaExchangeAlt id="swap-icon" onClick={swapStartAndEnd}/>
+                    )}
+                    <b className='hint-counter'>💡x{Object.keys(hintCache).length}</b>
+                </div>
+            </div>
             {showInstructions && (
                 <Instructions
                     toggleInstructions={toggleInstructions} 
                 />
             )}
-            {!gameOver && (
-                <button onClick={swapStartAndEnd} >Swap Start and End</button>
-            )}
-            
-            <p>Hints used: {Object.keys(hintCache).length}</p>
         
             <NodeManager 
                 setShowGameOverPopup={setShowGameOverPopup}
@@ -65,7 +68,7 @@ function GameContainer() {
                 <div className="gameOverPopup">
                     <h2>Congrats!</h2>
                     <p>You solved today's Connactor in {Math.ceil(nodes.length / 2)} 🎥 {Math.floor(nodes.length / 2)} 🫂 {Object.keys(hintCache).length} 💡</p>
-                    <p>The shortest possible connection was: PLACEHOLDER</p>
+                    <p>The shortest possible connection was: PLACEHOLDER</p> 
                     <button onClick={() => toggleGameOverPopup()}>Close</button>
                 </div>
             </div>

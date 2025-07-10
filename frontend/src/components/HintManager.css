@@ -1,11 +1,11 @@
 .hint-manager {
-  max-width: 350px;
+  max-width: 325px;
   margin: 0 auto;
 }
 
 .close-button {
   width: 50px;
-  transition: transform 0.5 ease;
+  transition: transform 0.2s ease;
   cursor: pointer;
   display: inline-block;
 }
@@ -13,9 +13,26 @@
   transform: rotate(10deg);
 }
 .close-button:active {
-    transform: scale(0.95);
-    box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
+  transform: scale(0.95);
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
 }
+
+.credit-button {
+  width: 50px;
+  transition: transform 0.2s ease;
+  display: inline-block;
+}
+.credit-button.false {
+  cursor: pointer;
+}
+.credit-button.false:hover {
+  transform: rotate(10deg);
+}
+.credit-button.false:active {
+  transform: scale(0.95);
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
+}
+
 
 .name-title {
   font-size: 2;     
@@ -30,18 +47,17 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 16px;
-  border-radius: 5px;
+  padding: 8px 16px;
+  /* border-radius: 5px; */
 }
 
-
 .hint-box {
-    max-width: 300px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 8px;                               /* spacing between items */
-    padding: 10px;
+  max-width: 300px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;                               /* spacing between items */
+  padding: 10px;
 }
 
 .hint-picture {

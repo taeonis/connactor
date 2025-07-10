@@ -14,7 +14,9 @@ const HintManager = ({ setHintCache, hintCache}) => {
         <div className="hint-manager">
             <div className='title-bar'>
                 <big className='name-title'>{showHintsFor.data.name || showHintsFor.data.title}</big>
-                <img src={hintIcon}
+                <img 
+                    className={`credit-button ${hintCache[showHintsFor.data.id] == nodeType}`}
+                    src={hintIcon}
                     onClick={() => setHintCache(prev => ({ ...prev, [showHintsFor.data.id]: nodeType }))}
                 />
                 <img 

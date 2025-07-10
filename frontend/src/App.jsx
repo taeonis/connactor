@@ -2,7 +2,7 @@ import './App.css'
 import { GameProvider } from './context/GameContext';
 import GameContainer from './components/GameContainer'
 
-function App() {
+const App = () => {
     
     return (
         <GameProvider>
