@@ -7,8 +7,9 @@ const Instructions = ({ toggleInstructions }) => {
                 <h2>How to play?</h2>
                 <p>Everyone in Hollywood is connected...</p>
                 <p>If you've ever played Seven Degrees of Kevin Bacon, this game is essentially that. The goal is connect the starting person to the ending person using as few intermediate people as possible.</p>
-                <p>So this is a valid solution...</p>
-                <img className='long-chain' src='/long_chain.png'/>
+                <p>So this is a valid solution...
+                    <img className='long-chain' src='/long_chain.png'/>
+                </p>
                 <p>...but this is better!</p>
                 <img className='short-chain' src='/short_chain.png'/>
                 <p>Click on </p>
