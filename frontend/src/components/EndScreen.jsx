@@ -3,7 +3,7 @@ import { useGame } from '../context/GameContext';
 const EndScreen = ({ toggleGameOverPopup, hintCache }) => { 
     const { nodes } = useGame();
     return (
-        <div id="gameover-overlay" className='overlay' onClick={toggleGameOverPopup}>
+        <div id="gameover-overlay" className='popup-overlay' onClick={toggleGameOverPopup}>
             <div className='popup gameover' onClick={e => e.stopPropagation()}>
                 <img className='close-instructions-icon' src='/delete.png' onClick={toggleGameOverPopup} />
                 <div className='popup-text'>

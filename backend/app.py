@@ -146,7 +146,7 @@ def get_movie_credits():
 def get_daily_pair_test():
     try:
         url1 = 'https://api.themoviedb.org/3/search/person?query=hugh%20jackman&include_adult=false&language=en-US&page=1'
-        url2 = 'https://api.themoviedb.org/3/search/person?query=charlie%20day&include_adult=false&language=en-US&page=1'
+        url2 = 'https://api.themoviedb.org/3/search/person?query=ryan%20reynolds&include_adult=false&language=en-US&page=1'
         
         response1 = requests.get(url1, headers=headers)
         response1.raise_for_status()

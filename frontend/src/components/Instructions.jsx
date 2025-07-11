@@ -2,7 +2,7 @@ import './Instructions.css'
 
 const Instructions = ({ toggleInstructions }) => { 
     return (
-        <div id='instructions-overlay' className='overlay' onClick={toggleInstructions}>
+        <div id='instructions-overlay' className='popup-overlay' onClick={toggleInstructions}>
             <div className='popup instructions' onClick={e => e.stopPropagation()}>
                 <img className='close-instructions-icon' src='/delete.png' onClick={toggleInstructions} />
                 <div className='popup-text'>

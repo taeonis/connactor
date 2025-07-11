@@ -1,6 +1,6 @@
 
 .popup {
-  background:  #20272e;
+  background: #20272e;
   box-shadow: 0 0 15px rgba(0,0,0,0.3);
   height: 85vh;
   width: 475px;
@@ -26,7 +26,7 @@
 }
 
 .final-score {
-  font-size: 50px;
+  font-size: 40px;
 }
 
 .close-instructions-icon {
