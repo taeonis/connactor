@@ -145,8 +145,8 @@ def get_movie_credits():
 @app.route('/api/test-pair', methods=['GET'])
 def get_daily_pair_test():
     try:
-        url1 = 'https://api.themoviedb.org/3/search/person?query=colin%20farrells&include_adult=false&language=en-US&page=1'
-        url2 = 'https://api.themoviedb.org/3/search/person?query=cillian%20murphy&include_adult=false&language=en-US&page=1'
+        url1 = 'https://api.themoviedb.org/3/search/person?query=hugh%20jackman&include_adult=false&language=en-US&page=1'
+        url2 = 'https://api.themoviedb.org/3/search/person?query=charlie%20day&include_adult=false&language=en-US&page=1'
         
         response1 = requests.get(url1, headers=headers)
         response1.raise_for_status()

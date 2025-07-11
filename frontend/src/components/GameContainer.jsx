@@ -3,6 +3,7 @@ import { useGame } from '../context/GameContext';
 import NodeManager from './NodeManager';
 import HintManager from './HintManager';
 import Instructions from './Instructions';
+import EndScreen from './EndScreen';
 import './GameContainer.css';
 import { CSSTransition } from 'react-transition-group';
 
@@ -36,10 +37,15 @@ const GameContainer = () => {
             <img src='/connactor_logo.png' className='logo-img'/>
 
             <div className='game-info-bar'>
-                <img className='instructions-button' src='https://cdn-icons-png.flaticon.com/128/471/471664.png' onClick={toggleInstructions}/>
+                <div className='game-info left'>
+                    <img className='instructions-button' src='https://cdn-icons-png.flaticon.com/128/471/471664.png' onClick={toggleInstructions}/>
+                    <button>Archive</button>
+                </div>
                 <div className='game-info right'>
-                    {!gameOver && (
+                    {!gameOver ? (
                         <img className='swap-icon' src='https://cdn-icons-png.flaticon.com/128/3031/3031715.png' onClick={swapStartAndEnd}/>
+                    ) : (
+                        <img className='swap-icon' src='https://cdn-icons-png.flaticon.com/128/1358/1358023.png' onClick={toggleGameOverPopup}/>
                     )}
                     <b className='hint-counter'>💡x{Object.keys(hintCache).length}</b>
                 </div>
@@ -70,14 +76,10 @@ const GameContainer = () => {
         </div>
         
         {gameOver && showGameOverPopup && (
-            <div id="gameOverOverlay" className="overlay" onClick={toggleGameOverPopup}>
-                <div className="gameOverPopup">
-                    <h2>Congrats!</h2>
-                    <p>You solved today's Connactor in {Math.ceil(nodes.length / 2)}🎥 {Math.floor(nodes.length / 2)}🫂 {Object.keys(hintCache).length}💡</p>
-                    <p>The shortest possible connection was: PLACEHOLDER</p> 
-                    <button onClick={() => toggleGameOverPopup()}>Close</button>
-                </div>
-            </div>
+            <EndScreen 
+                toggleGameOverPopup={toggleGameOverPopup}
+                hintCache={hintCache}
+            />
         )}</>
     )
 }
