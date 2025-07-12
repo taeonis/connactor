@@ -10,7 +10,7 @@ const HintManager = forwardRef(({ setHintCache, hintCache}, ref) => {
     const nodeType = getNodeType(showHintsFor);
     const nameOrTitle = showHintsFor ? showHintsFor.data.name || showHintsFor.data.title : ''; 
     const hintsToggled = showHintsFor ? hintCache[showHintsFor.data.id] == nodeType : false;
-    const hintIcon = hintsToggled ? 'https://cdn-icons-png.flaticon.com/128/427/427735.png' : 'https://cdn-icons-png.flaticon.com/128/2961/2961545.png';
+    const hintIcon = hintsToggled ? /*'https://cdn-icons-png.flaticon.com/128/427/427735.png'*/ '/lit_bulb.png' : '/unlit_bulb.png';
     const hintImages = hintsToggled ? showHintsFor.credits.images : [];
 
     const handleImageLoad = (idx) => {
@@ -24,17 +24,14 @@ const HintManager = forwardRef(({ setHintCache, hintCache}, ref) => {
     return (
         <div className="hint-manager">
             <div ref={ref} className='hint-title-bar'>
-                <big className='name-title'>{ nameOrTitle }</big>
-                <img 
-                    className={`lightbulb-icon ${ hintsToggled }`}
-                    src={ hintIcon }
-                    onClick={() => setHintCache(prev => ({ ...prev, [showHintsFor.data.id]: nodeType }))}
-                />
-                <img 
-                    className='close-hints-icon'
-                    src='/delete.png'
-                    onClick={() => toggleHint(null)}
-                />
+                <b><big className='name-title'>{ nameOrTitle }</big></b>
+                <div className='title-bar-right'>
+                    <img 
+                        className={`lightbulb-icon ${ hintsToggled }`}
+                        src={ hintIcon }
+                        onClick={() => setHintCache(prev => ({ ...prev, [showHintsFor.data.id]: nodeType }))}
+                    />
+                </div>
 
             </div>
             

@@ -14,6 +14,45 @@ export function correctJump(ref) {
     );
 }
 
+export function trophyJump(ref) {
+    const tl = gsap.timeline();
+
+    tl.to({}, { 
+        duration: 0.3 
+    })
+    .to(ref, {
+        y: -20,         
+        duration: 0.3,
+        ease: "power2.out",
+    })
+    .to(ref, {
+        y: -20,        
+        duration: 0.2,
+    })
+    .to(ref, {
+        y: 0,        
+        duration: 0.6,
+        ease: "bounce.out",
+    });
+}
+
+export function openPopup(ref) {
+    gsap.fromTo(ref.current,
+        { opacity: 0, y: 100 },
+        { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" }
+    );
+}
+
+export function closePopup(ref) {
+    gsap.to(ref.current, {
+        opacity: 0,
+        y: 100,
+        duration: 0.25,
+        ease: 'power2.in',
+    });
+}
+
+
 export function winWave(refs) { // returns a promise
     const animations = refs.map((el, idx) => {
         if (!el) return Promise.resolve(); 

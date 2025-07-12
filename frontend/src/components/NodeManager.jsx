@@ -3,6 +3,7 @@ import Node from "./Node";
 import StaticNode from './StaticNode';
 import ConnectionLink from './ConnectionLink'
 import './NodeManager.css';
+import './Popups.css'
 import { SearchBar } from './SearchBarComponents/SearchBar';
 import { SearchResultsList } from './SearchBarComponents/SearchResultsList';
 import { getLastNonEmptyNode, getNodeType, fetchCredits } from '../utils/nodeHelpers';
@@ -37,10 +38,14 @@ const NodeManager = ({ setShowGameOverPopup }) => {
     
     const toggleSearchBar = (id) => {
         if (!gameOver) {
-            setShowSearchBarFor(id);
             if (id == null) {
                 setResults([])
+                document.body.style.overflow = '';
             }
+            else {
+                document.body.style.overflow = 'hidden'
+            }
+            setShowSearchBarFor(id);
         }
     };
 
