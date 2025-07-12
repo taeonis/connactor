@@ -10,7 +10,7 @@ import * as animations from "../utils/animations";
 import gsap from 'gsap';
 
 const GameContainer = () => {
-    const { gameOver, nodes, startingPerson, setStartingPerson, endingPerson, setEndingPerson, showHintsFor} = useGame();
+    const { gameOver, startingPerson, setStartingPerson, endingPerson, setEndingPerson, showHintsFor} = useGame();
     const hintManagerRef = useRef(null);
     const instructionsRef = useRef(null);
     const endScreenRef = useRef(null);

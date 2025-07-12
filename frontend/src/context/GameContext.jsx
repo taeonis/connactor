@@ -9,6 +9,7 @@ export function GameProvider({ children }) {
     const [startingPerson, setStartingPerson] = useState( {id: 0, data: '', credits: {}} );
     const [endingPerson, setEndingPerson] = useState( {id: 12, data: '', credits: {}} );
     const [showHintsFor, setShowHintsFor] = useState(null);
+    const minPath = Infinity;
 
     const toggleHint = (node) => setShowHintsFor(prev => (prev === node ? null : node));
 
@@ -35,7 +36,7 @@ export function GameProvider({ children }) {
 
     return (
         <GameContext.Provider value={value}>
-        {children}
+            {children}
         </GameContext.Provider>
     );
 }

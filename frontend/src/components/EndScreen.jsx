@@ -27,13 +27,16 @@ const EndScreen =  forwardRef(({ show, toggleGameOverPopup, hintCache }, ref) =>
     return (
         <div id="gameover-overlay" className='popup-overlay' onClick={toggleGameOverPopup}>
             <div ref={ref} className='popup gameover' onClick={e => e.stopPropagation()}>
-                {/* <img className='close-popup-icon' src='/delete.png' onClick={toggleGameOverPopup} /> */}
+                <img className='close-popup-icon' src='/delete.png' onClick={toggleGameOverPopup} />
                 <img ref={trophyRef} className='trophy' src='/trophy.png' />
                 <div className='popup-text'>
                     <h2>Congrats!</h2>
                     <hr />
                     <p>You solved today's Connactor in: </p>
                     <p className='final-score'><b>{finalScore}</b></p>
+                    {Object.keys(hintCache).length == 0 && (
+                        <p>(Wow, no hints)</p>
+                    )}
                 </div>
                 <button className={`share-button ${!copied ? '' : 'copied'}`} onClick={handleCopy}> {!copied ? 'Share' : 'Copied!'} </button>
                 <div className='popup-text'>
