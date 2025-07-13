@@ -1,6 +1,4 @@
 from flask import Blueprint, request, jsonify, send_from_directory
-import requests
-from datetime import datetime
 from helpers import *
 
 routes = Blueprint('routes', __name__, static_folder='../../frontend/dist', static_url_path='/')
@@ -78,32 +76,6 @@ def get_daily_pair_test():
 def get_min_path():
     start_id = request.args.get('start_id', '')
     end_id = request.args.get('end_id', '')
-    print('calculating...')
     shortest_path = find_shortest_path(start_id, end_id)
-    print('shortest path: ', shortest_path)
 
     return jsonify({'shortest_path': shortest_path})
-
-
-# @routes.route('/api/daily-pair', methods=['GET'])
-# def get_daily_pair():
-#     try:
-#         url = 'https://api.themoviedb.org/3/person/popular'
-#         params = {
-#                 'language': 'en-US',
-#                 'page': 1
-#             }
-
-#         starting_person = get_random_person(url, params)
-#         ending_person = get_random_person(url, params)
-#         while (ending_person.get('id') == starting_person.get('id')):
-#             ending_person = get_random_person(url, params)
-
-            
-#         return jsonify({
-#             'starting_person': starting_person,
-#             'ending_person': ending_person
-#         })
-
-#     except Exception as e:
-#         return jsonify({'error': str(e)}), 500

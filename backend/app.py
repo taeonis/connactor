@@ -1,9 +1,11 @@
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
-import requests
-from datetime import datetime
-import random
 from routes import routes
+from daily_updater import update_starting_pair
+from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.triggers.cron import CronTrigger
+import atexit
+
 
 app = Flask(__name__, static_folder='../frontend/dist', static_url_path='/')
 CORS(app)
@@ -16,9 +18,26 @@ headers = {
 
 app.register_blueprint(routes)
 
+scheduler = BackgroundScheduler()
 
+def create_app():
+    app = Flask(__name__)
+    app.register_blueprint(routes)
 
+    scheduler.add_job(
+        func=update_starting_pair,
+        #trigger=CronTrigger(hour=0, minute=0),
+        trigger=CronTrigger(minute='*'),
+        id='daily_updater',
+        replace_existing=True
+    )
+
+    scheduler.start()
+    atexit.register(lambda: scheduler.shutdown())
+
+    return app
 
 
 if __name__ == '__main__':
+    app = create_app()
     app.run(debug=True, port=5001)

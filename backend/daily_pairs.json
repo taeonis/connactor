@@ -1,153 +1,154 @@
 {
-    "2025-07-12": [
+    "2025-07-13": [
         {
             "adult": false,
             "gender": 2,
-            "id": 12074,
+            "id": 2037,
             "known_for_department": "Acting",
-            "name": "John Lithgow",
-            "original_name": "John Lithgow",
-            "popularity": 3.4867,
-            "profile_path": "/8Y1sjBdnVR483S8PrnAQzlESwhx.jpg",
+            "name": "Cillian Murphy",
+            "original_name": "Cillian Murphy",
+            "popularity": 7.7225,
+            "profile_path": "/ycZpLjHxsNPvsB6ndu2D9qsx94X.jpg",
             "known_for": [
                 {
                     "adult": false,
-                    "backdrop_path": "/sRvXNDItGlWCqtO3j6wks52FmbD.jpg",
-                    "id": 808,
-                    "title": "Shrek",
-                    "original_title": "Shrek",
-                    "overview": "It ain't easy bein' green -- especially if you're a likable (albeit smelly) ogre named Shrek. On a mission to retrieve a gorgeous princess from the clutches of a fire-breathing dragon, Shrek teams up with an unlikely compatriot -- a wisecracking donkey.",
-                    "poster_path": "/iB64vpL3dIObOtMZgX3RqdVdQDc.jpg",
-                    "media_type": "movie",
+                    "backdrop_path": "/ytQrbnfvblnbNRGoHAKsSrAo3B0.jpg",
+                    "id": 60574,
+                    "name": "Peaky Blinders",
+                    "original_name": "Peaky Blinders",
+                    "overview": "A gangster family epic set in 1919 Birmingham, England and centered on a gang who sew razor blades in the peaks of their caps, and their fierce boss Tommy Shelby, who means to move up in the world.",
+                    "poster_path": "/vUUqzWa2LnHIVqkaKVlVGkVcZIW.jpg",
+                    "media_type": "tv",
                     "original_language": "en",
                     "genre_ids": [
-                        16,
-                        35,
-                        14,
-                        12,
-                        10751
-                    ],
-                    "popularity": 21.6616,
-                    "release_date": "2001-05-18",
-                    "video": false,
-                    "vote_average": 7.753,
-                    "vote_count": 17800
-                },
-                {
-                    "adult": false,
-                    "backdrop_path": "/l33oR0mnvf20avWyIMxW02EtQxn.jpg",
-                    "id": 157336,
-                    "title": "Interstellar",
-                    "original_title": "Interstellar",
-                    "overview": "The adventures of a group of explorers who make use of a newly discovered wormhole to surpass the limitations on human space travel and conquer the vast distances involved in an interstellar voyage.",
-                    "poster_path": "/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg",
-                    "media_type": "movie",
-                    "original_language": "en",
-                    "genre_ids": [
-                        12,
                         18,
-                        878
+                        80
                     ],
-                    "popularity": 36.0757,
-                    "release_date": "2014-11-05",
-                    "video": false,
-                    "vote_average": 8.456,
-                    "vote_count": 37403
+                    "popularity": 154.5623,
+                    "first_air_date": "2013-09-12",
+                    "vote_average": 8.531,
+                    "vote_count": 10456,
+                    "origin_country": [
+                        "GB"
+                    ]
                 },
                 {
                     "adult": false,
-                    "backdrop_path": "/dENLz9Np9EV5Ro8UIBhbKC8BmSS.jpg",
-                    "id": 61791,
-                    "title": "Rise of the Planet of the Apes",
-                    "original_title": "Rise of the Planet of the Apes",
-                    "overview": "A highly intelligent chimpanzee named Caesar has been living a peaceful suburban life ever since he was born. But when he gets taken to a cruel primate facility, Caesar decides to revolt against those who have harmed him.",
-                    "poster_path": "/cjLsuP75UDlRdJVMXzXg3TJ4umX.jpg",
+                    "backdrop_path": "/neeNHeXjMF5fXoCJRsOmkNGC7q.jpg",
+                    "id": 872585,
+                    "title": "Oppenheimer",
+                    "original_title": "Oppenheimer",
+                    "overview": "The story of J. Robert Oppenheimer's role in the development of the atomic bomb during World War II.",
+                    "poster_path": "/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg",
                     "media_type": "movie",
                     "original_language": "en",
                     "genre_ids": [
+                        18,
+                        36
+                    ],
+                    "popularity": 29.618,
+                    "release_date": "2023-07-19",
+                    "video": false,
+                    "vote_average": 8.056,
+                    "vote_count": 10426
+                },
+                {
+                    "adult": false,
+                    "backdrop_path": "/3s7uwQKH0WmaeO7VCqAOK3C5gjF.jpg",
+                    "id": 170,
+                    "title": "28 Days Later",
+                    "original_title": "28 Days Later",
+                    "overview": "Twenty-eight days after a killer virus was accidentally unleashed from a British research facility, a small group of London survivors are caught in a desperate struggle to protect themselves from the infected. Carried by animals and humans, the virus turns those it infects into homicidal maniacs -- and it's absolutely impossible to contain.",
+                    "poster_path": "/sQckQRt17VaWbo39GIu0TMOiszq.jpg",
+                    "media_type": "movie",
+                    "original_language": "en",
+                    "genre_ids": [
+                        27,
                         53,
-                        28,
-                        18,
                         878
                     ],
-                    "popularity": 7.9877,
-                    "release_date": "2011-08-03",
+                    "popularity": 34.8458,
+                    "release_date": "2002-10-31",
                     "video": false,
-                    "vote_average": 7.335,
-                    "vote_count": 12226
+                    "vote_average": 7.234,
+                    "vote_count": 7528
                 }
             ]
         },
         {
             "adult": false,
-            "gender": 1,
-            "id": 21657,
+            "gender": 2,
+            "id": 72466,
             "known_for_department": "Acting",
-            "name": "Vera Farmiga",
-            "original_name": "Vera Farmiga",
-            "popularity": 3.0331,
-            "profile_path": "/5Vs7huBmTKftwlsc2BPAntyaQYj.jpg",
+            "name": "Colin Farrell",
+            "original_name": "Colin Farrell",
+            "popularity": 5.203,
+            "profile_path": "/nqcU2IEpKbZlpmPsVQMbTN46psI.jpg",
             "known_for": [
                 {
                     "adult": false,
-                    "backdrop_path": "/mXndmCbpvlqnD6po0EMfxEZcUSn.jpg",
-                    "id": 138843,
-                    "title": "The Conjuring",
-                    "original_title": "The Conjuring",
-                    "overview": "Paranormal investigators Ed and Lorraine Warren work to help a family terrorized by a dark presence in their farmhouse. Forced to confront a powerful entity, the Warrens find themselves caught in the most terrifying case of their lives.",
-                    "poster_path": "/wVYREutTvI2tmxr6ujrHT704wGF.jpg",
+                    "backdrop_path": "/2wiMb1RBskEW9Uml5bGDEUHFbv8.jpg",
+                    "id": 254320,
+                    "title": "The Lobster",
+                    "original_title": "The Lobster",
+                    "overview": "In a dystopian near future, single people, according to the laws of The City, are taken to The Hotel, where they are obliged to find a romantic partner in forty-five days or are transformed into animals and sent off into The Woods.",
+                    "poster_path": "/7Y9ILV1unpW9mLpGcqyGQU72LUy.jpg",
                     "media_type": "movie",
                     "original_language": "en",
                     "genre_ids": [
-                        27,
-                        53
+                        35,
+                        18,
+                        10749
                     ],
-                    "popularity": 19.7704,
-                    "release_date": "2013-07-18",
+                    "popularity": 4.7608,
+                    "release_date": "2015-10-15",
                     "video": false,
-                    "vote_average": 7.539,
-                    "vote_count": 11932
+                    "vote_average": 7,
+                    "vote_count": 6477
                 },
                 {
                     "adult": false,
-                    "backdrop_path": "/z7tBFs4Jw4T1TcT3VROsOoIIaiE.jpg",
-                    "id": 21208,
-                    "title": "Orphan",
-                    "original_title": "Orphan",
-                    "overview": "After losing their baby, a married couple adopt 9-year old Esther, who may not be as innocent as she seems.",
-                    "poster_path": "/lCGpOgoTOGLtZnBiGY9HRg5Xnjd.jpg",
+                    "backdrop_path": "/giHTf3nGlCU7gd6vFAlTxBfQtvr.jpg",
+                    "id": 64635,
+                    "title": "Total Recall",
+                    "original_title": "Total Recall",
+                    "overview": "Factory worker Doug Quaid takes a virtual mind-trip vacation with the Rekall company, opting for implanted memories of being a spy. When the procedure goes wrong, Quaid becomes a wanted man by the police and joins forces with a rebel fighter to stop the evil Chancellor Cohaagen.",
+                    "poster_path": "/fucmGeZYM4yzqJUnDTc4pKQNCej.jpg",
                     "media_type": "movie",
                     "original_language": "en",
                     "genre_ids": [
-                        27,
+                        28,
+                        878,
                         53
                     ],
-                    "popularity": 6.1685,
-                    "release_date": "2009-07-24",
+                    "popularity": 4.9848,
+                    "release_date": "2012-08-02",
                     "video": false,
-                    "vote_average": 6.997,
-                    "vote_count": 5372
+                    "vote_average": 6,
+                    "vote_count": 5594
                 },
                 {
                     "adult": false,
-                    "backdrop_path": "/8ZOKxGpGTc3YVduorvBIbQhncBu.jpg",
-                    "id": 259693,
-                    "title": "The Conjuring 2",
-                    "original_title": "The Conjuring 2",
-                    "overview": "Lorraine and Ed Warren travel to north London to help a single mother raising four children alone in a house plagued by malicious spirits.",
-                    "poster_path": "/zEqyD0SBt6HL7W9JQoWwtd5Do1T.jpg",
+                    "backdrop_path": "/jJh2syzwZDM3cX2UOeDbKUZzuE8.jpg",
+                    "id": 8321,
+                    "title": "In Bruges",
+                    "original_title": "In Bruges",
+                    "overview": "Ray and Ken, two hit men, are in Bruges, Belgium, waiting for their next mission. While they are there they have time to think and discuss their previous assignment. When the mission is revealed to Ken, it is not what he expected.",
+                    "poster_path": "/jMiBBqk72VRo1Y39x2ZbbenEU3a.jpg",
                     "media_type": "movie",
                     "original_language": "en",
                     "genre_ids": [
-                        27
+                        35,
+                        18,
+                        80
                     ],
-                    "popularity": 13.6436,
-                    "release_date": "2016-06-08",
+                    "popularity": 4.2177,
+                    "release_date": "2008-02-08",
                     "video": false,
-                    "vote_average": 7.293,
-                    "vote_count": 8644
+                    "vote_average": 7.493,
+                    "vote_count": 5368
                 }
-            ]
+            ]   
         }
     ]
 }

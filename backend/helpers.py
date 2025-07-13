@@ -1,6 +1,6 @@
 import requests
-from datetime import datetime, timedelta
-from collections import deque
+from datetime import datetime
+import time
 import json
 import random
 
@@ -69,8 +69,6 @@ def get_credits(type, id):
         image_path = 'poster_path' if type == 'person' else 'profile_path'
         images = [credit.get(image_path) for credit in crew if credit.get('job') == 'Director' and credit.get(image_path) is not None]
         images.extend([credit.get(image_path) for credit in cast if credit.get(image_path) is not None and credit.get('order', 11) <= 10 and credit.get(image_path) not in images])
-        print(images)
-
 
         return {'IDs': ids, 'images': images}
 
@@ -78,24 +76,20 @@ def get_credits(type, id):
         return e
 
 def get_starting_pair():
-    date_today = datetime.today().strftime('%Y-%m-%d')
+    today = datetime.now().strftime('%Y-%m-%d %H:%M')
     daily_pairs = {}
 
     with open('daily_pairs.json', 'r') as f:
         daily_pairs = json.load(f)
 
-    if (date_today not in daily_pairs):
-        print('writing')
-        new_pair = get_valid_pair()
-        while is_pair_already_used(new_pair):
-            new_pair = get_valid_pair()
+    while (today not in daily_pairs):
+        print('waiting for new pair... @ ', today)
+        time.sleep(5)
+        with open('daily_pairs.json', 'r') as f:
+            daily_pairs = json.load(f)
+        
+    return daily_pairs[today]
 
-        daily_pairs[date_today] = new_pair
-
-        with open('daily_pairs.json', 'w') as f:
-            json.dump(daily_pairs, f, indent=4)
-
-    return daily_pairs[date_today]
 
 def get_random_person():
     url = 'https://api.themoviedb.org/3/person/popular'
@@ -144,13 +138,7 @@ def get_valid_pair():
 
     return [starting_person, ending_person]
 
-def is_pair_already_used(new_pair):
-    with open('daily_pairs.json', 'r') as f:
-        daily_pairs = json.load(f)
-        for used_pair in daily_pairs.values():
-            if new_pair[0] in used_pair and new_pair[1] in used_pair:
-                return True
-    return False
+
 
 
 def find_shortest_path(starting_id, ending_id):
