@@ -1,0 +1,153 @@
+{
+    "2025-07-12": [
+        {
+            "adult": false,
+            "gender": 2,
+            "id": 12074,
+            "known_for_department": "Acting",
+            "name": "John Lithgow",
+            "original_name": "John Lithgow",
+            "popularity": 3.4867,
+            "profile_path": "/8Y1sjBdnVR483S8PrnAQzlESwhx.jpg",
+            "known_for": [
+                {
+                    "adult": false,
+                    "backdrop_path": "/sRvXNDItGlWCqtO3j6wks52FmbD.jpg",
+                    "id": 808,
+                    "title": "Shrek",
+                    "original_title": "Shrek",
+                    "overview": "It ain't easy bein' green -- especially if you're a likable (albeit smelly) ogre named Shrek. On a mission to retrieve a gorgeous princess from the clutches of a fire-breathing dragon, Shrek teams up with an unlikely compatriot -- a wisecracking donkey.",
+                    "poster_path": "/iB64vpL3dIObOtMZgX3RqdVdQDc.jpg",
+                    "media_type": "movie",
+                    "original_language": "en",
+                    "genre_ids": [
+                        16,
+                        35,
+                        14,
+                        12,
+                        10751
+                    ],
+                    "popularity": 21.6616,
+                    "release_date": "2001-05-18",
+                    "video": false,
+                    "vote_average": 7.753,
+                    "vote_count": 17800
+                },
+                {
+                    "adult": false,
+                    "backdrop_path": "/l33oR0mnvf20avWyIMxW02EtQxn.jpg",
+                    "id": 157336,
+                    "title": "Interstellar",
+                    "original_title": "Interstellar",
+                    "overview": "The adventures of a group of explorers who make use of a newly discovered wormhole to surpass the limitations on human space travel and conquer the vast distances involved in an interstellar voyage.",
+                    "poster_path": "/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg",
+                    "media_type": "movie",
+                    "original_language": "en",
+                    "genre_ids": [
+                        12,
+                        18,
+                        878
+                    ],
+                    "popularity": 36.0757,
+                    "release_date": "2014-11-05",
+                    "video": false,
+                    "vote_average": 8.456,
+                    "vote_count": 37403
+                },
+                {
+                    "adult": false,
+                    "backdrop_path": "/dENLz9Np9EV5Ro8UIBhbKC8BmSS.jpg",
+                    "id": 61791,
+                    "title": "Rise of the Planet of the Apes",
+                    "original_title": "Rise of the Planet of the Apes",
+                    "overview": "A highly intelligent chimpanzee named Caesar has been living a peaceful suburban life ever since he was born. But when he gets taken to a cruel primate facility, Caesar decides to revolt against those who have harmed him.",
+                    "poster_path": "/cjLsuP75UDlRdJVMXzXg3TJ4umX.jpg",
+                    "media_type": "movie",
+                    "original_language": "en",
+                    "genre_ids": [
+                        53,
+                        28,
+                        18,
+                        878
+                    ],
+                    "popularity": 7.9877,
+                    "release_date": "2011-08-03",
+                    "video": false,
+                    "vote_average": 7.335,
+                    "vote_count": 12226
+                }
+            ]
+        },
+        {
+            "adult": false,
+            "gender": 1,
+            "id": 21657,
+            "known_for_department": "Acting",
+            "name": "Vera Farmiga",
+            "original_name": "Vera Farmiga",
+            "popularity": 3.0331,
+            "profile_path": "/5Vs7huBmTKftwlsc2BPAntyaQYj.jpg",
+            "known_for": [
+                {
+                    "adult": false,
+                    "backdrop_path": "/mXndmCbpvlqnD6po0EMfxEZcUSn.jpg",
+                    "id": 138843,
+                    "title": "The Conjuring",
+                    "original_title": "The Conjuring",
+                    "overview": "Paranormal investigators Ed and Lorraine Warren work to help a family terrorized by a dark presence in their farmhouse. Forced to confront a powerful entity, the Warrens find themselves caught in the most terrifying case of their lives.",
+                    "poster_path": "/wVYREutTvI2tmxr6ujrHT704wGF.jpg",
+                    "media_type": "movie",
+                    "original_language": "en",
+                    "genre_ids": [
+                        27,
+                        53
+                    ],
+                    "popularity": 19.7704,
+                    "release_date": "2013-07-18",
+                    "video": false,
+                    "vote_average": 7.539,
+                    "vote_count": 11932
+                },
+                {
+                    "adult": false,
+                    "backdrop_path": "/z7tBFs4Jw4T1TcT3VROsOoIIaiE.jpg",
+                    "id": 21208,
+                    "title": "Orphan",
+                    "original_title": "Orphan",
+                    "overview": "After losing their baby, a married couple adopt 9-year old Esther, who may not be as innocent as she seems.",
+                    "poster_path": "/lCGpOgoTOGLtZnBiGY9HRg5Xnjd.jpg",
+                    "media_type": "movie",
+                    "original_language": "en",
+                    "genre_ids": [
+                        27,
+                        53
+                    ],
+                    "popularity": 6.1685,
+                    "release_date": "2009-07-24",
+                    "video": false,
+                    "vote_average": 6.997,
+                    "vote_count": 5372
+                },
+                {
+                    "adult": false,
+                    "backdrop_path": "/8ZOKxGpGTc3YVduorvBIbQhncBu.jpg",
+                    "id": 259693,
+                    "title": "The Conjuring 2",
+                    "original_title": "The Conjuring 2",
+                    "overview": "Lorraine and Ed Warren travel to north London to help a single mother raising four children alone in a house plagued by malicious spirits.",
+                    "poster_path": "/zEqyD0SBt6HL7W9JQoWwtd5Do1T.jpg",
+                    "media_type": "movie",
+                    "original_language": "en",
+                    "genre_ids": [
+                        27
+                    ],
+                    "popularity": 13.6436,
+                    "release_date": "2016-06-08",
+                    "video": false,
+                    "vote_average": 7.293,
+                    "vote_count": 8644
+                }
+            ]
+        }
+    ]
+}
