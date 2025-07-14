@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, g
 from flask_cors import CORS
 from routes import routes
 from daily_updater import update_starting_pair
@@ -23,17 +23,23 @@ scheduler = BackgroundScheduler()
 def create_app():
     app = Flask(__name__)
     app.register_blueprint(routes)
+    app.config['DATABASE'] = 'your.db'
 
     scheduler.add_job(
         func=update_starting_pair,
-        #trigger=CronTrigger(hour=0, minute=0),
-        trigger=CronTrigger(minute='*'),
+        trigger=CronTrigger(hour=0, minute=0),
         id='daily_updater',
         replace_existing=True
     )
 
     scheduler.start()
     atexit.register(lambda: scheduler.shutdown())
+
+    @app.teardown_appcontext
+    def close_connection(exception):
+        db = g.pop('db', None)
+        if db is not None:
+            db.close()
 
     return app
 

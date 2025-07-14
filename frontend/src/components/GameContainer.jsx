@@ -53,14 +53,6 @@ const GameContainer = () => {
         }))
     }
 
-    const testMinPath = async () => {
-        console.log('calculating...');
-        const response = await fetch(`/api/min-path?start_id=${startingPerson.data.id}&end_id=${endingPerson.data.id}`);
-        const json = await response.json();
-        console.log('min path: ', json);
-    }
-
-
     useEffect(() => { // scroll lock controller
         if (showGameOverPopup || showInstructions) {
             document.body.style.overflow = 'hidden';
@@ -78,7 +70,7 @@ const GameContainer = () => {
             <div className='game-info-bar'>
                 <div className='game-info left'>
                     <img className='instructions-icon' src='/question.png' onClick={toggleInstructions}/>
-                    <img className='archive-icon' src='/archive.png' onClick={() => testMinPath()}/>
+                    <img className='archive-icon' src='/archive.png' />
                 </div>
                 <div className='game-info right'>
                     {!gameOver ? (

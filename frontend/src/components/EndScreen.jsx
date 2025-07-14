@@ -3,10 +3,16 @@ import { useState, forwardRef, useRef, useEffect } from 'react';
 import * as animations from "../utils/animations";
 
 const EndScreen =  forwardRef(({ show, toggleGameOverPopup, hintCache }, ref) => { 
-    const { nodes } = useGame();
+    const { nodes, startingPerson, endingPerson } = useGame();
     const trophyRef = useRef(null);
-    const [copied, setCopied] = useState(false);
+    const [scoreCopied, setScoreCopied] = useState(false);
+    const [connectionCopied, setConnectionCopied] = useState(false);
     const finalScore = `🎥x${Math.ceil(nodes.length / 2)} 🫂x${Math.floor(nodes.length / 2)} 💡x${Object.keys(hintCache).length}`;
+
+    const startDate = new Date('2025-07-13'); // YYYY-MM-DD
+    const today = new Date();
+    const diffTime = today - startDate;
+    const connactorNum = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
     useEffect(() => {
         if (show && show != 'closing') {
@@ -17,11 +23,24 @@ const EndScreen =  forwardRef(({ show, toggleGameOverPopup, hintCache }, ref) =>
         }
     }, [show]);
 
-    const handleCopy = () => {
-        navigator.clipboard.writeText(`Connactor #0: ${finalScore}`).then(() => {
-            setCopied(true);
-            setTimeout(() => setCopied(false), 1500);
+    const shareScore = () => {
+        navigator.clipboard.writeText(`Connactor #${connactorNum}: ${finalScore}`).then(() => {
+            setScoreCopied(true);
+            setTimeout(() => setScoreCopied(false), 1500);
         });
+    }
+    const shareConnection = () => {
+        const names = [
+            startingPerson.data.name,
+            ...nodes.map(node => node.data.name || node.data.title),
+            endingPerson.data.name
+        ];
+        
+        const connectionStr = `Connactor #${connactorNum}: ${names.join(' ⇒ ')}`;
+        navigator.clipboard.writeText(connectionStr).then(() => {
+            setConnectionCopied(true);
+            setTimeout(() => setConnectionCopied(false), 1500);
+        })
     }
 
     return (
@@ -38,11 +57,11 @@ const EndScreen =  forwardRef(({ show, toggleGameOverPopup, hintCache }, ref) =>
                         <p>(Wow, no hints)</p>
                     )}
                 </div>
-                <button className={`share-button ${!copied ? '' : 'copied'}`} onClick={handleCopy}> {!copied ? 'Share' : 'Copied!'} </button>
+                <button className={`share-button ${!scoreCopied ? '' : 'copied'}`} onClick={shareScore}> {!scoreCopied ? 'Share Score' : 'Copied!'} </button>
+                <button className={`share-button ${!connectionCopied ? '' : 'copied'}`} onClick={shareConnection}> {!connectionCopied ? 'Share Connection' : 'Copied!'} </button>
                 <div className='popup-text'>
                     <hr />
                     <hr />
-                    <p>The shortest possible connection was: PLACEHOLDER</p> 
                 </div>
             </div>
         </div>

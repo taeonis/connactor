@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify, send_from_directory
 from helpers import *
+import sqlite3
 
 routes = Blueprint('routes', __name__, static_folder='../../frontend/dist', static_url_path='/')
 
@@ -58,8 +59,15 @@ def get_movie_credits():
         return jsonify({'error': str(e)}), 500
 
 
+def get_db_connection():
+    conn = sqlite3.connect('database/database.db')
+    conn.row_factory = sqlite3.Row
+    return conn
+
 @routes.route('/api/test-pair', methods=['GET'])
 def get_daily_pair_test():
+    # today = datetime.now().strftime('%Y-%m-%d %H:%M')
+
     try:
         starting_pair = get_starting_pair()
 
@@ -72,10 +80,3 @@ def get_daily_pair_test():
         return jsonify({'error': str(e)}), 500
 
 
-@routes.route('/api/min-path', methods=['GET'])
-def get_min_path():
-    start_id = request.args.get('start_id', '')
-    end_id = request.args.get('end_id', '')
-    shortest_path = find_shortest_path(start_id, end_id)
-
-    return jsonify({'shortest_path': shortest_path})

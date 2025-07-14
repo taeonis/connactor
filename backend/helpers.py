@@ -3,6 +3,7 @@ from datetime import datetime
 import time
 import json
 import random
+from database.db_utils import is_pair_used, add_pair, fetch_actor_data, add_actor, get_pair_by_date
 
 TMDB_API_KEY = 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1YTc0ZjUwMDJmOGQzNjRmMDIwN2ZiNzY4NWU0YjJiYiIsIm5iZiI6MTcxMzkxNTYxNS41Nzc5OTk4LCJzdWIiOiI2NjI4NDZkZjE3NmE5NDAxN2Y4MjQwN2MiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.jaZnUlZDZ-ymiHDFIBbgVJg4plv027Q1084Ut0XKkno'
 headers = {
@@ -76,19 +77,19 @@ def get_credits(type, id):
         return e
 
 def get_starting_pair():
-    today = datetime.now().strftime('%Y-%m-%d %H:%M')
-    daily_pairs = {}
+    today = datetime.now().strftime('%Y-%m-%d')
+    print('trying to get pair for ', today)
+    pair_ids = get_pair_by_date(today)
 
-    with open('daily_pairs.json', 'r') as f:
-        daily_pairs = json.load(f)
-
-    while (today not in daily_pairs):
+    while (pair_ids is None):
         print('waiting for new pair... @ ', today)
         time.sleep(5)
-        with open('daily_pairs.json', 'r') as f:
-            daily_pairs = json.load(f)
+        pair_ids = get_pair_by_date(today)
         
-    return daily_pairs[today]
+    print('got pair for ', today)
+    actor1 = fetch_actor_data(pair_ids[0])
+    actor2 = fetch_actor_data(pair_ids[1])
+    return [dict(actor1), dict(actor2)]
 
 
 def get_random_person():
@@ -106,13 +107,12 @@ def get_random_person():
     adult_content = True
     poster_path = ''
     chosen_person = {}
+    language_is_en = False
     while (popularity < popularity_threshold or not known_for_movies
-            or known_for_department != 'Acting' or adult_content or not poster_path):
+            or known_for_department != 'Acting' or adult_content or not poster_path or not language_is_en):
         params['page'] = random.randint(1, 100)
-        
         response = requests.get(url, headers=headers, params=params)
         response.raise_for_status()
-
         chosen_person = random.choice(response.json().get('results', []))
 
         popularity = chosen_person.get('popularity', 0)
@@ -123,6 +123,7 @@ def get_random_person():
             if media.get('media_type') == 'movie' and media.get('popularity', 0) > popularity_threshold
         )
 
+        language_is_en = all(movie.get('original_language') == 'en' for movie in known_for_list)
         known_for_movies = True if popular_media >= (len(known_for_list) // 2 + 1) else False
         known_for_department = chosen_person.get('known_for_department', '')
         adult_content = chosen_person.get('adult', True)
@@ -139,9 +140,7 @@ def get_valid_pair():
     return [starting_person, ending_person]
 
 
-
-
 def find_shortest_path(starting_id, ending_id):
-    return 0;
+    return 0
 
 
