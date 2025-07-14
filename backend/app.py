@@ -7,7 +7,6 @@ from apscheduler.triggers.cron import CronTrigger
 from apscheduler.triggers.interval import IntervalTrigger
 import atexit
 
-#app = Flask(__name__, static_folder='../frontend/dist', static_url_path='/')
 app = Flask(__name__)
 CORS(app)
 

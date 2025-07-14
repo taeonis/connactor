@@ -12,9 +12,21 @@ routes = Blueprint('routes', __name__, static_folder=static_folder, static_url_p
 def home():
     return send_from_directory(routes.static_folder, 'index.html')
 
+# @routes.route('/<path:path>')
+# def serve_react_app(path):
+#     # If the requested file exists in the static folder, serve it
+#     if os.path.exists(os.path.join(static_folder, path)):
+#         return send_from_directory(static_folder, path)
+
+#     return home()
+
 @routes.route('/health')
 def health():
     return 'ok', 200
+
+@routes.route('/archive')
+def archive():
+    return
 
 @routes.route('/api/search-person', methods=['GET'])
 def get_people():

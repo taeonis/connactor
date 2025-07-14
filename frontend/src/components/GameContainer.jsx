@@ -8,6 +8,7 @@ import './GameContainer.css';
 import { CSSTransition } from 'react-transition-group';
 import * as animations from "../utils/animations";
 import gsap from 'gsap';
+import { useNavigate } from 'react-router-dom';
 
 const GameContainer = () => {
     const { gameOver, startingPerson, setStartingPerson, endingPerson, setEndingPerson, showHintsFor} = useGame();
@@ -17,6 +18,7 @@ const GameContainer = () => {
     const [showGameOverPopup, setShowGameOverPopup] = useState(false);
     const [showInstructions, setShowInstructions] = useState(false);
     const [hintCache, setHintCache] = useState({}); // format: { ID: type }
+    const navigate = useNavigate();
 
     const toggleGameOverPopup = () => {
         if (showGameOverPopup) {
@@ -53,6 +55,11 @@ const GameContainer = () => {
         }))
     }
 
+    const openArchive = () => {
+        console.log('navigating');
+        navigate('/archive');
+    };
+
     useEffect(() => { // scroll lock controller
         if (showGameOverPopup || showInstructions) {
             document.body.style.overflow = 'hidden';
@@ -70,7 +77,7 @@ const GameContainer = () => {
             <div className='game-info-bar'>
                 <div className='game-info left'>
                     <img className='instructions-icon' src='/question.png' onClick={toggleInstructions}/>
-                    <img className='archive-icon' src='/archive.png' />
+                    <img className='archive-icon' src='/archive.png' onClick={openArchive}/>
                 </div>
                 <div className='game-info right'>
                     {!gameOver ? (
