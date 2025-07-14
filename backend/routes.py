@@ -2,18 +2,17 @@ from flask import Blueprint, request, jsonify, send_from_directory
 from .helpers import *
 import sqlite3
 import os
+from definitions import ROOT_DIR
 
-#routes = Blueprint('routes', __name__, static_folder='../../frontend/dist', static_url_path='/')
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-STATIC_DIR = os.path.join(BASE_DIR, '../../frontend/dist')
 
-routes = Blueprint('routes', __name__, static_folder=STATIC_DIR, static_url_path='/')
+static_folder = os.path.join(ROOT_DIR, 'frontend/dist')
+routes = Blueprint('routes', __name__, static_folder=static_folder, static_url_path='/')
 
 @routes.route('/')
 def home():
     return send_from_directory(routes.static_folder, 'index.html')
 
-@routes.route('/api/health')
+@routes.route('/health')
 def health():
     return 'ok', 200
 
@@ -71,8 +70,6 @@ def get_db_connection():
 
 @routes.route('/api/test-pair', methods=['GET'])
 def get_daily_pair_test():
-    # today = datetime.now().strftime('%Y-%m-%d %H:%M')
-
     try:
         starting_pair = get_starting_pair()
 

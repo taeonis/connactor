@@ -1,13 +1,16 @@
 import sqlite3
-from flask import g, current_app
+import os
+from definitions import ROOT_DIR
 
-
-DATABASE = 'database/database.db'
+DATABASE = os.path.join(ROOT_DIR, 'backend/database/database.db')
 
 def get_db():
-    conn = sqlite3.connect(DATABASE)
-    conn.row_factory = sqlite3.Row
-    return conn
+    try:
+        conn = sqlite3.connect(DATABASE)
+        conn.row_factory = sqlite3.Row
+        return conn
+    except Exception as e:
+        print(e)
 
 def add_actor(actor):
     db = get_db()
@@ -53,7 +56,9 @@ def is_pair_used(pair):
     ).fetchone() is not None
 
 def get_pair_by_date(date):
+    print('getting db...')
     db = get_db()
+    print('got db...')
     return db.execute(
         'SELECT actor1_id, actor2_id FROM pairs WHERE date = ?',
         (date,)

@@ -1,4 +1,6 @@
 import sqlite3
+from datetime import datetime
+today = datetime.today().strftime('%Y-%m-%d')
 
 connection = sqlite3.connect('database.db')
 
@@ -36,7 +38,7 @@ cur.execute('''
             (
                 2037,
                 72466,
-                '2025-07-13'
+                today
             )
 )
 
