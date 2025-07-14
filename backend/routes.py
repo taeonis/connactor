@@ -1,8 +1,13 @@
 from flask import Blueprint, request, jsonify, send_from_directory
 from .helpers import *
 import sqlite3
+import os
 
-routes = Blueprint('routes', __name__, static_folder='../../frontend/dist', static_url_path='/')
+#routes = Blueprint('routes', __name__, static_folder='../../frontend/dist', static_url_path='/')
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+STATIC_DIR = os.path.join(BASE_DIR, '../../frontend/dist')
+
+routes = Blueprint('routes', __name__, static_folder=STATIC_DIR, static_url_path='/')
 
 @routes.route('/')
 def home():
