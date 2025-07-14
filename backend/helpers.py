@@ -3,7 +3,7 @@ from datetime import datetime
 import time
 import json
 import random
-from database.db_utils import is_pair_used, add_pair, fetch_actor_data, add_actor, get_pair_by_date
+from .database.db_utils import is_pair_used, add_pair, fetch_actor_data, add_actor, get_pair_by_date
 
 TMDB_API_KEY = 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1YTc0ZjUwMDJmOGQzNjRmMDIwN2ZiNzY4NWU0YjJiYiIsIm5iZiI6MTcxMzkxNTYxNS41Nzc5OTk4LCJzdWIiOiI2NjI4NDZkZjE3NmE5NDAxN2Y4MjQwN2MiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.jaZnUlZDZ-ymiHDFIBbgVJg4plv027Q1084Ut0XKkno'
 headers = {
