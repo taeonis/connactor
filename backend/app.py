@@ -1,7 +1,7 @@
 from flask import Flask, g
 from flask_cors import CORS
-from routes import routes
-from daily_updater import update_starting_pair
+from .routes import routes
+from .daily_updater import update_starting_pair
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 import atexit

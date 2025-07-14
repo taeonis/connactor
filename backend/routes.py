@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify, send_from_directory
-from helpers import *
+from .helpers import *
 import sqlite3
 
 routes = Blueprint('routes', __name__, static_folder='../../frontend/dist', static_url_path='/')
