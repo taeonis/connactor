@@ -23,5 +23,17 @@ dist-ssr
 *.sln
 *.sw?
 
-.venv
-__pycache__/ 
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.dll
+
+# Mac
+.DS_Store
+
+# Virtual environments
+venv/
+env/
