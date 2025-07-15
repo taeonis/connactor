@@ -75,7 +75,7 @@ const GameContainer = () => {
             <div className='game-info-bar'>
                 <div className='game-info left'>
                     <img className='instructions-icon' src='/question.png' onClick={toggleInstructions}/>
-                    <img className='archive-icon' src='/archive.png' onClick={openArchive}/>
+                    {/* <img className='archive-icon' src='/archive.png' onClick={openArchive}/> */}
                 </div>
                 <div className='game-info right'>
                     {!gameOver ? (

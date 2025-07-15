@@ -8,7 +8,7 @@ const StaticNode = forwardRef(({ person, connectionVal }, ref) => {
         <div ref={ref} className={`item node person`}>
             <img 
                 src={`https://media.themoviedb.org/t/p/w185${person.data.profile_path}`} 
-                title={person.data.id || "Loading..."}
+                alt={person.data.name || "Loading..."}
                 className={`node-image ${connectionVal}`}
             />
             {!gameOver && (

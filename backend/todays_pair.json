@@ -1,0 +1,153 @@
+{
+    "2025-07-14": [
+        {
+            "adult": false,
+            "gender": 2,
+            "id": 976,
+            "known_for_department": "Acting",
+            "name": "Jason Statham",
+            "original_name": "Jason Statham",
+            "popularity": 22.7311,
+            "profile_path": "/whNwkEQYWLFJA8ij0WyOOAD5xhQ.jpg",
+            "known_for": [
+                {
+                    "adult": false,
+                    "backdrop_path": "/32V4uHVRU2fbDsQl1dsYsZm3uba.jpg",
+                    "id": 107,
+                    "title": "Snatch",
+                    "original_title": "Snatch",
+                    "overview": "Unscrupulous boxing promoters, violent bookmakers, a Russian gangster, incompetent amateur robbers and supposedly Jewish jewelers fight to track down a priceless stolen diamond.",
+                    "poster_path": "/8KSDI7ijEv7QVZdIyrLw5Gnhhr8.jpg",
+                    "media_type": "movie",
+                    "original_language": "en",
+                    "genre_ids": [
+                        80,
+                        35
+                    ],
+                    "popularity": 8.3915,
+                    "release_date": "2000-09-01",
+                    "video": false,
+                    "vote_average": 7.814,
+                    "vote_count": 9374
+                },
+                {
+                    "adult": false,
+                    "backdrop_path": "/2uSCHUsmzb6KkQPFSxBQ7bgfJLE.jpg",
+                    "id": 345940,
+                    "title": "The Meg",
+                    "original_title": "The Meg",
+                    "overview": "A deep sea submersible pilot revisits his past fears in the Mariana Trench, and accidentally unleashes the seventy foot ancestor of the Great White Shark believed to be extinct.",
+                    "poster_path": "/eyWICPcxOuTcDDDbTMOZawoOn8d.jpg",
+                    "media_type": "movie",
+                    "original_language": "en",
+                    "genre_ids": [
+                        28,
+                        878,
+                        27
+                    ],
+                    "popularity": 10.3366,
+                    "release_date": "2018-08-09",
+                    "video": false,
+                    "vote_average": 6.2,
+                    "vote_count": 7855
+                },
+                {
+                    "adult": false,
+                    "backdrop_path": "/70AV2Xx5FQYj20labp0EGdbjI6E.jpg",
+                    "id": 637649,
+                    "title": "Wrath of Man",
+                    "original_title": "Wrath of Man",
+                    "overview": "A cold and mysterious new security guard for a Los Angeles cash truck company surprises his co-workers when he unleashes precision skills during a heist. The crew is left wondering who he is and where he came from. Soon, the marksman's ultimate motive becomes clear as he takes dramatic and irrevocable steps to settle a score.",
+                    "poster_path": "/M7SUK85sKjaStg4TKhlAVyGlz3.jpg",
+                    "media_type": "movie",
+                    "original_language": "en",
+                    "genre_ids": [
+                        28,
+                        80,
+                        53
+                    ],
+                    "popularity": 17.1128,
+                    "release_date": "2021-04-22",
+                    "video": false,
+                    "vote_average": 7.607,
+                    "vote_count": 5642
+                }
+            ]
+        },
+        {
+            "adult": false,
+            "gender": 2,
+            "id": 3810,
+            "known_for_department": "Acting",
+            "name": "Javier Bardem",
+            "original_name": "Javier Bardem",
+            "popularity": 4.5547,
+            "profile_path": "/eCBiiPvBfIY7exDQwH0vEM6Bf3c.jpg",
+            "known_for": [
+                {
+                    "adult": false,
+                    "backdrop_path": "/mkXwF7FFWpf2dkOGCzQoeWX7M6R.jpg",
+                    "id": 6977,
+                    "title": "No Country for Old Men",
+                    "original_title": "No Country for Old Men",
+                    "overview": "Llewelyn Moss stumbles upon dead bodies, $2 million and a hoard of heroin in a Texas desert, but methodical killer Anton Chigurh comes looking for it, with local sheriff Ed Tom Bell hot on his trail. The roles of prey and predator blur as the violent pursuit of money and justice collide.",
+                    "poster_path": "/6d5XOczc226jECq0LIX0siKtgHR.jpg",
+                    "media_type": "movie",
+                    "original_language": "en",
+                    "genre_ids": [
+                        80,
+                        18,
+                        53
+                    ],
+                    "popularity": 11.7738,
+                    "release_date": "2007-06-13",
+                    "video": false,
+                    "vote_average": 7.947,
+                    "vote_count": 12472
+                },
+                {
+                    "adult": false,
+                    "backdrop_path": "/7C921eWK06n12c1miRXnYoEu5Yv.jpg",
+                    "id": 166426,
+                    "title": "Pirates of the Caribbean: Dead Men Tell No Tales",
+                    "original_title": "Pirates of the Caribbean: Dead Men Tell No Tales",
+                    "overview": "Thrust into an all-new adventure, a down-on-his-luck Capt. Jack Sparrow feels the winds of ill-fortune blowing even more strongly when deadly ghost sailors led by his old nemesis, the evil Capt. Salazar, escape from the Devil's Triangle. Jack's only hope of survival lies in seeking out the legendary Trident of Poseidon, but to find it, he must forge an uneasy alliance with a brilliant and beautiful astronomer and a headstrong young man in the British navy.",
+                    "poster_path": "/qwoGfcg6YUS55nUweKGujHE54Wy.jpg",
+                    "media_type": "movie",
+                    "original_language": "en",
+                    "genre_ids": [
+                        12,
+                        28,
+                        14
+                    ],
+                    "popularity": 11.7326,
+                    "release_date": "2017-05-23",
+                    "video": false,
+                    "vote_average": 6.7,
+                    "vote_count": 12283
+                },
+                {
+                    "adult": false,
+                    "backdrop_path": "/mgcbG1w3lgj9lajGBXVUjLQti8P.jpg",
+                    "id": 37724,
+                    "title": "Skyfall",
+                    "original_title": "Skyfall",
+                    "overview": "When Bond's latest assignment goes gravely wrong, agents around the world are exposed and MI6 headquarters is attacked. While M faces challenges to her authority and position from Gareth Mallory, the new Chairman of the Intelligence and Security Committee, it's up to Bond, aided only by field agent Eve, to locate the mastermind behind the attack.",
+                    "poster_path": "/d0IVecFQvsGdSbnMAHqiYsNYaJT.jpg",
+                    "media_type": "movie",
+                    "original_language": "en",
+                    "genre_ids": [
+                        28,
+                        12,
+                        53
+                    ],
+                    "popularity": 8.6688,
+                    "release_date": "2012-10-24",
+                    "video": false,
+                    "vote_average": 7.25,
+                    "vote_count": 15506
+                }
+            ]
+        }
+    ]
+}

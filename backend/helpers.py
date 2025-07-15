@@ -78,18 +78,30 @@ def get_credits(type, id):
 
 def get_starting_pair():
     today = datetime.now().strftime('%Y-%m-%d')
-    print('trying to get pair for ', today)
-    pair_ids = get_pair_by_date(today)
+    todays_pair = {}
+    with open('todays_pair.json', 'r') as f:
+        todays_pair = json.load(f)
+    
+    if (today not in todays_pair):
+        new_pair = get_valid_pair()
+        todays_pair = {today: new_pair}
+        with open('todays_pair.json', 'w') as f:
+            json.dump(todays_pair, f, indent=4)
 
-    while (pair_ids is None):
-        print('waiting for new pair... @ ', today)
-        time.sleep(5)
-        pair_ids = get_pair_by_date(today)
+    return todays_pair[today]
+
+    # print('trying to get pair for ', today)
+    # pair_ids = get_pair_by_date(today)
+
+    # while (pair_ids is None):
+    #     print('waiting for new pair... @ ', today)
+    #     time.sleep(5)
+    #     pair_ids = get_pair_by_date(today)
         
-    print('got pair for ', today)
-    actor1 = fetch_actor_data(pair_ids[0])
-    actor2 = fetch_actor_data(pair_ids[1])
-    return [dict(actor1), dict(actor2)]
+    # print('got pair for ', today)
+    # actor1 = fetch_actor_data(pair_ids[0])
+    # actor2 = fetch_actor_data(pair_ids[1])
+    # return [dict(actor1), dict(actor2)]
 
 
 
@@ -101,7 +113,7 @@ def get_random_person():
         'page': 1
     }
     
-    popularity_threshold = 3 # Minimum popularity for a person to be considered
+    popularity_threshold = 4 # Minimum popularity for a person to be considered
 
     popularity = 0
     known_for_movies = False
