@@ -92,6 +92,8 @@ def get_starting_pair():
     return [dict(actor1), dict(actor2)]
 
 
+
+
 def get_random_person():
     url = 'https://api.themoviedb.org/3/person/popular'
     params = {

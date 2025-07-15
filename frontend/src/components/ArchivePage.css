@@ -1,0 +1,8 @@
+.archive-link {
+    background: none!important;
+  border: none;
+  padding: 0!important;
+  color: lightblue;
+  text-decoration: underline;
+  cursor: pointer;
+}

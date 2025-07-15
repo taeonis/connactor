@@ -3,13 +3,12 @@ import { useState, forwardRef, useRef, useEffect } from 'react';
 import * as animations from "../utils/animations";
 
 const EndScreen =  forwardRef(({ show, toggleGameOverPopup, hintCache }, ref) => { 
-    const { nodes, startingPerson, endingPerson } = useGame();
+    const { nodes, startingPerson, endingPerson, startDate } = useGame();
     const trophyRef = useRef(null);
     const [scoreCopied, setScoreCopied] = useState(false);
     const [connectionCopied, setConnectionCopied] = useState(false);
     const finalScore = `🎥x${Math.ceil(nodes.length / 2)} 🫂x${Math.floor(nodes.length / 2)} 💡x${Object.keys(hintCache).length}`;
 
-    const startDate = new Date('2025-07-13'); // YYYY-MM-DD
     const today = new Date();
     const diffTime = today - startDate;
     const connactorNum = Math.floor(diffTime / (1000 * 60 * 60 * 24));

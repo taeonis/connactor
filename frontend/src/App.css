@@ -1,8 +1,6 @@
 
 .App {
-  /* background-color: rgb(13, 13, 17); */
   background-image: linear-gradient(#20272e, #14181c);
-  /* background-color: #14181c; */
   width: 100vw;
   min-height: 100vh;
   text-align: center;
@@ -10,8 +8,6 @@
 
 
 .game-container {
-  /* background-image: linear-gradient(#14181c, rgb(13, 13, 17)); */
-  /* background-image: linear-gradient(#20272e, #14181c); */
   background-color: #14181c;
   min-height: 100vh;
   width: 500px;

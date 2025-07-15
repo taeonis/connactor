@@ -11,7 +11,7 @@ export async function fetchCredits(node) {
     if (node.data) {
         const nodeType = getNodeType(node);
         try {
-            const response = await fetch(`/api/${nodeType}-credits?${nodeType}_id=${node.data.id}`);
+            const response = await fetch(`/api/get-credits?type=${nodeType}&id=${node.data.id}`);
             const json = await response.json();
             node['credits']['IDs'] = new Set(json.IDs);
             node['credits']['images'] = json.images;

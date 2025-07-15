@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify, send_from_directory
 from .helpers import *
-import sqlite3
+from .database.db_utils import get_pair_by_date, fetch_actor_data
 import os
 from definitions import ROOT_DIR
 
@@ -24,50 +24,27 @@ def home():
 def health():
     return 'ok', 200
 
-@routes.route('/archive')
-def archive():
-    return
-
-@routes.route('/api/search-person', methods=['GET'])
-def get_people():
+@routes.route('/api/search', methods=['GET'])
+def route_search():
     try:
+        search_type = request.args.get('type', '').lower()
         query = request.args.get('query', '').lower()
-        results = search('person', query)
+
+        results = search(search_type, query)
 
         return jsonify(results)
     
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
     
-@routes.route('/api/search-movie', methods=['GET'])
-def get_movies():
+@routes.route('/api/get-credits', methods=['GET'])
+def route_credits():
     try:
-        query = request.args.get('query', '').lower()
-        results = search('movie', query)
+        search_type = request.args.get('type', '').lower()
+        id = request.args.get('id', '').lower()
 
-        return jsonify(results)
-    
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
-
-    
-@routes.route('/api/person-credits', methods=['GET'])
-def get_person_credits():
-    try:
-        person_id = request.args.get('person_id', '')
-        results = get_credits('person', person_id)
-        
-        return jsonify(results)
-    
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
-    
-
-@routes.route('/api/movie-credits', methods=['GET'])
-def get_movie_credits():
-    try:
-        movie_id = request.args.get('movie_id', '')
-        results = get_credits('movie', movie_id)
+        results = get_credits(search_type, id)
 
         return jsonify(results)
     
@@ -75,12 +52,7 @@ def get_movie_credits():
         return jsonify({'error': str(e)}), 500
 
 
-def get_db_connection():
-    conn = sqlite3.connect('database/database.db')
-    conn.row_factory = sqlite3.Row
-    return conn
-
-@routes.route('/api/test-pair', methods=['GET'])
+@routes.route('/api/get-starting-pair', methods=['GET'])
 def get_daily_pair_test():
     try:
         starting_pair = get_starting_pair()
@@ -93,4 +65,20 @@ def get_daily_pair_test():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+@routes.route('/db/get-pair', methods=['GET'])
+def get_archived_pair():
+    date = request.args.get('date', '').lower()
+    pair_ids = get_pair_by_date(date)
+
+    actor1 = fetch_actor_data(pair_ids[0])
+    actor2 = fetch_actor_data(pair_ids[1])
+    #return [dict(actor1), dict(actor2)]
+    finalDict = {
+        'starting_person': dict(actor1),
+        'ending_person': dict(actor2)
+    }
+    print(finalDict)
+    return jsonify(finalDict)
+
+    #return jsonify({'results': results})
 

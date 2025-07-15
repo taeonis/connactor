@@ -6,19 +6,18 @@ import InstructionsPopup from './Instructions';
 import EndScreen from './EndScreen';
 import './GameContainer.css';
 import { CSSTransition } from 'react-transition-group';
-import * as animations from "../utils/animations";
-import gsap from 'gsap';
 import { useNavigate } from 'react-router-dom';
 
 const GameContainer = () => {
     const { gameOver, startingPerson, setStartingPerson, endingPerson, setEndingPerson, showHintsFor} = useGame();
+    const navigate = useNavigate();
     const hintManagerRef = useRef(null);
     const instructionsRef = useRef(null);
     const endScreenRef = useRef(null);
     const [showGameOverPopup, setShowGameOverPopup] = useState(false);
     const [showInstructions, setShowInstructions] = useState(false);
     const [hintCache, setHintCache] = useState({}); // format: { ID: type }
-    const navigate = useNavigate();
+    
 
     const toggleGameOverPopup = () => {
         if (showGameOverPopup) {
@@ -56,7 +55,6 @@ const GameContainer = () => {
     }
 
     const openArchive = () => {
-        console.log('navigating');
         navigate('/archive');
     };
 
@@ -114,6 +112,8 @@ const GameContainer = () => {
                     hintCache={hintCache}
                 />
             </CSSTransition>
+
+            
         </div>
 
         {showGameOverPopup && (
