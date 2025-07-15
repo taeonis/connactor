@@ -83,20 +83,12 @@ def get_starting_pair():
     todays_pair = {}
     
     filepath = os.path.join(ROOT_DIR, 'backend/todays_pair.json')
-    backend = os.path.join(ROOT_DIR, 'backend')
-    print('root_dir: ', ROOT_DIR)
-    print('filepath: ', filepath)
-    for dirpath, dirnames, filenames in os.walk(backend):
-        print(f"\n📂 Directory: {dirpath}")
-        for dirname in dirnames:
-            print(f"  📁 {dirname}")
-        for filename in filenames:
-            print(f"  📄 {filename}")
 
     with open(filepath, 'r') as f:
         todays_pair = json.load(f)
     
     if (today not in todays_pair):
+        print('TODAY NOT FOUND !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
         new_pair = get_valid_pair()
         todays_pair = {today: new_pair}
         with open(filepath, 'w') as f:

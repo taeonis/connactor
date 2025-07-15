@@ -8,6 +8,15 @@ from definitions import ROOT_DIR
 static_folder = os.path.join(ROOT_DIR, 'frontend/dist')
 routes = Blueprint('routes', __name__, static_folder=static_folder, static_url_path='/')
 
+backend = os.path.join(ROOT_DIR, 'backend')
+print('root_dir: ', ROOT_DIR)
+for dirpath, dirnames, filenames in os.walk(backend):
+    print(f"\n📂 Directory: {dirpath}")
+    for dirname in dirnames:
+        print(f"  📁 {dirname}")
+    for filename in filenames:
+        print(f"  📄 {filename}")
+
 @routes.route('/')
 def home():
     return send_from_directory(routes.static_folder, 'index.html')
