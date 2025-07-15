@@ -89,7 +89,7 @@ def get_starting_pair():
     if (today not in todays_pair):
         new_pair = get_valid_pair()
         todays_pair = {today: new_pair}
-        with open('todays_pair.json', 'w') as f:
+        with open(filepath, 'w') as f:
             json.dump(todays_pair, f, indent=4)
 
     return todays_pair[today]
