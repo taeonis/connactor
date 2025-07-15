@@ -157,7 +157,7 @@ const NodeManager = ({ setShowGameOverPopup }) => {
                     setEndingPerson(newEndingPerson);
     
                 } catch (error) {
-                    console.error('Error fetching pair:', error);
+                    console.error('Error fetching start pair:', error);
                 }
             }
             fetchData();

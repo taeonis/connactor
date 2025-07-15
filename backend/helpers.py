@@ -3,6 +3,8 @@ from datetime import datetime
 import time
 import json
 import random
+import os
+from definitions import ROOT_DIR
 from .database.db_utils import is_pair_used, add_pair, fetch_actor_data, add_actor, get_pair_by_date
 
 TMDB_API_KEY = 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1YTc0ZjUwMDJmOGQzNjRmMDIwN2ZiNzY4NWU0YjJiYiIsIm5iZiI6MTcxMzkxNTYxNS41Nzc5OTk4LCJzdWIiOiI2NjI4NDZkZjE3NmE5NDAxN2Y4MjQwN2MiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.jaZnUlZDZ-ymiHDFIBbgVJg4plv027Q1084Ut0XKkno'
@@ -79,7 +81,9 @@ def get_credits(type, id):
 def get_starting_pair():
     today = datetime.now().strftime('%Y-%m-%d')
     todays_pair = {}
-    with open('todays_pair.json', 'r') as f:
+    
+    filepath = os.path.join(ROOT_DIR, 'backend/todays_pair.json')
+    with open(filepath, 'r') as f:
         todays_pair = json.load(f)
     
     if (today not in todays_pair):
