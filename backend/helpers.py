@@ -83,9 +83,10 @@ def get_starting_pair():
     todays_pair = {}
     
     filepath = os.path.join(ROOT_DIR, 'backend/todays_pair.json')
+    backend = os.path.join(ROOT_DIR, 'backend')
     print('root_dir: ', ROOT_DIR)
     print('filepath: ', filepath)
-    for dirpath, dirnames, filenames in os.walk(ROOT_DIR):
+    for dirpath, dirnames, filenames in os.walk(backend):
         print(f"\n📂 Directory: {dirpath}")
         for dirname in dirnames:
             print(f"  📁 {dirname}")
