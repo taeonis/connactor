@@ -2,10 +2,11 @@
 from datetime import datetime
 from .helpers import get_valid_pair
 from .database.db_utils import is_pair_used, add_pair, fetch_actor_data, add_actor
+from zoneinfo import ZoneInfo
 
     
 def update_starting_pair():
-    today = datetime.today().strftime('%Y-%m-%d')
+    today = datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d')
     print('updating.... @ ', today)
 
     new_pair = get_valid_pair()

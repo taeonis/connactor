@@ -6,6 +6,8 @@ import random
 import os
 from definitions import ROOT_DIR
 from .database.db_utils import is_pair_used, add_pair, fetch_actor_data, add_actor, get_pair_by_date
+from zoneinfo import ZoneInfo
+
 
 TMDB_API_KEY = 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1YTc0ZjUwMDJmOGQzNjRmMDIwN2ZiNzY4NWU0YjJiYiIsIm5iZiI6MTcxMzkxNTYxNS41Nzc5OTk4LCJzdWIiOiI2NjI4NDZkZjE3NmE5NDAxN2Y4MjQwN2MiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.jaZnUlZDZ-ymiHDFIBbgVJg4plv027Q1084Ut0XKkno'
 headers = {
@@ -45,7 +47,7 @@ def search(type, query):
                     movie.get('popularity', 0) > 0 and
                     movie.get('poster_path') is not None and
                     movie.get('release_date') != '' and 
-                    movie.get('release_date') < datetime.today().strftime('%Y-%m-%d')
+                    movie.get('release_date') < datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d')
                 ]
             results.extend(filtered)
         
@@ -79,7 +81,7 @@ def get_credits(type, id):
         return e
 
 def get_starting_pair():
-    today = datetime.now().strftime('%Y-%m-%d')
+    today = datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d')
     todays_pair = {}
     
     filepath = os.path.join(ROOT_DIR, 'backend/todays_pair.json')

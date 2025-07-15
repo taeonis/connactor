@@ -1,5 +1,6 @@
 import sqlite3
 from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
 
 connection = sqlite3.connect('database.db')
 
@@ -27,8 +28,8 @@ for actor in preset_actors:
                 )
     )
 
-today = datetime.now().strftime('%Y-%m-%d')
-yesterday = (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d')
+today = datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d')
+yesterday = (datetime.now(ZoneInfo("America/Los_Angeles")) - timedelta(days=1)).strftime('%Y-%m-%d')
 preset_pairs = [
     {'actor1_id': 2037, 'actor2_id': 72466, 'date': today},
     {'actor1_id': 3291, 'actor2_id': 12982, 'date': yesterday},
