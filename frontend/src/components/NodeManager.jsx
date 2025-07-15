@@ -142,26 +142,6 @@ const NodeManager = ({ setShowGameOverPopup }) => {
 
     }, [[startingPerson, ...nodes, endingPerson].map(n => n.data?.id).join(",")]);
 
-    useEffect(() => {
-            const fetchData = async () => {
-                try {
-                    const res = await fetch('/api/get-starting-pair');
-                    const returnedPair = await res.json();
-    
-                    const newStartingPerson = {id: 0, data: returnedPair.starting_person, credits: {}};
-                    await fetchCredits(newStartingPerson);
-                    setStartingPerson(newStartingPerson);
-    
-                    const newEndingPerson = {id: 12, data: returnedPair.ending_person, credits: {}};
-                    await fetchCredits(newEndingPerson);
-                    setEndingPerson(newEndingPerson);
-    
-                } catch (error) {
-                    console.error('Error fetching start pair:', error);
-                }
-            }
-            fetchData();
-        }, []); 
 
     return (
         <div className='NodeManager'>

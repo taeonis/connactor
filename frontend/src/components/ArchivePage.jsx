@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 
 const ArchivePage = () => {
     const navigate = useNavigate();
-    const { setStartingPerson, setEndingPerson, startDate } = useGame();
+    const { startingPerson, setStartingPerson, endingPerson, setEndingPerson, startDate, restartGame } = useGame();
     const today = new Date();
     const totalConnactors = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
     const connactorNums = Array.from({ length: totalConnactors }, (_, i) => totalConnactors - i); // numbered from today's connactor to 1
@@ -33,17 +33,24 @@ const ArchivePage = () => {
             const response = await fetch(`/db/get-pair?date=${date}`);
             const json = await response.json();
 
-            const newStartingPerson = {id: 0, data: json.starting_person, credits: {}};
-            await fetchCredits(newStartingPerson);
-            setStartingPerson(newStartingPerson);
-
-            const newEndingPerson = {id: 0, data: json.ending_person, credits: {}};
-            await fetchCredits(newEndingPerson);
-            setEndingPerson(newEndingPerson);
+            if (json.starting_person.id != startingPerson.data.id) {
+                console.log('new starting');
+                const newStartingPerson = {id: 0, data: json.starting_person, credits: {}};
+                await fetchCredits(newStartingPerson);
+                setStartingPerson(newStartingPerson);
+            }
+            
+            if (json.ending_person.id != endingPerson.data.id) {
+                console.log('new ending');
+                const newEndingPerson = {id: 0, data: json.ending_person, credits: {}};
+                await fetchCredits(newEndingPerson);
+                setEndingPerson(newEndingPerson);
+            } 
             
         } catch (e) {
             console.log(`Error failed to get pair for ${date}: ${e}`);
         }
+        restartGame();
         goHome();
     }
 

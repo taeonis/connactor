@@ -28,7 +28,26 @@ export function GameProvider({ children }) {
         }
     }, [nodes])
 
-    
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const res = await fetch('/api/get-starting-pair');
+                const returnedPair = await res.json();
+
+                const newStartingPerson = {id: 0, data: returnedPair.starting_person, credits: {}};
+                await fetchCredits(newStartingPerson);
+                setStartingPerson(newStartingPerson);
+
+                const newEndingPerson = {id: 12, data: returnedPair.ending_person, credits: {}};
+                await fetchCredits(newEndingPerson);
+                setEndingPerson(newEndingPerson);
+
+            } catch (error) {
+                console.error('Error fetching start pair:', error);
+            }
+        }
+        fetchData();
+    }, []); 
 
     const value = {
         gameOver,
@@ -42,7 +61,8 @@ export function GameProvider({ children }) {
         showHintsFor,
         setShowHintsFor,
         toggleHint,
-        startDate
+        startDate,
+        restartGame
     };
 
     return (

@@ -82,34 +82,34 @@ def get_credits(type, id):
 
 def get_starting_pair():
     today = datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d')
-    todays_pair = {}
+    # todays_pair = {}
     
-    filepath = os.path.join(ROOT_DIR, 'backend/todays_pair.json')
+    # filepath = os.path.join(ROOT_DIR, 'backend/todays_pair.json')
 
-    with open(filepath, 'r') as f:
-        todays_pair = json.load(f)
+    # with open(filepath, 'r') as f:
+    #     todays_pair = json.load(f)
     
-    if (today not in todays_pair):
-        print('TODAY NOT FOUND !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-        new_pair = get_valid_pair()
-        todays_pair = {today: new_pair}
-        with open(filepath, 'w') as f:
-            json.dump(todays_pair, f, indent=4)
+    # if (today not in todays_pair):
+    #     print('TODAY NOT FOUND !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+    #     new_pair = get_valid_pair()
+    #     todays_pair = {today: new_pair}
+    #     with open(filepath, 'w') as f:
+    #         json.dump(todays_pair, f, indent=4)
 
-    return todays_pair[today]
+    # return todays_pair[today]
 
-    # print('trying to get pair for ', today)
-    # pair_ids = get_pair_by_date(today)
+    print('trying to get pair for ', today)
+    pair_ids = get_pair_by_date(today)
 
-    # while (pair_ids is None):
-    #     print('waiting for new pair... @ ', today)
-    #     time.sleep(5)
-    #     pair_ids = get_pair_by_date(today)
+    while (pair_ids is None):
+        print('waiting for new pair... @ ', today)
+        time.sleep(5)
+        pair_ids = get_pair_by_date(today)
         
-    # print('got pair for ', today)
-    # actor1 = fetch_actor_data(pair_ids[0])
-    # actor2 = fetch_actor_data(pair_ids[1])
-    # return [dict(actor1), dict(actor2)]
+    print('got pair for ', today)
+    actor1 = fetch_actor_data(pair_ids[0])
+    actor2 = fetch_actor_data(pair_ids[1])
+    return [dict(actor1), dict(actor2)]
 
 
 
