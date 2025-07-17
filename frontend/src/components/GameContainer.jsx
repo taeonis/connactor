@@ -9,7 +9,7 @@ import { CSSTransition } from 'react-transition-group';
 import { useNavigate } from 'react-router-dom';
 
 const GameContainer = () => {
-    const { gameOver, startingPerson, setStartingPerson, endingPerson, setEndingPerson, showHintsFor} = useGame();
+    const { gameOver, showHintsFor, swapStartAndEnd} = useGame();
     const navigate = useNavigate();
     const hintManagerRef = useRef(null);
     const instructionsRef = useRef(null);
@@ -37,21 +37,6 @@ const GameContainer = () => {
         else {
             setShowInstructions(true);
         }
-    }
-    
-    const swapStartAndEnd = () => {
-        const tempData = startingPerson.data;
-        const tempCredits = startingPerson.credits;
-        setStartingPerson(prev => ({
-            ...prev,
-            data: endingPerson.data,
-            credits: endingPerson.credits
-        }));
-        setEndingPerson(prev => ({
-            ...prev,
-            data: tempData,
-            credits: tempCredits
-        }))
     }
 
     const openArchive = () => {

@@ -1,3 +1,4 @@
+
 export function getNodeType(node) {
     if (!node) return undefined;
     if (node.id % 2 === 0) {
@@ -29,5 +30,6 @@ export function getLastNonEmptyNode(nodes) {
     }
     return null;
 }
+
 
 

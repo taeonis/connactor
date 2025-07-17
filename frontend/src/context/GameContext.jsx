@@ -11,7 +11,6 @@ export function GameProvider({ children }) {
     const [startingPerson, setStartingPerson] = useState( {id: 0, data: '', credits: {}} );
     const [endingPerson, setEndingPerson] = useState( {id: 12, data: '', credits: {}} );
     const [showHintsFor, setShowHintsFor] = useState(null);
-    const startDate = new Date('2025-07-16');
     const [totalNumPairs, setTotalNumPairs] = useState(0);
     const [currentGameNum, setCurrentGameNum] = useState(0);
 
@@ -23,6 +22,35 @@ export function GameProvider({ children }) {
         setShowHintsFor(null);
     };
 
+    const swapStartAndEnd = () => {
+        const tempData = startingPerson.data;
+        const tempCredits = startingPerson.credits;
+        setStartingPerson(prev => ({
+            ...prev,
+            data: endingPerson.data,
+            credits: endingPerson.credits
+        }));
+        setEndingPerson(prev => ({
+            ...prev,
+            data: tempData,
+            credits: tempCredits
+        }))
+    }
+
+    const setGamePair = async (newPair) => {
+        if (newPair.starting_person.id != startingPerson.data.id) {
+            const newStartingPerson = {id: 0, data: newPair.starting_person, credits: {}};
+            await fetchCredits(newStartingPerson);
+            setStartingPerson(newStartingPerson);
+        }
+        
+        if (newPair.ending_person.id != endingPerson.data.id) {
+            const newEndingPerson = {id: 0, data: newPair.ending_person, credits: {}};
+            await fetchCredits(newEndingPerson);
+            setEndingPerson(newEndingPerson);
+        } 
+    }
+
     useEffect(() => {
         // if node is not currently visible (i.e. not in nodes), don't show hints for it
         if (!nodes.includes(showHintsFor)) {
@@ -30,31 +58,26 @@ export function GameProvider({ children }) {
         }
     }, [nodes])
 
+
     useEffect(() => {
-        const fetchData = async () => {
+        const initalizeGame = async () => {
             try {
-                const res = await fetch('/api/get-starting-pair');
-                const returnedPair = await res.json();
+                const [pairRes, countRes] = await Promise.all([
+                    fetch('/api/get-starting-pair'),
+                    fetch('/db/get-num-connactors')
+                ]);
 
-                const newStartingPerson = {id: 0, data: returnedPair.starting_person, credits: {}};
-                await fetchCredits(newStartingPerson);
-                setStartingPerson(newStartingPerson);
+                const returnedPair = await pairRes.json();
+                const pairCountData = await countRes.json();
 
-                const newEndingPerson = {id: 12, data: returnedPair.ending_person, credits: {}};
-                await fetchCredits(newEndingPerson);
-                setEndingPerson(newEndingPerson);
-
-                const response = await fetch(`/db/get-num-connactors`);
-                const pairs = await response.json();
-                setTotalNumPairs(pairs.total_num);
-
-                setCurrentGameNum(pairs.total_num - 1);
-
+                setGamePair(returnedPair);
+                setTotalNumPairs(pairCountData.total_num);
+                setCurrentGameNum(pairCountData.total_num - 1);
             } catch (error) {
                 console.error('Error getting starting data:', error);
             }
         }
-        fetchData();
+        initalizeGame();
     }, []); 
 
     const value = {
@@ -63,17 +86,16 @@ export function GameProvider({ children }) {
         nodes,
         setNodes,
         startingPerson,
-        setStartingPerson,
         endingPerson,
-        setEndingPerson,
         showHintsFor,
         setShowHintsFor,
         toggleHint,
-        startDate,
         restartGame,
         totalNumPairs,
         currentGameNum,
-        setCurrentGameNum
+        setCurrentGameNum,
+        setGamePair,
+        swapStartAndEnd
     };
 
     return (

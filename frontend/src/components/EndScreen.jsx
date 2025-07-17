@@ -1,17 +1,14 @@
 import { useGame } from '../context/GameContext';
 import { useState, forwardRef, useRef, useEffect } from 'react';
 import * as animations from "../utils/animations";
+import { getDate } from '../utils/dateUtils';
 
 const EndScreen =  forwardRef(({ show, toggleGameOverPopup, hintCache }, ref) => { 
-    const { nodes, startingPerson, endingPerson, startDate } = useGame();
+    const { nodes, startingPerson, endingPerson, currentGameNum } = useGame();
     const trophyRef = useRef(null);
     const [scoreCopied, setScoreCopied] = useState(false);
     const [connectionCopied, setConnectionCopied] = useState(false);
     const finalScore = `🎥x${Math.ceil(nodes.length / 2)} 🫂x${Math.floor(nodes.length / 2)} 💡x${Object.keys(hintCache).length}`;
-
-    const today = new Date();
-    const diffTime = today - startDate;
-    const connactorNum = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
     useEffect(() => {
         if (show && show != 'closing') {
@@ -23,7 +20,7 @@ const EndScreen =  forwardRef(({ show, toggleGameOverPopup, hintCache }, ref) =>
     }, [show]);
 
     const shareScore = () => {
-        navigator.clipboard.writeText(`Connactor #${connactorNum}: ${finalScore}`).then(() => {
+        navigator.clipboard.writeText(`Connactor #${currentGameNum}: ${finalScore}`).then(() => {
             setScoreCopied(true);
             setTimeout(() => setScoreCopied(false), 1500);
         });
@@ -35,11 +32,16 @@ const EndScreen =  forwardRef(({ show, toggleGameOverPopup, hintCache }, ref) =>
             endingPerson.data.name
         ];
         
-        const connectionStr = `Connactor #${connactorNum}: ${names.join(' ⇒ ')}`;
+        const connectionStr = `Connactor #${currentGameNum}: ${names.join(' ⇒ ')}`;
         navigator.clipboard.writeText(connectionStr).then(() => {
             setConnectionCopied(true);
             setTimeout(() => setConnectionCopied(false), 1500);
         })
+    }
+
+    const isTodaysGame = () => {
+        const today = new Date().toISOString().split('T')[0];
+        return getDate(currentGameNum) == today;
     }
 
     return (
@@ -50,10 +52,14 @@ const EndScreen =  forwardRef(({ show, toggleGameOverPopup, hintCache }, ref) =>
                 <div className='popup-text'>
                     <h2>Congrats!</h2>
                     <hr />
-                    <p>You solved today's Connactor in: </p>
+                    { isTodaysGame() ? 
+                        <p>You solved today's Connactor in: </p>
+                        :
+                        <p>You solved Connactor #{currentGameNum} in: </p>
+                    }
                     <p className='final-score'><b>{finalScore}</b></p>
                     {Object.keys(hintCache).length == 0 && (
-                        <p>(Wow, no hints)</p>
+                        <p>(Wow, no hints!)</p>
                     )}
                 </div>
                 <button className={`share-button ${!scoreCopied ? '' : 'copied'}`} onClick={shareScore}> {!scoreCopied ? 'Share Score' : 'Copied!'} </button>

@@ -15,7 +15,7 @@ import { useGame } from '../context/GameContext';
 gsap.registerPlugin(useGSAP);
 
 const NodeManager = ({ setShowGameOverPopup }) => {
-    const { gameOver, setGameOver, nodes, setNodes, startingPerson, setStartingPerson, endingPerson, setEndingPerson } = useGame();
+    const { gameOver, setGameOver, nodes, setNodes, startingPerson, endingPerson } = useGame();
 
     const startingImgRef = useRef(null);
     const endingImgRef = useRef(null);

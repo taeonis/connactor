@@ -60,10 +60,6 @@ body.popup-open {
     transition: opacity 300ms ease, transform 300ms ease;
 }
 
-.popup hr {
-  color: #445566;
-  margin: 5px;
-}
 
 .trophy {
   max-height: 30vh;
@@ -136,4 +132,30 @@ body.popup-open {
   max-width: 25px;
   max-height: 25px;
   vertical-align: middle;
+}
+
+.gameover-popup {
+  background: #445566;
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+}
+
+.gameover-popup h2 {
+  margin-top: 0;
+}
+
+.gameover-popup button {
+  margin-top: 15px;
+  padding: 8px 16px;
+  border: none;
+  background: #333;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.gameover-popup button:hover {
+  background: #555;
 }
