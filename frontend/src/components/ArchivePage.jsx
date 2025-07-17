@@ -6,17 +6,16 @@ import { useEffect } from 'react';
 
 const ArchivePage = () => {
     const navigate = useNavigate();
-    const { startingPerson, setStartingPerson, endingPerson, setEndingPerson, startDate, restartGame, totalNumPairs } = useGame();
-    const today = new Date();
+    const { startingPerson, setStartingPerson, endingPerson, setEndingPerson, startDate, restartGame, totalNumPairs, currentGameNum, setCurrentGameNum } = useGame();
     const connactorNums = Array.from({ length: totalNumPairs }, (_, i) => totalNumPairs - 1 - i); // numbered from today's connactor to 1
 
     const goHome = () => {
         navigate('/');
     }
 
-    const getDate = (n) => {
+    const getDate = (numDays) => {
         const connactorDate = new Date(startDate);
-        connactorDate.setDate(connactorDate.getDate() + n);
+        connactorDate.setDate(connactorDate.getDate() + numDays);
         
         const yyyy = connactorDate.getFullYear();
         const mm = String(connactorDate.getMonth() + 1).padStart(2, '0'); // Months are 0-based
@@ -25,28 +24,30 @@ const ArchivePage = () => {
         return `${yyyy}-${mm}-${dd}`;
     }
     
-    const clickLink = async (n) => {
-        const date = getDate(n);
-        try {
-            const response = await fetch(`/db/get-pair?date=${date}`);
-            const json = await response.json();
+    const clickLink = async (gameNum) => {
+        if (currentGameNum != gameNum) {
+            const date = getDate(gameNum);
+            try {
+                const response = await fetch(`/db/get-pair?date=${date}`);
+                const new_pair = await response.json();
 
-            if (json.starting_person.id != startingPerson.data.id) {
-                console.log('new starting');
-                const newStartingPerson = {id: 0, data: json.starting_person, credits: {}};
-                await fetchCredits(newStartingPerson);
-                setStartingPerson(newStartingPerson);
+                if (new_pair.starting_person.id != startingPerson.data.id) {
+                    const newStartingPerson = {id: 0, data: new_pair.starting_person, credits: {}};
+                    await fetchCredits(newStartingPerson);
+                    setStartingPerson(newStartingPerson);
+                }
+                
+                if (new_pair.ending_person.id != endingPerson.data.id) {
+                    const newEndingPerson = {id: 0, data: new_pair.ending_person, credits: {}};
+                    await fetchCredits(newEndingPerson);
+                    setEndingPerson(newEndingPerson);
+                } 
+                
+            } catch (e) {
+                console.log(`Error failed to get pair for ${date}: ${e}`);
             }
-            
-            if (json.ending_person.id != endingPerson.data.id) {
-                console.log('new ending');
-                const newEndingPerson = {id: 0, data: json.ending_person, credits: {}};
-                await fetchCredits(newEndingPerson);
-                setEndingPerson(newEndingPerson);
-            } 
-            
-        } catch (e) {
-            console.log(`Error failed to get pair for ${date}: ${e}`);
+            setCurrentGameNum(gameNum);
+            console.log('changed ConnactorNum', currentGameNum);
         }
         restartGame();
         goHome();
@@ -54,13 +55,17 @@ const ArchivePage = () => {
 
     return (
         <div className='archive' style={{color: 'white'}}>
-             <h1>ARCHIVE</h1>
-                <ul>
-                    {connactorNums.map(n => (
-                        <li key={n}><button className='archive-link' onClick={() => clickLink(n)}>Connactor #{n}</button></li>
+             <h1 className='archive-title'>ARCHIVE</h1>
+                {/* <div className='game-container'> */}
+                <div className='tile-grid'>
+                    {connactorNums.map(gameNum => (
+                        <button key={gameNum} className={`tile${gameNum == currentGameNum ? ' current' : ''}`} onClick={() => clickLink(gameNum)}>
+                            <p className='archive-link'>#{gameNum}</p>
+                        </button>
                     ))}
-                </ul>
-             <button onClick={goHome}>home</button>
+                </div>
+                {/* </div> */}
+             <button className='back-button' onClick={goHome}>Back</button>
         </div>
     )
 };

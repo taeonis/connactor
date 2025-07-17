@@ -1,13 +1,13 @@
 import sqlite3
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
-# from definitions import ROOT_DIR
-# import os
+from definitions import ROOT_DIR, DATABASE
+import os
 
-connection = sqlite3.connect('database.db')
+connection = sqlite3.connect(DATABASE)
 
-# schema = os.path.join(ROOT_DIR, '/backend/database/schema.sql')
-with open('schema.sql') as f:
+schema = os.path.join(ROOT_DIR, 'backend/database/schema.sql')
+with open(schema) as f:
     connection.executescript(f.read())
 
 cur = connection.cursor()
@@ -31,8 +31,8 @@ for actor in preset_actors:
                 )
     )
 
-today = datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d')
-yesterday = (datetime.now(ZoneInfo("America/Los_Angeles")) - timedelta(days=1)).strftime('%Y-%m-%d')
+today = datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M')
+yesterday = (datetime.now(ZoneInfo("America/Los_Angeles")) - timedelta(days=1)).strftime('%Y-%m-%d %H:%M')
 preset_pairs = [
     {'actor1_id': 2037, 'actor2_id': 72466, 'date': today},
     {'actor1_id': 3291, 'actor2_id': 12982, 'date': yesterday},

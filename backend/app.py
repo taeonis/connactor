@@ -6,6 +6,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 from apscheduler.triggers.interval import IntervalTrigger
 import atexit
+from pytz import timezone
 
 app = Flask(__name__)
 CORS(app)
@@ -23,11 +24,11 @@ scheduler = BackgroundScheduler()
 def create_app():
     app = Flask(__name__)
     app.register_blueprint(routes)
-    app.config['DATABASE'] = 'your.db'
 
     scheduler.add_job(
         func=update_starting_pair,
-        trigger=CronTrigger(hour=0, minute=0),
+        #trigger=CronTrigger(hour=0, minute=0, timezone=timezone('America/Los_Angeles')),
+        trigger=CronTrigger(minute='*', timezone=timezone('America/Los_Angeles')),
         id='daily_updater',
         replace_existing=True
     )

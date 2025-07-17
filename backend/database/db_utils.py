@@ -1,8 +1,8 @@
 import sqlite3
 import os
-from definitions import ROOT_DIR
+from definitions import ROOT_DIR, DATABASE
 
-DATABASE = os.path.join(ROOT_DIR, 'backend/database/database.db')
+#DATABASE = os.path.join(ROOT_DIR, 'backend/database/database.db')
 
 def get_db():
     conn = sqlite3.connect(DATABASE)
@@ -41,6 +41,7 @@ def add_pair(pair, date):
     db.commit()
 
 def fetch_actor_data(actor_id):
+    print('database used:', DATABASE)
     db = get_db()
     return db.execute('SELECT * FROM actors WHERE id = ?', (actor_id,)).fetchone()
 

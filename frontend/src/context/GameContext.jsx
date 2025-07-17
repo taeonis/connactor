@@ -13,6 +13,7 @@ export function GameProvider({ children }) {
     const [showHintsFor, setShowHintsFor] = useState(null);
     const startDate = new Date('2025-07-16');
     const [totalNumPairs, setTotalNumPairs] = useState(0);
+    const [currentGameNum, setCurrentGameNum] = useState(0);
 
     const toggleHint = (node) => setShowHintsFor(prev => (prev === node ? null : node));
 
@@ -44,9 +45,10 @@ export function GameProvider({ children }) {
                 setEndingPerson(newEndingPerson);
 
                 const response = await fetch(`/db/get-num-connactors`);
-                const json = await response.json();
-                console.log('count: ', json.total_num);
-                setTotalNumPairs(json.total_num);
+                const pairs = await response.json();
+                setTotalNumPairs(pairs.total_num);
+
+                setCurrentGameNum(pairs.total_num - 1);
 
             } catch (error) {
                 console.error('Error getting starting data:', error);
@@ -69,7 +71,9 @@ export function GameProvider({ children }) {
         toggleHint,
         startDate,
         restartGame,
-        totalNumPairs
+        totalNumPairs,
+        currentGameNum,
+        setCurrentGameNum
     };
 
     return (
