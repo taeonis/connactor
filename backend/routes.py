@@ -57,7 +57,6 @@ def get_daily_pair_test():
     try:
         starting_pair = get_starting_pair()
 
-        print(starting_pair)
         return jsonify({
             'starting_person': starting_pair[0],
             'ending_person': starting_pair[1]
@@ -72,14 +71,12 @@ def get_archived_pair():
     date = request.args.get('date', '').lower()
     pair_ids = get_pair_by_date(date)
 
-    print('got arhived pair for ', date)
+    print('got archived pair for ', date)
     print('pair ids: ', pair_ids[0], pair_ids[1])
 
-    actor1 = fetch_actor_data(pair_ids[0])
-    print('actor1: ', dict(actor1))
-    actor2 = fetch_actor_data(pair_ids[1])
-    print('actor2: ', dict(actor2))
-    #return [dict(actor1), dict(actor2)]
+    actor1 = fetch_actor_data(int(pair_ids[0]))
+    actor2 = fetch_actor_data(int(pair_ids[1]))
+
     finalDict = {
         'starting_person': dict(actor1),
         'ending_person': dict(actor2)

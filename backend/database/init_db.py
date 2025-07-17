@@ -31,8 +31,8 @@ for actor in preset_actors:
                 )
     )
 
-today = datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M')
-yesterday = (datetime.now(ZoneInfo("America/Los_Angeles")) - timedelta(days=1)).strftime('%Y-%m-%d %H:%M')
+today = datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d')# %H:%M')
+yesterday = (datetime.now(ZoneInfo("America/Los_Angeles")) - timedelta(days=1)).strftime('%Y-%m-%d')# %H:%M')
 preset_pairs = [
     {'actor1_id': 2037, 'actor2_id': 72466, 'date': today},
     {'actor1_id': 3291, 'actor2_id': 12982, 'date': yesterday},

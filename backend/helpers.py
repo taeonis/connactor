@@ -81,7 +81,7 @@ def get_credits(type, id):
         return e
 
 def get_today():
-    return datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M')
+    return datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d')
 
 def get_starting_pair():
     today = get_today()
@@ -95,8 +95,8 @@ def get_starting_pair():
         pair_ids = get_pair_by_date(today)
         
     print('got pair for ', today)
-    actor1 = fetch_actor_data(pair_ids[0])
-    actor2 = fetch_actor_data(pair_ids[1])
+    actor1 = fetch_actor_data(int(pair_ids[0]))
+    actor2 = fetch_actor_data(int(pair_ids[1]))
     return [dict(actor1), dict(actor2)]
 
 
@@ -153,28 +153,23 @@ def update_starting_pair():
     print('updating.... @ ', today)
 
     new_pair = get_valid_pair()
-    pair_ids = [new_pair[0].get('id'), new_pair[1].get('id')]
-
-    while is_pair_used(pair_ids):
+    while is_pair_used([new_pair[0]['id'], new_pair[1]['id']]):
         new_pair = get_valid_pair()
-        pair_ids = [new_pair[0].get('id'), new_pair[1].get('id')]
 
-    #print('chosen pair: ', new_pair)
+    for actor in new_pair:
+        fetched_data = fetch_actor_data(actor['id'])
 
-    for idx in range(2):
-        fetched_data = fetch_actor_data(pair_ids[idx])
-        
-        if (fetched_data is None):
-            add_actor(new_pair[idx])
-            print(f'inserted {new_pair[idx]['name']} ({new_pair[idx]['id']})')
+        if fetched_data is None:
+            add_actor(actor)
+            print(f'inserted {actor["name"]} ({actor["id"]})')
         else:
             print('fetched data: ', dict(fetched_data))
-            print(f' {new_pair[idx]['name']} ({new_pair[idx]['id']}) already in db')
+            print(f' {actor["name"]} ({actor["id"]}) already in db')
 
     fetched_data = get_pair_by_date(today)
     if fetched_data is None:
-        add_pair(pair_ids, today)
-        print('inserted pair', pair_ids)
+        add_pair([new_pair[0]['id'], new_pair[1]['id']], today)
+        print('inserted pair', [new_pair[0]['id'], new_pair[1]['id']])
 
 
 

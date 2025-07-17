@@ -17,7 +17,7 @@ def add_actor(actor):
         VALUES (?, ?, ?)
         ''',
         (
-            actor['id'],
+            int(actor['id']),
             actor['name'],
             actor['profile_path']
         )
@@ -33,8 +33,8 @@ def add_pair(pair, date):
         VALUES (?, ?, ?)
         ''',
         (
-            pair[0],
-            pair[1],
+            int(pair[0]),
+            int(pair[1]),
             date
         )
     )
@@ -50,7 +50,7 @@ def is_pair_used(pair):
     pair.sort()
     return db.execute(
         'SELECT * FROM pairs WHERE actor1_id = ? AND actor2_id = ?',
-        (pair[0], pair[1])
+        (int(pair[0]), int(pair[1]))
     ).fetchone() is not None
 
 def get_pair_by_date(date):

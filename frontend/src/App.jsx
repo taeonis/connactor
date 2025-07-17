@@ -25,7 +25,7 @@ const App = () => {
                 <div className='App'>
                     <Routes>
                         <Route path='/' element={<GameContainer />} />
-                        {/* <Route path='/archive' element={<ArchivePage />} /> */}
+                        <Route path='/archive' element={<ArchivePage />} />
                     </Routes>
                 </div>
             </GameProvider>
