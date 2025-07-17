@@ -65,3 +65,9 @@ def get_all_pairs():
         'SELECT actor1_id, actor2_id, date FROM pairs'
     ).fetchall()
 
+def get_num_pairs():
+    db = get_db()
+    return db.execute(
+        'SELECT COUNT(*) FROM pairs'
+    ).fetchone()
+

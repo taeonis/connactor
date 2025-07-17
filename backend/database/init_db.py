@@ -1,9 +1,12 @@
 import sqlite3
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
+# from definitions import ROOT_DIR
+# import os
 
 connection = sqlite3.connect('database.db')
 
+# schema = os.path.join(ROOT_DIR, '/backend/database/schema.sql')
 with open('schema.sql') as f:
     connection.executescript(f.read())
 

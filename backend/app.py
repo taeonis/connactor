@@ -1,7 +1,7 @@
 from flask import Flask, g
 from flask_cors import CORS
 from .routes import routes
-from .daily_updater import update_starting_pair
+from .helpers import update_starting_pair
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 from apscheduler.triggers.interval import IntervalTrigger
@@ -27,7 +27,8 @@ def create_app():
 
     scheduler.add_job(
         func=update_starting_pair,
-        trigger=CronTrigger(hour=0, minute=0),
+        #trigger=CronTrigger(hour=0, minute=0),
+        trigger=CronTrigger(minute='*'),
         id='daily_updater',
         replace_existing=True
     )

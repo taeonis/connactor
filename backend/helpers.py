@@ -47,7 +47,7 @@ def search(type, query):
                     movie.get('popularity', 0) > 0 and
                     movie.get('poster_path') is not None and
                     movie.get('release_date') != '' and 
-                    movie.get('release_date') < datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d')
+                    movie.get('release_date') < get_today()
                 ]
             results.extend(filtered)
         
@@ -80,38 +80,24 @@ def get_credits(type, id):
     except Exception as e:
         return e
 
+def get_today():
+    return datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d')
+
 def get_starting_pair():
-    today = datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d')
-    # todays_pair = {}
-    
-    # filepath = os.path.join(ROOT_DIR, 'backend/todays_pair.json')
-
-    # with open(filepath, 'r') as f:
-    #     todays_pair = json.load(f)
-    
-    # if (today not in todays_pair):
-    #     print('TODAY NOT FOUND !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-    #     new_pair = get_valid_pair()
-    #     todays_pair = {today: new_pair}
-    #     with open(filepath, 'w') as f:
-    #         json.dump(todays_pair, f, indent=4)
-
-    # return todays_pair[today]
+    today = get_today()
 
     print('trying to get pair for ', today)
     pair_ids = get_pair_by_date(today)
-
+    
     while (pair_ids is None):
         print('waiting for new pair... @ ', today)
-        time.sleep(5)
+        time.sleep(1)
         pair_ids = get_pair_by_date(today)
         
     print('got pair for ', today)
     actor1 = fetch_actor_data(pair_ids[0])
     actor2 = fetch_actor_data(pair_ids[1])
     return [dict(actor1), dict(actor2)]
-
-
 
 
 def get_random_person():
@@ -162,7 +148,27 @@ def get_valid_pair():
     return [starting_person, ending_person]
 
 
-def find_shortest_path(starting_id, ending_id):
-    return 0
+def update_starting_pair():
+    today = get_today()
+    print('updating.... @ ', today)
+
+    new_pair = get_valid_pair()
+    pair_ids = [new_pair[0].get('id'), new_pair[1].get('id')]
+
+    while is_pair_used(pair_ids):
+        new_pair = get_valid_pair()
+        pair_ids = [new_pair[0].get('id'), new_pair[1].get('id')]
+
+    for idx in range(2):
+        fetched_data = fetch_actor_data(pair_ids[idx])
+        if (fetched_data is None):
+            add_actor(new_pair[idx])
+            print(f'inserted {new_pair[idx]['name']} ({new_pair[idx]['id']})')
+
+    fetched_data = get_pair_by_date(today)
+    if fetched_data is None:
+        add_pair(pair_ids, today)
+        print('inserted ', pair_ids)
+
 
 

@@ -6,10 +6,9 @@ import { useEffect } from 'react';
 
 const ArchivePage = () => {
     const navigate = useNavigate();
-    const { startingPerson, setStartingPerson, endingPerson, setEndingPerson, startDate, restartGame } = useGame();
+    const { startingPerson, setStartingPerson, endingPerson, setEndingPerson, startDate, restartGame, totalNumPairs } = useGame();
     const today = new Date();
-    const totalConnactors = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
-    const connactorNums = Array.from({ length: totalConnactors }, (_, i) => totalConnactors - i); // numbered from today's connactor to 1
+    const connactorNums = Array.from({ length: totalNumPairs }, (_, i) => totalNumPairs - i); // numbered from today's connactor to 1
 
     const goHome = () => {
         navigate('/');

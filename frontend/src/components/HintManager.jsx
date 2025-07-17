@@ -18,7 +18,7 @@ const HintManager = forwardRef(({ setHintCache, hintCache}, ref) => {
     };
 
     useEffect(() => {
-        setLoadedImages([]);
+        setLoadedImages({});
     }, [showHintsFor])
 
     return (
@@ -39,7 +39,7 @@ const HintManager = forwardRef(({ setHintCache, hintCache}, ref) => {
             <div className={`hint-image-box`}>
                 {hintImages.map((image_path, idx) => (
                     <img
-                        key={idx}
+                        key={`${showHintsFor.data.id}-${image_path}`}
                         className={`hint-image ${loadedImages[idx] ? 'loaded' : ''}`}
                         src={`https://media.themoviedb.org/t/p/w185${ image_path }`}
                         onLoad={() => handleImageLoad(idx)}

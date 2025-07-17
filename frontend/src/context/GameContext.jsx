@@ -11,7 +11,8 @@ export function GameProvider({ children }) {
     const [startingPerson, setStartingPerson] = useState( {id: 0, data: '', credits: {}} );
     const [endingPerson, setEndingPerson] = useState( {id: 12, data: '', credits: {}} );
     const [showHintsFor, setShowHintsFor] = useState(null);
-    const startDate = new Date('2025-07-13');
+    const startDate = new Date('2025-07-16');
+    const [totalNumPairs, setTotalNumPairs] = useState(0);
 
     const toggleHint = (node) => setShowHintsFor(prev => (prev === node ? null : node));
 
@@ -42,8 +43,13 @@ export function GameProvider({ children }) {
                 await fetchCredits(newEndingPerson);
                 setEndingPerson(newEndingPerson);
 
+                const response = await fetch(`/db/get-num-connactors`);
+                const json = await response.json();
+                console.log('count: ', json.total_num);
+                setTotalNumPairs(json.total_num);
+
             } catch (error) {
-                console.error('Error fetching start pair:', error);
+                console.error('Error getting starting data:', error);
             }
         }
         fetchData();
@@ -62,7 +68,8 @@ export function GameProvider({ children }) {
         setShowHintsFor,
         toggleHint,
         startDate,
-        restartGame
+        restartGame,
+        totalNumPairs
     };
 
     return (

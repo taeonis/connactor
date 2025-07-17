@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify, send_from_directory
 from .helpers import *
-from .database.db_utils import get_pair_by_date, fetch_actor_data
+from .database.db_utils import get_pair_by_date, fetch_actor_data, get_num_pairs
 import os
 from definitions import ROOT_DIR
 
@@ -57,12 +57,14 @@ def get_daily_pair_test():
     try:
         starting_pair = get_starting_pair()
 
+        print(starting_pair)
         return jsonify({
             'starting_person': starting_pair[0],
             'ending_person': starting_pair[1]
         })
 
     except Exception as e:
+        print(e)
         return jsonify({'error': str(e)}), 500
 
 @routes.route('/db/get-pair', methods=['GET'])
@@ -77,8 +79,10 @@ def get_archived_pair():
         'starting_person': dict(actor1),
         'ending_person': dict(actor2)
     }
-    print(finalDict)
     return jsonify(finalDict)
 
     #return jsonify({'results': results})
 
+@routes.route('/db/get-num-connactors', methods=['GET'])
+def get_num_connactors():
+    return jsonify({'total_num': get_num_pairs()[0]})
