@@ -72,8 +72,13 @@ def get_archived_pair():
     date = request.args.get('date', '').lower()
     pair_ids = get_pair_by_date(date)
 
+    print('got arhived pair for ', date)
+    print('pair ids: ', pair_ids[0], pair_ids[1])
+
     actor1 = fetch_actor_data(pair_ids[0])
+    print('actor1: ', dict(actor1))
     actor2 = fetch_actor_data(pair_ids[1])
+    print('actor2: ', dict(actor2))
     #return [dict(actor1), dict(actor2)]
     finalDict = {
         'starting_person': dict(actor1),
@@ -81,7 +86,6 @@ def get_archived_pair():
     }
     return jsonify(finalDict)
 
-    #return jsonify({'results': results})
 
 @routes.route('/db/get-num-connactors', methods=['GET'])
 def get_num_connactors():

@@ -27,8 +27,7 @@ def create_app():
 
     scheduler.add_job(
         func=update_starting_pair,
-        #trigger=CronTrigger(hour=0, minute=0),
-        trigger=CronTrigger(minute='*'),
+        trigger=CronTrigger(hour=0, minute=0),
         id='daily_updater',
         replace_existing=True
     )

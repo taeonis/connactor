@@ -8,19 +8,19 @@ const ArchivePage = () => {
     const navigate = useNavigate();
     const { startingPerson, setStartingPerson, endingPerson, setEndingPerson, startDate, restartGame, totalNumPairs } = useGame();
     const today = new Date();
-    const connactorNums = Array.from({ length: totalNumPairs }, (_, i) => totalNumPairs - i); // numbered from today's connactor to 1
+    const connactorNums = Array.from({ length: totalNumPairs }, (_, i) => totalNumPairs - 1 - i); // numbered from today's connactor to 1
 
     const goHome = () => {
         navigate('/');
     }
 
     const getDate = (n) => {
-        const date = new Date(startDate);
-        date.setDate(date.getDate() + n);
+        const connactorDate = new Date(startDate);
+        connactorDate.setDate(connactorDate.getDate() + n);
         
-        const yyyy = date.getFullYear();
-        const mm = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
-        const dd = String(date.getDate()).padStart(2, '0');
+        const yyyy = connactorDate.getFullYear();
+        const mm = String(connactorDate.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+        const dd = String(connactorDate.getDate()).padStart(2, '0');
 
         return `${yyyy}-${mm}-${dd}`;
     }
@@ -28,7 +28,6 @@ const ArchivePage = () => {
     const clickLink = async (n) => {
         const date = getDate(n);
         try {
-            console.log('trying to get ', date);
             const response = await fetch(`/db/get-pair?date=${date}`);
             const json = await response.json();
 
