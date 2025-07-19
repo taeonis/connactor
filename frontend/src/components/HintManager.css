@@ -15,8 +15,7 @@
   transform: rotate(10deg);
 }
 .lightbulb-icon.false:active {
-  transform: scale(0.95);
-  box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
+  transform: rotate(10deg) scale(0.95);
 }
 
 .name-title {

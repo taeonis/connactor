@@ -15,7 +15,7 @@ import { useGame } from '../context/GameContext';
 gsap.registerPlugin(useGSAP);
 
 const NodeManager = ({ setShowGameOverPopup }) => {
-    const { gameOver, setGameOver, nodes, setNodes, startingPerson, endingPerson } = useGame();
+    const { gameOver, setGameOver, nodes, setNodes, startingPerson, endingPerson, setShowHintsFor } = useGame();
 
     const startingImgRef = useRef(null);
     const endingImgRef = useRef(null);
@@ -75,7 +75,7 @@ const NodeManager = ({ setShowGameOverPopup }) => {
     
     const deleteLastNode = () => {
         if (nodes.length > 1) {
-            delete connections[nodes.length - 1];
+            delete connections[nodes.length - 2];
             setNodes(prevNodes => prevNodes.slice(0, -1));
         }
     }
@@ -85,24 +85,10 @@ const NodeManager = ({ setShowGameOverPopup }) => {
         if (nodes[nodes.length - 1].data === null) {
             deleteLastNode();
         }
+        setShowHintsFor(null);
         setGameOver(true);
         await animations.winWave(allNodeRefs);
         setShowGameOverPopup(true);
-    }
-
-    const checkConnection = (idx, direction) => {
-        const thisNode = nodes[idx];
-        let neighborNode;
-        if (idx == 0 && direction == 'prev') {
-            neighborNode = startingPerson;
-        }
-        else {
-            neighborNode = nodes[idx - 1];
-        }
-
-        const connectionVal = thisNode.credits.IDs.has(neighborNode.data.id);
-        connectionsTest.current.push(connectionVal)
-        return connectionVal;
     }
 
     useEffect(() => {

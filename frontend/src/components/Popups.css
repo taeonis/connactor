@@ -113,7 +113,7 @@ body.popup-open {
   transform: rotate(10deg);
 }
 .close-popup-icon:active {
-    transform: scale(0.95);
+    transform: rotate(10deg) scale(0.95);
 }
 
 .popup-text {

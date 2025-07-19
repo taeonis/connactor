@@ -11,6 +11,7 @@
   font-size: 50px;
   line-height: 80px;
   font-style: italic;
+  color: white;
 }
 
 .back-button {
@@ -25,6 +26,7 @@
   font-size: small;
   align-self: flex-end;
   margin-bottom: 10px;
+  border: 2px solid #445566;
 }
 
 
@@ -33,6 +35,7 @@
   border: none;
   padding: 0!important;
   text-decoration: underline;
+  font-style: italic;
 }
 
 .tile-grid {
@@ -49,18 +52,22 @@
 }
 
 .tile {
-  background-color: white;
-  color: #445566;
-  border: none;
+  background-color: transparent;
+  color: white;
+  border: 2px solid white;
   padding: 1rem;
   border-radius: 12px;
   cursor: pointer;
   font-size: 1.2rem;
   transition: background-color 0.2s ease;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 10px black;
 }
 .tile.current {
-  background-color: #445566;
-  color: #20272e;
+  color: #445566;
+  border: 2px solid #445566;
+}
+
+.tile:active, .back-button:active {
+    transform: scale(0.95);
 }
 

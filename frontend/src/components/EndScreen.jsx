@@ -8,6 +8,7 @@ const EndScreen =  forwardRef(({ show, toggleGameOverPopup, hintCache }, ref) =>
     const trophyRef = useRef(null);
     const [scoreCopied, setScoreCopied] = useState(false);
     const [connectionCopied, setConnectionCopied] = useState(false);
+    const [copied, setCopied] = useState('');
     const finalScore = `🎥x${Math.ceil(nodes.length / 2)} 🫂x${Math.floor(nodes.length / 2)} 💡x${Object.keys(hintCache).length}`;
 
     useEffect(() => {
@@ -20,9 +21,10 @@ const EndScreen =  forwardRef(({ show, toggleGameOverPopup, hintCache }, ref) =>
     }, [show]);
 
     const shareScore = () => {
-        navigator.clipboard.writeText(`Connactor #${currentGameNum}: ${finalScore}`).then(() => {
+        const copyStr = `Connactor #${currentGameNum}: ${finalScore}\n↳https://www.connactor.xyz/`;
+        navigator.clipboard.writeText(copyStr).then(() => {
             setScoreCopied(true);
-            setTimeout(() => setScoreCopied(false), 1500);
+            setTimeout(() => setScoreCopied(false), 1000);
         });
     }
     const shareConnection = () => {
@@ -32,10 +34,10 @@ const EndScreen =  forwardRef(({ show, toggleGameOverPopup, hintCache }, ref) =>
             endingPerson.data.name
         ];
         
-        const connectionStr = `Connactor #${currentGameNum}: ${names.join(' ⇒ ')}`;
-        navigator.clipboard.writeText(connectionStr).then(() => {
+        const copyStr = `Connactor #${currentGameNum}: ${names.join(' ⇒ ')}\n↳https://www.connactor.xyz/`;
+        navigator.clipboard.writeText(copyStr).then(() => {
             setConnectionCopied(true);
-            setTimeout(() => setConnectionCopied(false), 1500);
+            setTimeout(() => setConnectionCopied(false), 1000);
         })
     }
 

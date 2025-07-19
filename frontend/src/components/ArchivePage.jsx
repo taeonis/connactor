@@ -32,7 +32,7 @@ const ArchivePage = () => {
     };
 
     return (
-        <div className='archive' style={{color: 'white'}}>  
+        <div className='archive'>  
             <div className='game-container'>
                 <div className='archive-top'> 
                     <h1 className='archive-title'>ARCHIVE</h1>
@@ -40,11 +40,21 @@ const ArchivePage = () => {
                 </div>  
                 <hr />
                 <div className='tile-grid'>
-                    {connactorNums.map(gameNum => (
-                        <button key={gameNum} className={`tile${gameNum == currentGameNum ? ' current' : ''}`} onClick={() => clickLink(gameNum)}>
-                            <p className='archive-link'><b>#{gameNum}</b></p>
-                        </button>
-                    ))}
+                    {connactorNums.map(gameNum => {
+                        const isCurrent = gameNum === currentGameNum;
+                        return (
+                            <button
+                                key={gameNum}
+                                className={`tile${isCurrent ? ' current' : ''}`}
+                                onClick={() => clickLink(gameNum)}
+                            >
+                                <p className="archive-link">
+                                    #{gameNum}
+                                    {/* {isCurrent ? `#${gameNum}` : <b>#{gameNum}</b>} */}
+                                </p>
+                            </button>
+                        );
+                    })}
                 </div>
             </div>
         </div>
