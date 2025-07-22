@@ -30,7 +30,8 @@ def create_app():
         trigger=CronTrigger(hour=0, minute=0, timezone=timezone('America/Los_Angeles')),
         #trigger=CronTrigger(minute='*', timezone=timezone('America/Los_Angeles')),
         id='daily_updater',
-        replace_existing=True
+        replace_existing=True,
+        misfire_grace_time=300
     )
 
     scheduler.start()
