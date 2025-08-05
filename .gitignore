@@ -33,7 +33,10 @@ __pycache__/
 
 # Mac
 .DS_Store
+.DS_Store?
 
 # Virtual environments
 venv/
 env/
+.DS_Store
+.DS_Store

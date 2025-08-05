@@ -37,7 +37,7 @@ def search(type, query):
             if (type == 'person'):
                 filtered = [
                     person for person in page_results
-                    if person.get('known_for_department') in ['Acting', 'Directing'] and
+                    if person.get('known_for_department') in ['Acting', 'Directing', 'Writing'] and
                     person.get('popularity', 0) > 0 and
                     person.get('profile_path') is not None
                 ]
@@ -110,29 +110,25 @@ def get_random_person():
     popularity_threshold = 4 # Minimum popularity for a person to be considered
 
     popularity = 0
-    known_for_movies = False
+    valid_known_for = False
     known_for_department = ''
     adult_content = True
     poster_path = ''
     chosen_person = {}
-    language_is_en = False
-    while (popularity < popularity_threshold or not known_for_movies
-            or known_for_department != 'Acting' or adult_content or not poster_path or not language_is_en):
+    while (popularity < popularity_threshold or not valid_known_for
+            or known_for_department != 'Acting' or adult_content or not poster_path):
         params['page'] = random.randint(1, 100)
         response = requests.get(url, headers=headers, params=params)
         response.raise_for_status()
         chosen_person = random.choice(response.json().get('results', []))
 
         popularity = chosen_person.get('popularity', 0)
-    
         known_for_list = chosen_person.get('known_for', [])
-        popular_media = sum(
-            1 for media in known_for_list
-            if media.get('media_type') == 'movie' and media.get('popularity', 0) > popularity_threshold
-        )
-
-        language_is_en = all(movie.get('original_language') == 'en' for movie in known_for_list)
-        known_for_movies = True if popular_media >= (len(known_for_list) // 2 + 1) else False
+        valid_known_for = all(
+            media.get('media_type') == 'movie' and 
+            media.get('popularity', 0) > popularity_threshold and
+            media.get('original_language') == 'en'
+            for media in known_for_list)
         known_for_department = chosen_person.get('known_for_department', '')
         adult_content = chosen_person.get('adult', True)
         poster_path = chosen_person.get('profile_path', '')
